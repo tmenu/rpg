@@ -2,6 +2,10 @@
 
 namespace Lib\Controller;
 
+use Lib\Application;
+use Lib\Router;
+use Lib\Utils;
+
 use Lib\Perso\CrazyfrogPersonnage as Crazyfrog;
 use Lib\Perso\RabivadorPersonnage as Rabivador;
 
@@ -14,28 +18,16 @@ class FightController extends Controller
 	public function indexAction()
 	{
 
-		$rabbit = new Rabivador();
-		$rabbit->setHealth('20');
-		$rabbit->setStrength('10');
-		$rabbit->setResistance('9');
-		$rabbit->setSpeed('5');
-		$rabbit->setPosture('1');
-		$rabbit->setName('Rabivador');
-		$rabbit->setRound('0');
-
-		$ludo = new Crazyfrog();
-		$ludo->setHealth('15');
-		$ludo->setStrength('8');
-		$ludo->setResistance('5');
-		$ludo->setSpeed('6');
-		$ludo->setPosture('1');
-		$ludo->setName('Faiblo Ludo');
-		$ludo->setRound('0');
+		
+		$hero = unserialize($_SESSION['data']['perso']);
+		var_dump($hero);
+		exit();
 
 		if($rabbit->getRound() == 0 && $ludo->getRound() == 0)
 		{
 			$_SESSION['messageLog'] = $this->speedCompareAction($rabbit, $ludo);
-			header('Location: index.php?controller=fight&action=index');
+
+			Utils::redirect( Router::generateUrl('fight.index') );
 		}
 		else if($ludo->getRound() == 1)
 		{
@@ -108,6 +100,7 @@ class FightController extends Controller
 
 		if($speedCompare < 0)
 		{
+
 			$monster->setRound('1');
 			return $monster->getName() . " est le premier à attaquer !";
 		}
@@ -116,5 +109,7 @@ class FightController extends Controller
 			$player->setRound('1');
 			return $player->getName() . " est le premier à attaquer !";
 		}
+
+
 	}
 }

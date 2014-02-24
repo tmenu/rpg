@@ -14,5 +14,14 @@ class GuillaumePersonnage extends Personnage
 		);
 		
 		$this->direction = 'down';
+
+		// STATS
+		$this->setHealth('20');
+		$this->setStrength('10');
+		$this->setResistance('8');
+		$this->setSpeed('6');
+		$this->setPosture('1');
+		$this->setName('Guillaume');
+		$this->setRound('0');
 	}
 }

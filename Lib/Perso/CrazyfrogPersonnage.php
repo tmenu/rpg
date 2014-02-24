@@ -7,5 +7,12 @@ class CrazyfrogPersonnage extends Personnage
 	public function __construct()
 	{
 		$this->setRef('crazyfrog');
+		$this->setHealth('15');
+		$this->setStrength('8');
+		$this->setResistance('5');
+		$this->setSpeed('6');
+		$this->setPosture('1');
+		$this->setName('Faiblo Ludo');
+		$this->setRound('0');
 	}
 }
