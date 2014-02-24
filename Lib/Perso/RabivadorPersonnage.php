@@ -6,6 +6,6 @@ class RabivadorPersonnage extends Personnage
 {
 	public function __construct()
 	{
-		$this->type = 'rabivador';
+		$this->setRef('rabivador');
 	}
 }

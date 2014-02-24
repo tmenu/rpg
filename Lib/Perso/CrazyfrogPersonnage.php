@@ -6,6 +6,6 @@ class CrazyfrogPersonnage extends Personnage
 {
 	public function __construct()
 	{
-		$this->type = 'crazyfrog';
+		$this->setRef('crazyfrog');
 	}
 }
