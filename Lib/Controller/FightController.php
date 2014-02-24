@@ -35,6 +35,7 @@ class FightController extends Controller
 		if($rabbit->getRound() == 0 && $ludo->getRound() == 0)
 		{
 			$_SESSION['messageLog'] = $this->speedCompareAction($rabbit, $ludo);
+			header('Location: index.php?controller=fight&action=index');
 		}
 		else if($ludo->getRound() == 1)
 		{
