@@ -1,0 +1,55 @@
+
+body {
+	width: 800px;
+	margin: 50px auto;
+
+	border-right: 1px solid #aaa;
+}
+
+/* MAP */
+
+#map {
+	display: inline-block;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.box { 
+	position: relative;
+	width: 62px;
+	height: 62px;
+}
+
+.entry {
+	
+}
+
+.out {
+	background: red;
+}
+
+.ground {
+	background: url("../img/textures.png") -64px -128px no-repeat;
+}
+.wall {
+	background: url("../img/textures.png") -192px -32px no-repeat;
+}
+
+.perso {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: red;
+	width: 10px;
+	height: 10px;
+	/*background: url("../img/rabivador.png") 0 0 no-repeat;*/
+}
+
+/* COMMANDS */
+
+#commands {
+	float: right;
+	width: 250px;
+
+	padding: 20px;
+}
