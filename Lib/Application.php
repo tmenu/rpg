@@ -1,8 +1,8 @@
 <?php
 
-session_start();
-
 namespace Lib;
+
+session_start();
 
 use Lib\Controller as Controller;
 
