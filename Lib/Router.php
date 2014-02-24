@@ -45,7 +45,7 @@ class Router
             }
 
             // Création du mask de la regex
-            $regex = '#^' . $route['regex'] . '$#';
+            $regex = '#^' . $route['regex'] . '(\?.)*$#';
 
             // S'il y a des paramètres
             if (isset($route['params']) && !empty($route['params']))
