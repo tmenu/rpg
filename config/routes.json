@@ -1,0 +1,47 @@
+{
+	"_comment": " --- Map controller --- ",
+
+	"home": {
+		"regex": "/",
+		"controller": "Map",
+		"action": "index"
+	},
+
+	"map.index": {
+		"regex": "/map.html",
+		"controller": "Map",
+		"action": "index"
+	},
+
+	"map.moveUp": {
+		"regex": "/map/haut.html",
+		"controller": "Map",
+		"action": "moveUp"
+	},
+
+	"map.moveDown": {
+		"regex": "/map/bas.html",
+		"controller": "Map",
+		"action": "moveDown"
+	},
+
+	"map.moveLeft": {
+		"regex": "/map/gauche.html",
+		"controller": "Map",
+		"action": "moveLeft"
+	},
+
+	"map.moveRight": {
+		"regex": "/map/droite.html",
+		"controller": "Map",
+		"action": "moveRight"
+	},
+
+	"_comment": " --- Fight controller --- ",
+
+	"fight.index": {
+		"regex": "/fight.html",
+		"controller": "Fight",
+		"action": "index"
+	}
+}
