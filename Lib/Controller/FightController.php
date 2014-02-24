@@ -9,6 +9,9 @@ class FightController extends Controller
 {
 	public function indexAction()
 	{
+		
+		include __DIR__.'/../View/Fight/index.php';
+
 		$rabbit = new Rabivador();
 		$rabbit->setHealth('20');
 		$rabbit->setStrength('10');
@@ -22,7 +25,7 @@ class FightController extends Controller
 		$ludo->setResistance('5');
 		$ludo->setSpeed('2');
 		$ludo->setPosture('1');
-
+/*
 		$defense = $this->defenseAction($ludo);
 
 		echo "Ludo défend<br />";
@@ -36,6 +39,7 @@ class FightController extends Controller
 
 		echo "Ludo fait " . $attack['damageDealed'] . " points de dégats <br />";
 		echo "Il reste " . $attack['remainingLife'] . " points de vie à Rabbit";
+	*/
 	}
 
 	public function attackAction($attacker, $defender)

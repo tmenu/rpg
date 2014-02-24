@@ -4,13 +4,15 @@ namespace Lib\Perso;
 
 abstract class Personnage
 {
-	protected $health;
+	/* STATISTIQUES */
+    protected $health;
 	protected $strength;
 	protected $resistance;
 	protected $speed;
 	protected $posture;
 
-
+    /* INFOS PERSONNELLES */
+    protected $noms;
 
     /**
      * Gets the value of health.
