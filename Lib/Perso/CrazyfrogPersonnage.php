@@ -2,7 +2,7 @@
 
 namespace Lib\Perso;
 
-class Crazyfrog extends Personnage
+class CrazyfrogPersonnage extends Personnage
 {
 
 }

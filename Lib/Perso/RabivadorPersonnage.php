@@ -2,7 +2,7 @@
 
 namespace Lib\Perso;
 
-class Rabivador extends Personnage
+class RabivadorPersonnage extends Personnage
 {
 
 }
