@@ -128,7 +128,7 @@ body {
 	margin-bottom: 80px;
 }
 
-.battle-log{
+.battle-log, .battle-log-enemy{
 	clear: both;
 	width: 700px;
 	height: 30px;

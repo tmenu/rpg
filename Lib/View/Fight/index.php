@@ -3,7 +3,6 @@
 	<div class="name">Nom du méchant</div>
 	<div class="health-bar"></div>
 </div>
-<div class="battle-log">Ludovic le roux a perdu 6 PV</div>
 
 <div id="versus">Versus</div>
 
@@ -16,4 +15,4 @@
 		<div id="defense">Défendre</div>
 	</div>
 </div>
-<div class="battle-log">Guillaume se défend</div>
+<div class="battle-log"></div><?php echo $_SESSION['messageLog']; ?>
