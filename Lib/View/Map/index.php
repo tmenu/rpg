@@ -87,10 +87,7 @@ use Lib\Router;
 
 	<div id="info-perso">
 
-		<dl class="dl-horizontal">
-			<dt>...</dt>
-			<dd>...</dd>
-		</dl>
+		
 
 	</div>
 

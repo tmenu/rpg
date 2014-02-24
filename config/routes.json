@@ -40,7 +40,7 @@
 	"_comment": " --- Fight controller --- ",
 
 	"fight.index": {
-		"regex": "/map.html",
+		"regex": "/fight.html",
 		"controller": "Fight",
 		"action": "index"
 	}
