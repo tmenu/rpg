@@ -15,4 +15,8 @@
 		<div id="defense">Défendre</div>
 	</div>
 </div>
-<div class="battle-log"></div><?php echo $_SESSION['messageLog']; ?>
+<div class="battle-log"></div>
+<?php
+	var_dump($_SESSION['messageLog']['speed']);
+	var_dump($_SESSION['messageLog']['attack']);
+	var_dump($_SESSION['messageLog']['receive']);

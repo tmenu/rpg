@@ -10,6 +10,7 @@ use Lib\Map\Map;
 use Lib\Map\DefaultMap;
 
 use Lib\Perso\GuillaumePersonnage as Guillaume;
+use Lib\Perso\CrazyfrogPersonnage as Crazyfrog;
 
 class MapController extends Controller
 {
@@ -22,10 +23,12 @@ class MapController extends Controller
 		// Récupération des données
 		if (isset($_SESSION['data']) && !empty($_SESSION['data'])) {
 			$this->perso = unserialize($_SESSION['data']['perso']);
+			$this->frog = unserialize($_SESSION['data']['frog']);
 			$this->map   = unserialize($_SESSION['data']['map']);
 		}
 		else {
 			$this->perso = new Guillaume();
+			$this->frog  = new Crazyfrog();
 			$this->map   = new DefaultMap();
 		}
 	}
@@ -34,6 +37,7 @@ class MapController extends Controller
 	{
 		$_SESSION['data'] = array(
 			'perso' => serialize($this->perso),
+			'frog' 	=> serialize($this->frog),
 			'map'   => serialize($this->map)
 		);
 	}

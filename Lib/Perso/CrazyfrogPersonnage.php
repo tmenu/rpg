@@ -8,7 +8,7 @@ class CrazyfrogPersonnage extends Personnage
 	{
 		$this->setRef('crazyfrog');
 		$this->setHealth('15');
-		$this->setStrength('8');
+		$this->setStrength('9');
 		$this->setResistance('5');
 		$this->setSpeed('6');
 		$this->setPosture('1');
