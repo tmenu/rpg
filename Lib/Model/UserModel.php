@@ -15,7 +15,7 @@ class UserModel extends Model
 
 		foreach ($q->fetchAll() as $user)
 		{
-			$users_list = new User( $user );
+			$users_list[] = new User( $user );
 		}
 
 		return $users_list;
@@ -23,7 +23,20 @@ class UserModel extends Model
 
 	public function select($id)
 	{
+		$q = $this->pdo->prepare('SELECT * 
+								  FROM User
+								  WHERE id = :id');
 
+		$q->bindValue(':id', $id, \PDO::PARAM_INT);
+
+		$q->execute();
+
+		if (($user = $q->fetch()) != false) {
+			return new User( $user );
+		}
+		else {
+			return false;
+		}
 	}
 
 	protected function insert(Entity $entity)

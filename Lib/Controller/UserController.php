@@ -27,7 +27,7 @@ class UserController extends Controller
 	{
 		$manager = Manager::getManagerOf('user');
 
-		var_dump($manager->selectAll());
+		var_dump($manager->select(2));
 
 		include __DIR__.'/../View/User/signup.php';
 	}
