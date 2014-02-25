@@ -2,7 +2,7 @@
 
 namespace Lib\Model;
 
-class Playing_characterModel extends CharacterModel
+class Playing_mapModel extends MapModel
 {
 	protected $type = 'Playing';
 }

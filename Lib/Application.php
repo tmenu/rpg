@@ -12,6 +12,9 @@ class Application
 		// Recherche route
 		if (false !== ($route = Router::matchRoute( $_SERVER['REQUEST_URI'] )))
 		{
+			// Affectation des données au tableau GET
+			$_GET = array_merge($_GET, $route['data']);
+
 			// Instanciation
 			$class = '\\Lib\\Controller\\' . $route['controller'] . 'Controller';
 

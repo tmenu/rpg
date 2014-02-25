@@ -4,53 +4,104 @@ namespace Lib\Entity;
 
 class Map_monster extends Entity
 {
-	protected $ref_init_map;
-	protected $ref_init_monster;
+	protected $ref_map;
+	protected $ref_monster;
+    
+    protected $position_x;
+    protected $position_y;
 
     /**
-     * Gets the value of ref_init_map.
+     * Gets the value of ref_map.
      *
      * @return mixed
      */
-    public function getRef_init_map()
+    public function getRef_map()
     {
-        return $this->ref_init_map;
+        return $this->ref_map;
     }
 
     /**
-     * Sets the value of ref_init_map.
+     * Sets the value of ref_map.
      *
-     * @param mixed $ref_init_map the ref_init_map
+     * @param mixed $ref_map the ref_map
      *
      * @return self
      */
-    public function setRef_init_map($ref_init_map)
+    public function setRef_map($ref_map)
     {
-        $this->ref_init_map = $ref_init_map;
+        $this->ref_map = $ref_map;
 
         return $this;
     }
 
     /**
-     * Gets the value of ref_init_monster.
+     * Gets the value of ref_monster.
      *
      * @return mixed
      */
-    public function getRef_init_monster()
+    public function getRef_monster()
     {
-        return $this->ref_init_monster;
+        return $this->ref_monster;
     }
 
     /**
-     * Sets the value of ref_init_monster.
+     * Sets the value of ref_monster.
      *
-     * @param mixed $ref_init_monster the ref_init_monster
+     * @param mixed $ref_monster the ref_monster
      *
      * @return self
      */
-    public function setRef_init_monster($ref_init_monster)
+    public function setRef_monster($ref_monster)
     {
-        $this->ref_init_monster = $ref_init_monster;
+        $this->ref_monster = $ref_monster;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of position_x.
+     *
+     * @return mixed
+     */
+    public function getPosition_x()
+    {
+        return $this->position_x;
+    }
+
+    /**
+     * Sets the value of position_x.
+     *
+     * @param mixed $position_x the position_x
+     *
+     * @return self
+     */
+    public function setPosition_x($position_x)
+    {
+        $this->position_x = $position_x;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of position_y.
+     *
+     * @return mixed
+     */
+    public function getPosition_y()
+    {
+        return $this->position_y;
+    }
+
+    /**
+     * Sets the value of position_y.
+     *
+     * @param mixed $position_y the position_y
+     *
+     * @return self
+     */
+    public function setPosition_y($position_y)
+    {
+        $this->position_y = $position_y;
 
         return $this;
     }

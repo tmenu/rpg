@@ -47,26 +47,14 @@ use Lib\Utils;
 	<div class="form-group <?php echo ((isset($form_errors['perso'])) ? 'has-error' : ''); ?>">
 		<label for="perso" class="col-sm-3 control-label">Personnage</label>
 		<div class="col-sm-9">
-			<label class="text-center">
-				<div class="face-mage01 default"></div>
-				Guillaume<br />
-				<input type="radio" name="perso" value="1">
-			</label>&nbsp;
-			<label class="text-center">
-				<div class="face-mage02 default"></div>
-				Rozy<br />
-				<input type="radio" name="perso" value="2">
-			</label>&nbsp;
-			<label class="text-center">
-				<div class="face-mage04 default"></div>
-				Johan<br />
-				<input type="radio" name="perso" value="4">
-			</label>&nbsp;
-			<label class="text-center">
-				<div class="face-mage03 default"></div>
-				Kévina<br />
-				<input type="radio" name="perso" value="3">
-			</label>
+			<?php foreach ($characters_list as $character): ?>
+				<label class="text-center">
+					<div class="face-<?php echo $character->getRef(); ?> default"></div>
+					<?php echo $character->getName(); ?><br />
+					<input type="radio" name="perso" value="<?php echo $character->getId(); ?>" <?php echo ((Utils::postValue('perso') == $character->getId()) ? 'checked' : ''); ?>>
+				</label>&nbsp;
+			<?php endforeach; ?>
+
 			<?php if (isset($form_errors['perso'])): ?>
 				<div class="help-block"><?php echo $form_errors['perso']; ?></div>
 			<?php endif; ?>

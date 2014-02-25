@@ -2,9 +2,10 @@
 
 namespace Lib\Entity;
 
-class Playing_map extends Entity
+use Lib\Entity\Monster;
+
+class Map extends Entity
 {
-	protected $id;
 	protected $name;
 
 	// Taille de la plateforme
@@ -21,35 +22,13 @@ class Playing_map extends Entity
 
 	protected $map = array();  // Données de la map
 
+    protected $monsters = array();
+
 	// Type de cases
 	CONST WALL   = 0x01; // Mur : accés impossible
 	CONST GROUND = 0x02; // Sol : accès possible
 	CONST ENTRY  = 0x04; // Entrée de la map
 	CONST OUT    = 0x08; // Sortie de la map
-
-    /**
-     * Gets the value of id.
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the value of id.
-     *
-     * @param mixed $id the id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Gets the value of name.
@@ -239,6 +218,37 @@ class Playing_map extends Entity
     public function setMap($map)
     {
         $this->map = $map;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of monsters.
+     *
+     * @return mixed
+     */
+    public function getMonsters()
+    {
+        return $this->monsters;
+    }
+
+    /**
+     * Sets the value of monsters.
+     *
+     * @param mixed $monsters the monsters
+     *
+     * @return self
+     */
+    public function setMonsters(array $monsters)
+    {
+        $this->monsters = $monsters;
+
+        return $this;
+    }
+
+    public function addMonster(Monster $monster)
+    {
+        $this->monsters[] = $monster;
 
         return $this;
     }

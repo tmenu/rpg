@@ -7,13 +7,6 @@ use Lib\Router;
 use Lib\Utils;
 use Lib\Manager;
 
-use Lib\Map\Map;
-use Lib\Map\DefaultMap;
-use Lib\Map\SecondMap;
-
-use Lib\Perso\GuillaumePersonnage as Guillaume;
-use Lib\Perso\CrazyfrogPersonnage as Crazyfrog;
-
 class MapController extends Controller
 {
 	protected $map;

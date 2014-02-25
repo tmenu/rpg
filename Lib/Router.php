@@ -66,7 +66,7 @@ class Router
                 {
                     $i = 1;
                     foreach ($route['params'] as $key => $value) {
-                        $route['data'][$key] = $params[$i++];
+                        $route['data'][substr($key, 1)] = $params[$i++];
                     }
                 }
 

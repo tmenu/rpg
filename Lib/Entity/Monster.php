@@ -2,10 +2,10 @@
 
 namespace Lib\Entity;
 
-class Playing_character extends Entity
+class Monster extends Entity
 {
 	/* STATISTIQUES */
-    protected $healthMax;
+    protected $health_max;
     protected $health;
 	protected $strength;
 	protected $resistance;
@@ -14,7 +14,6 @@ class Playing_character extends Entity
     protected $round;
 
     /* INFOS PERSONNELLES */
-    protected $id;
     protected $name;
     protected $position_x;
     protected $position_y;
@@ -23,25 +22,25 @@ class Playing_character extends Entity
 
 
     /**
-     * Gets the value of healthMax.
+     * Gets the value of health_max.
      *
      * @return mixed
      */
-    public function getHealthMax()
+    public function getHealth_max()
     {
-        return $this->healthMax;
+        return $this->health_max;
     }
 
     /**
-     * Sets the value of healthMax.
+     * Sets the value of health_max.
      *
-     * @param mixed $healthMax the health max
+     * @param mixed $health_max the health max
      *
      * @return self
      */
-    public function setHealthMax($healthMax)
+    public function setHealth_max($health_max)
     {
-        $this->healthMax = $healthMax;
+        $this->health_max = $health_max;
 
         return $this;
     }
@@ -186,30 +185,6 @@ class Playing_character extends Entity
     public function setRound($round)
     {
         $this->round = $round;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of id.
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the value of id.
-     *
-     * @param mixed $id the id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
 
         return $this;
     }

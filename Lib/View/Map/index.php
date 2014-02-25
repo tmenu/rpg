@@ -18,7 +18,7 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 
 ?>
 
-<section class="panel">
+<section class="map-panel">
 
 	<div class="struct"></div>
 

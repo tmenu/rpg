@@ -6,7 +6,6 @@ use Lib\Utils;
 
 class User extends Entity
 {
-    protected $id;
     protected $username;
     protected $password;
     protected $salt;
@@ -17,30 +16,6 @@ class User extends Entity
         $this->setSalt( Utils::generateString(50) );
 
         parent::__construct($data);
-    }
-
-    /**
-     * Gets the value of id.
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the value of id.
-     *
-     * @param mixed $id the id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**

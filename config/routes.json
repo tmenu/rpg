@@ -1,4 +1,16 @@
 {
+	"test": {
+		"regex": "/test.html",
+		"controller": "User",
+		"action": "test"
+	},
+
+	"home": {
+		"regex": "/",
+		"controller": "Map",
+		"action": "index"
+	},
+
 	"_comment": " --- User controller --- ",
 
 	"user.account": {
@@ -25,13 +37,16 @@
 		"action": "logout"
 	},
 
-	"_comment": " --- Map controller --- ",
-
-	"home": {
-		"regex": "/",
-		"controller": "Map",
-		"action": "index"
+	"user.cancelgame": {
+		"regex": "/annnuler_partie-(:id_game).html",
+		"controller": "User",
+		"action": "cancelGame",
+		"params": {
+			":id_game": "[0-9]+"
+		}
 	},
+
+	"_comment": " --- Map controller --- ",
 
 	"map.index": {
 		"regex": "/map.html",

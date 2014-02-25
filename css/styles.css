@@ -22,7 +22,7 @@ body > .container {
 }
 .struct { height: 100%; }
 
-.panel {
+.map-panel {
 	height: 100%;
 	text-align: left;
 	margin: 0 auto;
@@ -45,6 +45,10 @@ h2 {
 
 h3 {
 	margin: 20px 0;
+}
+
+table th, table td {
+	text-align: center;
 }
 
 /**

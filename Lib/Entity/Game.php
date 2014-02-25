@@ -2,36 +2,17 @@
 
 namespace Lib\Entity;
 
+use Lib\Manager;
+
 class Game extends Entity
 {
-    protected $id;
     protected $ref_user;
     protected $ref_map;
     protected $ref_character;
 
-    /**
-     * Gets the value of id.
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the value of id.
-     *
-     * @param mixed $id the id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    protected $user      = null;
+    protected $map       = null;
+    protected $character = null;
 
     /**
      * Gets the value of ref_user.
@@ -101,6 +82,78 @@ class Game extends Entity
     public function setRef_character($ref_character)
     {
         $this->ref_character = $ref_character;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of user.
+     *
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Sets the value of user.
+     *
+     * @param mixed $user the user
+     *
+     * @return self
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of map.
+     *
+     * @return mixed
+     */
+    public function getMap()
+    {
+        return $this->map;
+    }
+
+    /**
+     * Sets the value of map.
+     *
+     * @param mixed $map the map
+     *
+     * @return self
+     */
+    public function setMap($map)
+    {
+        $this->map = $map;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of character.
+     *
+     * @return mixed
+     */
+    public function getCharacter()
+    {
+        return $this->character;
+    }
+
+    /**
+     * Sets the value of character.
+     *
+     * @param mixed $character the character
+     *
+     * @return self
+     */
+    public function setCharacter($character)
+    {
+        $this->character = $character;
 
         return $this;
     }

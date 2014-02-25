@@ -4,9 +4,9 @@ namespace Lib;
 
 class Manager
 {
-	CONST DSN      = 'mysql:dbname=rpg;host=10.10.80.36';
-	CONST USER     = 'rpg';
-	CONST PASSWORD = 'rpg2511';
+	CONST DSN      = 'mysql:dbname=rpg;host=localhost';
+	CONST USER     = 'root';
+	CONST PASSWORD = 'root';
 
 	protected static $pdo      = null;
 	protected static $managers = array();
@@ -19,6 +19,8 @@ class Manager
 			} catch (PDOException $e) {
 			    die('Connexion échouée : ' . $e->getMessage());
 			}
+
+			self::$pdo->query('SET NAMES UTF8');
 		}
 
 		return self::$pdo;

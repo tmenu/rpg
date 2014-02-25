@@ -2,7 +2,7 @@
 
 namespace Lib\Model;
 
-class Initial_characterModel extends CharacterModel
+class Initial_mapModel extends MapModel
 {
 	protected $type = 'Initial';
 }

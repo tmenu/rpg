@@ -2,7 +2,7 @@
 
 namespace Lib\Entity;
 
-class Initial_monster extends Entity
+class Character extends Entity
 {
 	/* STATISTIQUES */
     protected $health_max;
@@ -14,7 +14,6 @@ class Initial_monster extends Entity
     protected $round;
 
     /* INFOS PERSONNELLES */
-    protected $id;
     protected $name;
     protected $position_x;
     protected $position_y;
@@ -186,30 +185,6 @@ class Initial_monster extends Entity
     public function setRound($round)
     {
         $this->round = $round;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of id.
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the value of id.
-     *
-     * @param mixed $id the id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
 
         return $this;
     }
