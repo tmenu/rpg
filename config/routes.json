@@ -1,4 +1,30 @@
 {
+	"_comment": " --- User controller --- ",
+
+	"user.account": {
+		"regex": "/moncompte.html",
+		"controller": "User",
+		"action": "account"
+	},
+
+	"user.signup": {
+		"regex": "/inscription.html",
+		"controller": "User",
+		"action": "signup"
+	},
+
+	"user.login": {
+		"regex": "/connexion.html",
+		"controller": "User",
+		"action": "login"
+	},
+
+	"user.logout": {
+		"regex": "/deconnexion.html",
+		"controller": "User",
+		"action": "logout"
+	},
+
 	"_comment": " --- Map controller --- ",
 
 	"home": {
