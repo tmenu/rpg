@@ -12,7 +12,7 @@ html, body {
  */
 
 body > .container {
-	height: 100% !important;
+	width: 800px;
 	/*text-align: center;*/
 }
 
@@ -23,7 +23,6 @@ body > .container {
 .struct { height: 100%; }
 
 .panel {
-	width: 800px;
 	height: 100%;
 	text-align: left;
 	margin: 0 auto;
@@ -35,6 +34,18 @@ body > .container {
 
 dl dt { width: 100px !important; }
 dl dd { margin-left: 120px !important; }
+
+h1 {
+	margin: 30px 0;
+}
+
+h2 {
+	margin: 30px 0;
+}
+
+h3 {
+	margin: 20px 0;
+}
 
 /**
  * MAP
@@ -259,6 +270,24 @@ dl dd { margin-left: 120px !important; }
 	height: 96px;
 }
 .face-mage01.default { background: url("../img/faces/mage01.png") 0 0 no-repeat; }
+
+.face-mage02 {
+	width: 96px;
+	height: 96px;
+}
+.face-mage02.default { background: url("../img/faces/mage02.png") 0 0 no-repeat; }
+
+.face-mage03 {
+	width: 96px;
+	height: 96px;
+}
+.face-mage03.default { background: url("../img/faces/mage03.png") 0 0 no-repeat; }
+
+.face-mage04 {
+	width: 96px;
+	height: 96px;
+}
+.face-mage04.default { background: url("../img/faces/mage04.png") 0 0 no-repeat; }
 
 .face-rabivador {
 	width: 96px;

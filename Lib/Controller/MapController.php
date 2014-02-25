@@ -48,11 +48,10 @@ class MapController extends Controller
 
 	public function indexAction()
 	{
+		$this->setVar('perso', $this->perso);
+		$this->setVar('map', $this->map);
 
-		$perso = $this->perso;
-		$map   = $this->map;
-
-		include __DIR__.'/../View/Map/index.php';
+		$this->fetch('/Map/index.php');
 	}
 
 	protected function checkMonster()

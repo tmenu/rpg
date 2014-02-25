@@ -6,6 +6,28 @@ abstract class Entity
 {
 	protected $id = null;
 
+    public function __construct(array $data = array())
+    {
+        $this->hydrate($data);
+    }
+
+    private function hydrate(array $data)
+    {
+        foreach ($data as $key => $value)
+        {
+            $method = 'set' . ucfirst($key);
+
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+    }
+
+    public function isNew()
+    {
+        return ($this->id === null) ? true : false;
+    }
+
     /**
      * Gets the value of id.
      *
@@ -29,27 +51,5 @@ abstract class Entity
         $this->id = $id;
 
         return $this;
-    }
-
-    public function __construct(array $data = array())
-    {
-        $this->hydrate($data);
-    }
-
-    public function isNew()
-    {
-        return ($this->id === null) ? true : false;
-    }
-
-    private function hydrate(array $data)
-    {
-        foreach ($data as $key => $value)
-        {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
     }
 }

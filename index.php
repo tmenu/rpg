@@ -1,30 +1,17 @@
-<?php require('./Lib/autoload.php'); ?>
-<!DOCTYPE html>
-<html>
-	<head>
+<?php
+require('./Lib/autoload.php');
 
-		<meta charset="utf8" />
-		<link rel="stylesheet" href="/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-		<link rel="stylesheet" href="/css/styles.css" />
+use Lib\Router;
 
-	</head>
-	<body>
+session_start();
 
-		<div class="container">
+if (isset($_GET['resses'])) {
+	$_SESSION = array(
+		'auth' => false
+	);
 
-			<?php
+	\Lib\Utils::redirect( \Lib\Router::generateUrl('map.index') );
+}
 
-			$application = new Lib\Application();
-
-			$application->run();
-
-			?>
-
-		</div>
-
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
-
-	</body>
-</html>
+$application = new Lib\Application();
+$application->run();
