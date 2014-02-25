@@ -8,6 +8,7 @@ use Lib\Manager;
 use Lib\Session;
 
 use Lib\Entity\User;
+use Lib\Entity\Initial_character;
 
 class UserController extends Controller
 {

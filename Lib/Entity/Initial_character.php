@@ -5,7 +5,7 @@ namespace Lib\Entity;
 class Initial_character extends Entity
 {
 	/* STATISTIQUES */
-    protected $health_max;
+    protected $healthMax;
     protected $health;
 	protected $strength;
 	protected $resistance;
