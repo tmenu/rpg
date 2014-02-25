@@ -5,6 +5,7 @@ namespace Lib\Controller;
 use Lib\Application;
 use Lib\Router;
 use Lib\Utils;
+use Lib\Manager;
 
 use Lib\Map\Map;
 use Lib\Map\DefaultMap;
@@ -47,6 +48,7 @@ class MapController extends Controller
 
 	public function indexAction()
 	{
+
 		$perso = $this->perso;
 		$map   = $this->map;
 

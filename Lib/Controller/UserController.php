@@ -4,6 +4,7 @@ namespace Lib\Controller;
 
 use Lib\Router;
 use Lib\Utils;
+use Lib\Manager;
 
 class UserController extends Controller
 {
@@ -24,6 +25,10 @@ class UserController extends Controller
 
 	public function signupAction()
 	{
+		$manager = Manager::getManagerOf('user');
+
+		var_dump($manager->selectAll());
+
 		include __DIR__.'/../View/User/signup.php';
 	}
 }
