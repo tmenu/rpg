@@ -5,9 +5,10 @@ namespace Lib\Entity;
 class User extends Entity
 {
     protected $id;
-    protected $usernma;
+    protected $username;
     protected $password;
     protected $salt;
+    protected $email;
 
     /**
      * Gets the value of id.
@@ -29,30 +30,6 @@ class User extends Entity
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of usernma.
-     *
-     * @return mixed
-     */
-    public function getUsernma()
-    {
-        return $this->usernma;
-    }
-
-    /**
-     * Sets the value of usernma.
-     *
-     * @param mixed $usernma the usernma
-     *
-     * @return self
-     */
-    public function setUsernma($usernma)
-    {
-        $this->usernma = $usernma;
 
         return $this;
     }
@@ -101,6 +78,54 @@ class User extends Entity
     public function setSalt($salt)
     {
         $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of username.
+     *
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Sets the value of username.
+     *
+     * @param mixed $username the username
+     *
+     * @return self
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of email.
+     *
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Sets the value of email.
+     *
+     * @param mixed $email the email
+     *
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
         return $this;
     }
