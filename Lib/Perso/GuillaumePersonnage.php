@@ -12,6 +12,8 @@ class GuillaumePersonnage extends Personnage
 		$this->setStrength('10');
 		$this->setResistance('5');
 		$this->setSpeed('5');
+		$this->setPosture('1');
+		$this->setRound('0');
 
 		$this->setRef('mage01');
 

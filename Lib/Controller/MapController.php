@@ -7,9 +7,11 @@ use Lib\Router;
 use Lib\Utils;
 
 use Lib\Map\Map;
+use Lib\Map\DefaultMap;
 use Lib\Map\SecondMap;
 
 use Lib\Perso\GuillaumePersonnage as Guillaume;
+use Lib\Perso\CrazyfrogPersonnage as Crazyfrog;
 
 class MapController extends Controller
 {
@@ -22,11 +24,13 @@ class MapController extends Controller
 		// Récupération des données
 		if (isset($_SESSION['data']) && !empty($_SESSION['data'])) {
 			$this->perso = unserialize($_SESSION['data']['perso']);
+			$this->frog = unserialize($_SESSION['data']['frog']);
 			$this->map   = unserialize($_SESSION['data']['map']);
 		}
 		else {
 			$this->perso = new Guillaume();
-			$this->map   = new SecondMap();
+			$this->map   = new DefaultMap();
+			$this->frog  = new Crazyfrog();
 		}
 	}
 
@@ -35,6 +39,7 @@ class MapController extends Controller
 		// Sauvegarde des données
 		$_SESSION['data'] = array(
 			'perso' => serialize($this->perso),
+			'frog' 	=> serialize($this->frog),
 			'map'   => serialize($this->map)
 		);
 	}
@@ -99,9 +104,10 @@ class MapController extends Controller
 			if (Map::GROUND & $this->map->getMap()[ $position['y'] ][ $position['x'] ])
 			{
 				$this->perso->setPosition($position);
-
+				var_dump($position);
+				var_dump($size);
 				// Si on sort de l'affichage
-				if (($position['y'] - $origin['y'] + 1) >= $visible['y'])
+				if (($position['y'] - $origin['y'] + 1) >= $visible['y'] && ($position['y'] + 1) < $size['height'])
 				{
 					// Incrémentation pour afficher le reste de la map
 					$this->map->setOrigin(array(
@@ -169,7 +175,7 @@ class MapController extends Controller
 				$this->perso->setPosition($position);
 
 				// Si on sort de l'affichage
-				if (($position['x'] - $origin['x'] + 1) >= $visible['x'])
+				if (($position['x'] - $origin['x'] + 1) > $visible['x'])
 				{
 					// Incrémentation pour afficher le reste de la map
 					$this->map->setOrigin(array(

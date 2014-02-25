@@ -2,6 +2,10 @@
 
 namespace Lib\Controller;
 
+use Lib\Application;
+use Lib\Router;
+use Lib\Utils;
+
 use Lib\Perso\CrazyfrogPersonnage as Crazyfrog;
 use Lib\Perso\RabivadorPersonnage as Rabivador;
 
@@ -14,36 +18,41 @@ class FightController extends Controller
 	public function indexAction()
 	{
 
-		$rabbit = new Rabivador();
-		$rabbit->setHealth('20');
-		$rabbit->setStrength('10');
-		$rabbit->setResistance('9');
-		$rabbit->setSpeed('5');
-		$rabbit->setPosture('1');
-		$rabbit->setName('Rabivador');
-		$rabbit->setRound('0');
+		// Récupération des deux objets Personnage et Crazyfrog
+		$hero  = unserialize($_SESSION['data']['perso']);
+		$enemy = unserialize($_SESSION['data']['frog']);
 
-		$ludo = new Crazyfrog();
-		$ludo->setHealth('15');
-		$ludo->setStrength('8');
-		$ludo->setResistance('5');
-		$ludo->setSpeed('6');
-		$ludo->setPosture('1');
-		$ludo->setName('Faiblo Ludo');
-		$ludo->setRound('0');
-
-		if($rabbit->getRound() == 0 && $ludo->getRound() == 0)
+		// Début du combat, calcul du premier attaquant en fonction de la plus haute vitesse
+		if($hero->getRound() == 0 && $enemy->getRound() == 0)
 		{
-			$_SESSION['messageLog'] = $this->speedCompareAction($rabbit, $ludo);
+			$_SESSION['messageLog']['speed'] = $this->speedCompareAction($hero, $enemy);
+			Utils::redirect( Router::generateUrl('fight.index') );
 		}
-		else if($ludo->getRound() == 1)
+		
+		// Vérification des points de vie des deux combattants
+		if($enemy->getHealth() == 0)
 		{
-			$_SESSION['messageLog'] = $this->attackAction($ludo, $rabbit);
+			echo "YOU WIN";
+		}
+		else if($hero->getHealth() == 0)
+		{
+			echo "YOU LOOSE";
 		}
 		else
 		{
-			$_SESSION['messageLog'] = $this->attackAction($rabbit, $ludo);
+			if($enemy->getRound() == 1)
+			{
+				$_SESSION['messageLog']['receive'] = $this->attackAction($enemy, $hero);
+	
+				Utils::redirect( Router::generateUrl('fight.index') );
+			}
+			else if($hero->getRound() == 1)
+			{
+				$_SESSION['messageLog']['attack'] = $this->attackAction($hero, $enemy);
+				Utils::redirect( Router::generateUrl('fight.index') );
+			}
 		}
+
 		include __DIR__.'/../View/Fight/index.php';
 	}
 
@@ -51,20 +60,20 @@ class FightController extends Controller
      * Action : attack
      */
 
-	public function attackAction($attacker, $defender)
+	public function attackAction($attacker, $opponent)
 	{
 		if($attacker->getPosture() == 0)
 		{
 			$attacker->setPosture('1');
 		}
 
-		if($defender->getPosture() == 0)
+		if($opponent->getPosture() == 0)
 		{
-			$damageDealed  = $attacker->getStrength() - $defender->getResistance() * 1.5;
+			$damageDealed  = $attacker->getStrength() - $opponent->getResistance() * 1.5;
 		}
 		else
 		{
-			$damageDealed  = $attacker->getStrength() - $defender->getResistance();
+			$damageDealed  = $attacker->getStrength() - $opponent->getResistance();
 		}
 
 		if($damageDealed < 0)
@@ -72,16 +81,34 @@ class FightController extends Controller
 			$damageDealed = 0;
 		}
 		
-		$remainingLife = $defender->getHealth() - $damageDealed;
+		$remainingLife = $opponent->getHealth() - $damageDealed;
 
-		$defender->setHealth($remainingLife);
+		if($remainingLife < 0)
+		{
+			$remainingLife = 0;
+		}
 
-		$messageLog = $attacker->getName() . " inflige" . $damageDealed . " points de dégats !";
+		$opponent->setHealth($remainingLife);
+
+		$messageLog = $attacker->getName() . " inflige " . $damageDealed . " points de dégats !";
 
 		$attacker->setRound('0');
-		$defender->setRound('1');
+		$opponent->setRound('1');
 
-		$_SESSION['messageLog'] = $messageLog;
+		$heroName  = unserialize($_SESSION['data']['perso']);
+
+		if($attacker->getName() == $heroName->getName())
+		{
+			$_SESSION['data']['perso'] = serialize($attacker);
+			$_SESSION['data']['frog'] = serialize($opponent);
+		}
+		else
+		{
+			$_SESSION['data']['frog'] = serialize($attacker);
+			$_SESSION['data']['perso'] = serialize($opponent);
+		}
+
+		return $messageLog;
 		
 	}
 
@@ -89,12 +116,28 @@ class FightController extends Controller
      * Action : defense
      */
 
-	public function defenseAction($attacker)
+	public function defenseAction($attacker, $opponent)
 	{
 		$attacker->setPosture('0');
 
 		$attacker->setRound('0');
-		$defender->setRound('1');
+		$opponent->setRound('1');
+
+		$heroName  = unserialize($_SESSION['data']['perso']);
+
+		if($attacker->getName() == $heroName->getName())
+		{
+			$_SESSION['data']['perso'] = serialize($attacker);
+			$_SESSION['data']['frog'] = serialize($opponent);
+		}
+		else
+		{
+			$_SESSION['data']['frog'] = serialize($attacker);
+			$_SESSION['data']['perso'] = serialize($opponent);
+		}
+
+
+		return $attacker->getName() . " défend !";
 	}
 
 	/**
@@ -107,13 +150,18 @@ class FightController extends Controller
 
 		if($speedCompare < 0)
 		{
+
 			$monster->setRound('1');
+			$_SESSION['data']['frog'] = serialize($monster);
 			return $monster->getName() . " est le premier à attaquer !";
 		}
 		else
 		{
 			$player->setRound('1');
+			$_SESSION['data']['perso'] = serialize($player);
 			return $player->getName() . " est le premier à attaquer !";
 		}
+
+
 	}
 }
