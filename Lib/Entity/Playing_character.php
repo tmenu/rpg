@@ -2,9 +2,10 @@
 
 namespace Lib\Entity;
 
-class Personnage extends Entity
+class Playing_character extends Entity
 {
 	/* STATISTIQUES */
+    protected $health_max;
     protected $health;
 	protected $strength;
 	protected $resistance;
@@ -13,12 +14,37 @@ class Personnage extends Entity
     protected $round;
 
     /* INFOS PERSONNELLES */
+    protected $id;
     protected $name;
-    protected $position;
+    protected $position_x;
+    protected $position_y;
     protected $direction;
     protected $ref;
-    protected $faceset;
-    protected $skin;
+
+
+    /**
+     * Gets the value of healthMax.
+     *
+     * @return mixed
+     */
+    public function getHealthMax()
+    {
+        return $this->healthMax;
+    }
+
+    /**
+     * Sets the value of healthMax.
+     *
+     * @param mixed $healthMax the health max
+     *
+     * @return self
+     */
+    public function setHealthMax($healthMax)
+    {
+        $this->healthMax = $healthMax;
+
+        return $this;
+    }
 
     /**
      * Gets the value of health.
@@ -141,6 +167,54 @@ class Personnage extends Entity
     }
 
     /**
+     * Gets the value of round.
+     *
+     * @return mixed
+     */
+    public function getRound()
+    {
+        return $this->round;
+    }
+
+    /**
+     * Sets the value of round.
+     *
+     * @param mixed $round the round
+     *
+     * @return self
+     */
+    public function setRound($round)
+    {
+        $this->round = $round;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of id.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Sets the value of id.
+     *
+     * @param mixed $id the id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Gets the value of name.
      *
      * @return mixed
@@ -165,25 +239,49 @@ class Personnage extends Entity
     }
 
     /**
-     * Gets the value of position.
+     * Gets the value of position_x.
      *
      * @return mixed
      */
-    public function getPosition()
+    public function getPosition_x()
     {
-        return $this->position;
+        return $this->position_x;
     }
 
     /**
-     * Sets the value of position.
+     * Sets the value of position_x.
      *
-     * @param mixed $position the position
+     * @param mixed $position_x the position_x
      *
      * @return self
      */
-    public function setPosition($position)
+    public function setPosition_x($position_x)
     {
-        $this->position = $position;
+        $this->position_x = $position_x;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of position_y.
+     *
+     * @return mixed
+     */
+    public function getPosition_y()
+    {
+        return $this->position_y;
+    }
+
+    /**
+     * Sets the value of position_y.
+     *
+     * @param mixed $position_y the position_y
+     *
+     * @return self
+     */
+    public function setPosition_y($position_y)
+    {
+        $this->position_y = $position_y;
 
         return $this;
     }
@@ -232,78 +330,6 @@ class Personnage extends Entity
     public function setRef($ref)
     {
         $this->ref = $ref;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of faceset.
-     *
-     * @return mixed
-     */
-    public function getFaceset()
-    {
-        return $this->faceset;
-    }
-
-    /**
-     * Sets the value of faceset.
-     *
-     * @param mixed $faceset the faceset
-     *
-     * @return self
-     */
-    public function setFaceset($faceset)
-    {
-        $this->faceset = $faceset;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of skin.
-     *
-     * @return mixed
-     */
-    public function getSkin()
-    {
-        return $this->skin;
-    }
-
-    /**
-     * Sets the value of skin.
-     *
-     * @param mixed $skin the skin
-     *
-     * @return self
-     */
-    public function setSkin($skin)
-    {
-        $this->skin = $skin;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of round.
-     *
-     * @return mixed
-     */
-    public function getRound()
-    {
-        return $this->round;
-    }
-
-    /**
-     * Sets the value of round.
-     *
-     * @param mixed $round the round
-     *
-     * @return self
-     */
-    public function setRound($round)
-    {
-        $this->round = $round;
 
         return $this;
     }
