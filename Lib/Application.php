@@ -2,14 +2,6 @@
 
 namespace Lib;
 
-session_start();
-
-if (isset($_GET['resses'])) {
-	$_SESSION = array();
-
-	\Lib\Utils::redirect( \Lib\Router::generateUrl('map.index') );
-}
-
 use Lib\Controller as Controller;
 use Lib\Router;
 

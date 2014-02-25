@@ -2,6 +2,8 @@
 
 namespace Lib\Entity;
 
+use Lib\Utils;
+
 class User extends Entity
 {
     protected $id;
@@ -9,6 +11,13 @@ class User extends Entity
     protected $password;
     protected $salt;
     protected $email;
+
+    public function __construct(array $data = array())
+    {
+        $this->setSalt( Utils::generateString(50) );
+
+        parent::__construct($data);
+    }
 
     /**
      * Gets the value of id.
