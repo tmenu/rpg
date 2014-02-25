@@ -59,7 +59,7 @@ class Initial_monsterModel extends Model
 											direction  = :direction,
 											ref		   = :ref');
 
-		$request->bindValue(':health_max', $entity->getHealthMax(), \PDO::PARAM_INT);
+		$request->bindValue(':health_max', $entity->getHealth_max(), \PDO::PARAM_INT);
 		$request->bindValue(':health', 	   $entity->getHealth(), \PDO::PARAM_INT);
 		$request->bindValue(':strength',   $entity->getStrength(), \PDO::PARAM_INT);
 		$request->bindValue(':resistance', $entity->getResistance(), \PDO::PARAM_INT);
@@ -93,7 +93,7 @@ class Initial_monsterModel extends Model
 											ref		   = :ref
 										WHERE id = :id');
 
-		$request->bindValue(':health_max', $entity->getHealthMax(), \PDO::PARAM_INT);
+		$request->bindValue(':health_max', $entity->getHealth_max(), \PDO::PARAM_INT);
 		$request->bindValue(':health', 	   $entity->getHealth(), \PDO::PARAM_INT);
 		$request->bindValue(':strength',   $entity->getStrength(), \PDO::PARAM_INT);
 		$request->bindValue(':resistance', $entity->getResistance(), \PDO::PARAM_INT);

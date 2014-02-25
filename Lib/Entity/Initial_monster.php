@@ -5,7 +5,7 @@ namespace Lib\Entity;
 class Initial_monster extends Entity
 {
 	/* STATISTIQUES */
-    protected $healthMax;
+    protected $health_max;
     protected $health;
 	protected $strength;
 	protected $resistance;
@@ -23,25 +23,25 @@ class Initial_monster extends Entity
 
 
     /**
-     * Gets the value of healthMax.
+     * Gets the value of health_max.
      *
      * @return mixed
      */
-    public function getHealthMax()
+    public function getHealth_max()
     {
-        return $this->healthMax;
+        return $this->health_max;
     }
 
     /**
-     * Sets the value of healthMax.
+     * Sets the value of health_max.
      *
-     * @param mixed $healthMax the health max
+     * @param mixed $health_max the health max
      *
      * @return self
      */
-    public function setHealthMax($healthMax)
+    public function setHealth_max($health_max)
     {
-        $this->healthMax = $healthMax;
+        $this->health_max = $health_max;
 
         return $this;
     }

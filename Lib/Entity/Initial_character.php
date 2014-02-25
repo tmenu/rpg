@@ -5,7 +5,7 @@ namespace Lib\Entity;
 class Initial_character extends Entity
 {
 	/* STATISTIQUES */
-    protected $healthMax;
+    protected $health_max;
     protected $health;
 	protected $strength;
 	protected $resistance;
@@ -23,13 +23,13 @@ class Initial_character extends Entity
 
 
     /**
-     * Gets the value of healthMax.
+     * Gets the value of health_max.
      *
      * @return mixed
      */
-    public function getHealthMax()
+    public function getHealth_max()
     {
-        return $this->healthMax;
+        return $this->health_max;
     }
 
     /**
@@ -39,9 +39,9 @@ class Initial_character extends Entity
      *
      * @return self
      */
-    public function setHealthMax($healthMax)
+    public function setHealth_max($health_max)
     {
-        $this->healthMax = $healthMax;
+        $this->health_max = $health_max;
 
         return $this;
     }
