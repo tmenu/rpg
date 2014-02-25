@@ -6,13 +6,20 @@ class GuillaumePersonnage extends Personnage
 {
 	public function __construct()
 	{
-		$this->type = 'mage01';
+		$this->setName('Guillaume');
 
-		$this->position = array(
+		$this->setHealth('77.2');
+		$this->setStrength('10');
+		$this->setResistance('5');
+		$this->setSpeed('5');
+
+		$this->setRef('mage01');
+
+		$this->setPosition(array(
 			'x' => 0,
 			'y' => 0
-		);
+		));
 		
-		$this->direction = 'down';
+		$this->setDirection('down');
 	}
 }

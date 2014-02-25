@@ -1,20 +1,54 @@
 
-body {
-	background: #222;
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
-.container {
+/**
+ * Alignement global
+ * Permet de centrer verticalement
+ */
+
+body > .container {
+	height: 100% !important;
+	text-align: center;
+}
+
+.struct, .vcenter {
+	display: inline-block;
+	vertical-align: middle;
+}
+.struct { height: 100%; }
+
+.panel {
 	width: 800px;
-	padding: 50px 0;
+	height: 100%;
+	text-align: left;
+	margin: 0 auto;
 }
 
-/* MAP */
+/**
+ * Global
+ */
+
+dl dt { width: 100px !important; }
+dl dd { margin-left: 120px !important; }
+
+/**
+ * MAP
+ */
 
 #map {
-	border: 1px solid black;
 	border-collapse: collapse;
 	margin: 0 20px 0 0;
 }
+
+#map.btop { border-top: 3px solid black; }
+#map.bbottom { border-bottom: 3px solid black; }
+#map.bleft { border-left: 3px solid black; }
+#map.bright { border-right: 3px solid black; }
 
 .box { 
 	position: relative;
@@ -24,13 +58,15 @@ body {
 
 .ground { background: url("../img/textures.png") 0 -224px no-repeat; }
 .wall {	background: url("../img/textures.png") -192px -32px no-repeat; }
-
 .entry {}
 .out { background: url("../img/textures.png") -128px -32px no-repeat; }
 
-/* Personnages */
+/**
+ * Personnages
+ */
 
 /* mage01 : perso principale */
+
 .mage01 {
 	position: relative;
 	top: 2px;
@@ -43,9 +79,12 @@ body {
 .mage01.right { background: url("../img/characters/mage01.png") 0 -96px no-repeat; }
 .mage01.left { background: url("../img/characters/mage01.png") 0 -48px no-repeat; }
 
-/* Monstres */
+/**
+ * Monstres
+ */
 
 /* Rabivador */
+
 .rabivador {
 	position: relative;
 	top: 2px;
@@ -59,6 +98,7 @@ body {
 .rabivador.left { background: url("../img/characters/rabivador.png") -32px -32px no-repeat; }
 
 /* Crazyfrog */
+
 .crazyfrog {
 	position: relative;
 	top: 2px;
@@ -71,16 +111,18 @@ body {
 .crazyfrog.right { background: url("../img/characters/crazyfrog.png") -24px -48px no-repeat; }
 .crazyfrog.left { background: url("../img/characters/crazyfrog.png") -24px -24px no-repeat; }
 
-/* COMMANDS */
+/**
+ * Commandes
+ */
 
 #commands {
-	width: 400px;
+	width: 350px;
 }
 
 #directions-btn {
 	width: 180px;
-	margin: 20px 30px;
-	font-size: 2.5em;
+	margin: 20px auto;
+	font-size: 2em;
 }
 
 #directions-btn div {
@@ -88,7 +130,16 @@ body {
 	vertical-align: middle;
 }
 
-/* FIGHT */
+#directions-btn a {
+	display: block;
+}
+
+.progress-bar { text-align: left; padding: 0 0 0 10px;}
+
+/**
+ * Fight
+ */
+
 #enemy-hud, #hero-hud{
 	height: 230px;
 	width: 700px;
