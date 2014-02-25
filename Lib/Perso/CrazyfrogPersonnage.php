@@ -6,7 +6,7 @@ class CrazyfrogPersonnage extends Personnage
 {
 	public function __construct()
 	{
-		$this->setRef('crazyfrog');
+		$this->setRef('rabivador');
 		$this->setHealth('15');
 		$this->setStrength('9');
 		$this->setResistance('5');

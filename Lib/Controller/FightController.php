@@ -11,56 +11,60 @@ use Lib\Perso\RabivadorPersonnage as Rabivador;
 
 class FightController extends Controller
 {
-	/**
-     * Action : index
-     */
+	protected $perso;
+	protected $monster;
 
-	public function indexAction()
+	public function __construct(Application $app)
 	{
+		parent::__construct($app);
+	
+		if (!isset($_SESSION['data']['monster'])) {
+			Utils::redirect( Router::generateUrl('map.index') );
+		}
 
 		// Récupération des deux objets Personnage et Crazyfrog
-		$hero  = unserialize($_SESSION['data']['perso']);
-		$enemy = unserialize($_SESSION['data']['frog']);
+		if (isset($_SESSION['data']) && !empty($_SESSION['data'])) {
+			$this->perso   = unserialize($_SESSION['data']['perso']);
+			$this->monster = unserialize($_SESSION['data']['monster']);
+		}
+		else {
+			$this->perso   = new Guillaume();
+			$this->monster = new Crazyfrog();
+		}
+	}
 
-		// Début du combat, calcul du premier attaquant en fonction de la plus haute vitesse
-		if($hero->getRound() == 0 && $enemy->getRound() == 0)
+	public function __destruct()
+	{
+		// Sauvegarde des données
+		$_SESSION['data'] = array(
+			'perso'   => serialize($this->perso),
+			'monster' => serialize($this->monster)
+		);
+	}
+
+	/**
+     * Action : speedCompare
+     */
+	protected function speedCompare($player, $monster)
+	{
+		$speedCompare = $player->getSpeed() - $monster->getSpeed();
+
+		if ($speedCompare < 0)
 		{
-			$_SESSION['messageLog']['speed'] = $this->speedCompareAction($hero, $enemy);
-			Utils::redirect( Router::generateUrl('fight.index') );
-		}
-		
-		// Vérification des points de vie des deux combattants
-		if($enemy->getHealth() == 0)
-		{
-			echo "YOU WIN";
-		}
-		else if($hero->getHealth() == 0)
-		{
-			echo "YOU LOOSE";
+			$monster->setRound('1');
+			return $monster->getName() . " est le premier à attaquer !";
 		}
 		else
 		{
-			if($enemy->getRound() == 1)
-			{
-				$_SESSION['messageLog']['receive'] = $this->attackAction($enemy, $hero);
-	
-				Utils::redirect( Router::generateUrl('fight.index') );
-			}
-			else if($hero->getRound() == 1)
-			{
-				$_SESSION['messageLog']['attack'] = $this->attackAction($hero, $enemy);
-				Utils::redirect( Router::generateUrl('fight.index') );
-			}
+			$player->setRound('1');
+			return $player->getName() . " est le premier à attaquer !";
 		}
-
-		include __DIR__.'/../View/Fight/index.php';
 	}
 
 	/**
      * Action : attack
      */
-
-	public function attackAction($attacker, $opponent)
+	protected function attack($attacker, $opponent)
 	{
 		if($attacker->getPosture() == 0)
 		{
@@ -113,10 +117,51 @@ class FightController extends Controller
 	}
 
 	/**
+     * Action : index
+     */
+	public function indexAction()
+	{
+		// Début du combat, calcul du premier attaquant en fonction de la plus haute vitesse
+		if ($this->perso->getRound() == 0 && $this->monster->getRound() == 0)
+		{
+			$_SESSION['messageLog']['speed'] = $this->speedCompare($this->perso, $this->monster);
+			Utils::redirect( Router::generateUrl('fight.index') );
+		}
+		
+		// Vérification des points de vie des deux combattants
+		if ($this->monster->getHealth() == 0)
+		{
+			//echo "YOU WIN";
+		}
+		else if ($this->perso->getHealth() == 0)
+		{
+			//echo "YOU LOOSE";
+		}
+		else
+		{
+			if ($this->monster->getRound() == 1)
+			{
+				$_SESSION['messageLog']['receive'] = $this->attack($this->monster, $this->perso);
+	
+				Utils::redirect( Router::generateUrl('fight.index') );
+			}
+			else if ($this->perso->getRound() == 1)
+			{
+				$_SESSION['messageLog']['attack'] = $this->attack($this->perso, $this->monster);
+				Utils::redirect( Router::generateUrl('fight.index') );
+			}
+		}
+
+		$perso   = $this->perso;
+		$monster = $this->monster;
+
+		include __DIR__.'/../View/Fight/index.php';
+	}
+
+	/**
      * Action : defense
      */
-
-	public function defenseAction($attacker, $opponent)
+	public function defense($attacker, $opponent)
 	{
 		$attacker->setPosture('0');
 
@@ -136,32 +181,6 @@ class FightController extends Controller
 			$_SESSION['data']['perso'] = serialize($opponent);
 		}
 
-
 		return $attacker->getName() . " défend !";
-	}
-
-	/**
-     * Action : speedCompare
-     */
-
-	public function speedCompareAction($player, $monster)
-	{
-		$speedCompare = $player->getSpeed() - $monster->getSpeed();
-
-		if($speedCompare < 0)
-		{
-
-			$monster->setRound('1');
-			$_SESSION['data']['frog'] = serialize($monster);
-			return $monster->getName() . " est le premier à attaquer !";
-		}
-		else
-		{
-			$player->setRound('1');
-			$_SESSION['data']['perso'] = serialize($player);
-			return $player->getName() . " est le premier à attaquer !";
-		}
-
-
 	}
 }

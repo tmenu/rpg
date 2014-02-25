@@ -16,32 +16,33 @@ use Lib\Perso\CrazyfrogPersonnage as Crazyfrog;
 class MapController extends Controller
 {
 	protected $map;
+	protected $perso;
 
 	public function __construct(Application $app)
 	{
 		parent::__construct($app);
 
+		// S'il existe un monstre
+		if (isset($_SESSION['data']['monster'])) {
+			Utils::redirect( Router::generateUrl('fight.index') );
+		}
+
 		// Récupération des données
 		if (isset($_SESSION['data']) && !empty($_SESSION['data'])) {
 			$this->perso = unserialize($_SESSION['data']['perso']);
-			$this->frog = unserialize($_SESSION['data']['frog']);
 			$this->map   = unserialize($_SESSION['data']['map']);
 		}
 		else {
 			$this->perso = new Guillaume();
 			$this->map   = new DefaultMap();
-			$this->frog  = new Crazyfrog();
 		}
 	}
 
 	public function __destruct()
 	{
 		// Sauvegarde des données
-		$_SESSION['data'] = array(
-			'perso' => serialize($this->perso),
-			'frog' 	=> serialize($this->frog),
-			'map'   => serialize($this->map)
-		);
+		$_SESSION['data']['perso'] = serialize($this->perso);
+		$_SESSION['data']['map']   = serialize($this->map);
 	}
 
 	public function indexAction()
@@ -50,6 +51,22 @@ class MapController extends Controller
 		$map   = $this->map;
 
 		include __DIR__.'/../View/Map/index.php';
+	}
+
+	protected function checkMonster()
+	{
+		$position = $this->perso->getPosition();
+		$monsters = $this->map->getMonsters();
+
+		foreach ($monsters as $monster)
+		{
+			if ($position['x'] == $monster->getPosition()['x'] && $position['y'] == $monster->getPosition()['y'])
+			{
+				$_SESSION['data']['monster'] = serialize($monster);
+				Utils::redirect( Router::generateUrl('fight.index') );
+				break;
+			}
+		}
 	}
 
 	public function moveUpAction()
@@ -82,6 +99,8 @@ class MapController extends Controller
 				}
 			}
 		}
+
+		$this->checkMonster();
 
 		Utils::redirect( Router::generateUrl('map.index') );
 	}
@@ -118,6 +137,8 @@ class MapController extends Controller
 			}
 		}
 
+		$this->checkMonster();
+
 		Utils::redirect( Router::generateUrl('map.index') );
 	}
 
@@ -152,6 +173,8 @@ class MapController extends Controller
 			}
 		}
 
+		$this->checkMonster();
+
 		Utils::redirect( Router::generateUrl('map.index') );
 	}
 
@@ -185,6 +208,8 @@ class MapController extends Controller
 				}
 			}
 		}
+
+		$this->checkMonster();
 
 		Utils::redirect( Router::generateUrl('map.index') );
 	}

@@ -11,7 +11,7 @@ class GuillaumePersonnage extends Personnage
 		$this->setHealth('77.2');
 		$this->setStrength('10');
 		$this->setResistance('5');
-		$this->setSpeed('5');
+		$this->setSpeed('7');
 		$this->setPosture('1');
 		$this->setRound('0');
 

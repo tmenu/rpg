@@ -13,7 +13,7 @@ html, body {
 
 body > .container {
 	height: 100% !important;
-	text-align: center;
+	/*text-align: center;*/
 }
 
 .struct, .vcenter {
@@ -140,7 +140,7 @@ dl dd { margin-left: 120px !important; }
  * Fight
  */
 
-#enemy-hud, #hero-hud{
+/*#enemy-hud, #hero-hud{
 	height: 230px;
 	width: 700px;
 	font-family: "Century Gothic", Verdana, sans-serif;
@@ -182,13 +182,13 @@ dl dd { margin-left: 120px !important; }
 	background-color: green;
 }
 
-#action{
+/*#action{
 	width: 650px;
 	height: 90px;
 	margin-left: 25px;
-}
+}*/
 
-#attack, #defense{
+/*#attack, #defense{
 	width: 200px;
 	height: 50px;
 	border: 1px solid black;
@@ -210,17 +210,58 @@ dl dd { margin-left: 120px !important; }
 	font-family: "Century Gothic", Verdana, sans-serif;
 	font-size: 2em;
 	text-align: center;
-	margin-top: 50px;
-	margin-bottom: 80px;
+	/*margin-top: 50px;
+	margin-bottom: 80px;*/
+	/*height: 80px;
 }
 
 .battle-log, .battle-log-enemy{
+	visibility: hidden;
 	clear: both;
-	width: 700px;
-	height: 30px;
+	width: 300px;
 	overflow: hidden;
 	border: 1px solid black;
 	border: 1px solid black;
 	text-align: center;
 	line-height: 30px;
+
+	background-color: green;
+}*/
+
+/*----------------*/
+
+/**
+ * Fight
+ */
+
+#battle-zone {
+	padding: 10px;
+	width: 450px;
 }
+
+#versus{
+	font-family: "Century Gothic", Verdana, sans-serif;
+	font-size: 2em;
+	text-align: center;
+	margin: 20px 0 70px 0;
+}
+
+#battle-log {
+	width: 340px;
+}
+
+#battle-log .infos {
+	margin: 20px 10px;
+}
+
+.face-mage01 {
+	width: 96px;
+	height: 96px;
+}
+.face-mage01.default { background: url("../img/faces/mage01.png") 0 0 no-repeat; }
+
+.face-rabivador {
+	width: 96px;
+	height: 96px;
+}
+.face-rabivador.default { background: url("../img/faces/rabivador.jpg") 0 0 no-repeat; }
