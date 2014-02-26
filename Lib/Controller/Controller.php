@@ -21,13 +21,20 @@ abstract class Controller
 
 	protected function fetch($view)
 	{
-		extract($this->vars);
-		
-		ob_start();
-		include __DIR__.'/../View'.$view;
-		$_CONTENT = ob_get_clean();
+		$_CONTENT = $this->fetchView($view);
 
 		include __DIR__.'/../View/layout.php';
 		exit;
+	}
+
+	protected function fetchView($view)
+	{
+		extract($this->vars);
+		
+		ob_start();
+
+		include __DIR__.'/../View'.$view;
+
+		return ob_get_clean();
 	}
 }

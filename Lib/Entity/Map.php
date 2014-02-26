@@ -73,7 +73,7 @@ class Map extends Entity
      */
     public function setSize_height($size_height)
     {
-        $this->size_height = $size_height;
+        $this->size_height = (int)$size_height;
 
         return $this;
     }
@@ -97,7 +97,7 @@ class Map extends Entity
      */
     public function setSize_width($size_width)
     {
-        $this->size_width = $size_width;
+        $this->size_width = (int)$size_width;
 
         return $this;
     }
@@ -121,7 +121,7 @@ class Map extends Entity
      */
     public function setVisible_x($visible_x)
     {
-        $this->visible_x = $visible_x;
+        $this->visible_x = (int)$visible_x;
 
         return $this;
     }
@@ -145,7 +145,7 @@ class Map extends Entity
      */
     public function setVisible_y($visible_y)
     {
-        $this->visible_y = $visible_y;
+        $this->visible_y = (int)$visible_y;
 
         return $this;
     }
@@ -169,7 +169,7 @@ class Map extends Entity
      */
     public function setOrigin_x($origin_x)
     {
-        $this->origin_x = $origin_x;
+        $this->origin_x = (int)$origin_x;
 
         return $this;
     }
@@ -193,7 +193,7 @@ class Map extends Entity
      */
     public function setOrigin_y($origin_y)
     {
-        $this->origin_y = $origin_y;
+        $this->origin_y = (int)$origin_y;
 
         return $this;
     }

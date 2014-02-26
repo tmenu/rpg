@@ -21,7 +21,7 @@ use Lib\Router;
 			<tbody>
 				<?php if (empty($games_list)): ?>
 					<tr>
-						<td colspan="3" class="text-center"><i>Aucune partie en cours</i></td>
+						<td colspan="4" class="text-center"><i>Aucune partie en cours</i></td>
 					</tr>
 				<?php else: ?>
 					<?php foreach ($games_list as $game): ?>
@@ -66,6 +66,22 @@ use Lib\Router;
 
 					<?php if (isset($form_errors['perso'])): ?>
 						<div class="help-block"><?php echo $form_errors['perso']; ?></div>
+					<?php endif; ?>
+				</div>
+			</div>
+
+			<div class="form-group <?php echo ((isset($form_errors['map'])) ? 'has-error' : ''); ?>">
+				<label for="map" class="col-sm-3 control-label">Map</label>
+				<div class="col-sm-9">
+					<?php foreach ($maps_list as $map): ?>
+						<label class="text-center">
+							<?php echo $map->getName(); ?><br />
+							<input type="radio" name="map" value="<?php echo $map->getId(); ?>" <?php echo ((Utils::postValue('map') == $map->getId()) ? 'checked' : ''); ?>>
+						</label>&nbsp;
+					<?php endforeach; ?>
+
+					<?php if (isset($form_errors['map'])): ?>
+						<div class="help-block"><?php echo $form_errors['map']; ?></div>
 					<?php endif; ?>
 				</div>
 			</div>

@@ -20,7 +20,7 @@ class UserController extends Controller
 		
 	}
 
-	protected function newGame($character_id)
+	protected function newGame($character_id, $map_id)
 	{
 		/**
 		 * Récupération des données initiales
@@ -30,14 +30,20 @@ class UserController extends Controller
 		$character = Manager::getManagerOf('initial_character')->select( $character_id );
 
 		// La map
-		$map = Manager::getManagerOf('initial_map')->select(1);
+		$map = Manager::getManagerOf('initial_map')->select( $map_id );
 
 		// Les monstres liés à la map
 		$map_monsters = Manager::getManagerOf('initial_map_monster')->selectByMap( $map->getId() );
 
+		$monster = array();
+
 		foreach ($map_monsters as $map_monster)
 		{
-			$monsters[] = Manager::getManagerOf('initial_monster')->select( $map_monster->getRef_monster() );
+			$monster = Manager::getManagerOf('initial_monster')->select( $map_monster->getRef_monster() );
+			$monster->setPosition_x( $map_monster->getPosition_x() );
+			$monster->setPosition_y( $map_monster->getPosition_y() );
+
+			$monsters[] = $monster;
 		}
 
 		/**
@@ -99,10 +105,17 @@ class UserController extends Controller
 				$form_errors['perso'] = 'Invalide';
 			}
 
+			if (!isset($_POST['map'])) {
+				$form_errors['map'] = 'Obligatoire';
+			}
+			else if (false == Manager::getManagerOf('initial_map')->select( $_POST['map'] )) {
+				$form_errors['map'] = 'Invalide';
+			}
+
 			// Si aucune erreurs : création de la partie
 			if (empty($form_errors))
 			{
-				$this->newGame( (int)$_POST['perso'] );
+				$this->newGame( (int)$_POST['perso'], (int)$_POST['map'] );
 
 				Session::setFlashMessage('success', 'Votre nouvelle partie à bien été créée');
 				$_POST = array();
@@ -145,6 +158,10 @@ class UserController extends Controller
 		// Recupération de la liste des personnages
 		$characters_list = Manager::getManagerOf('initial_character')->selectAll();
 		$this->setVar('characters_list', $characters_list);
+
+		// Recupération de la liste des maps
+		$maps_list = Manager::getManagerOf('initial_map')->selectAll();
+		$this->setVar('maps_list', $maps_list);
 
 		// Chargement de la vue
 		$this->fetch('/User/account.php');
@@ -209,7 +226,7 @@ class UserController extends Controller
 	{
 		if (Session::isAuth() == false) {
 			Session::setFlashMessage('danger', 'Vous devez être connecté pour vous déconnecter');
-			Utils::redirect( Router::generateurl('home') );
+			Utils::redirect( Router::generateurl('user.login') );
 		}
 
 		$_SESSION = array();
@@ -335,7 +352,31 @@ class UserController extends Controller
 
 	public function loadGameAction()
 	{
-		$_SESSION['current_game'] = $_GET['id_game'];
+		if (false == ($game = Manager::getManagerOf('game')->select($_GET['id_game']))) {
+			Session::setFlashMessage('danger', 'La partie à charger est introuvable');
+			Utils::redirect( Router::generateurl('user.account') );
+		}
+
+		// Récupération des données sur la partie
+
+		// Le personnage
+		$character = Manager::getManagerOf('playing_character')->select( $game->getRef_character() );
+		$game->setCharacter( $character );
+
+		// La map
+		$map = Manager::getManagerOf('playing_map')->select( $game->getRef_map() );
+		$game->setMap( $map );
+
+		// Les monstres liés à la map
+		$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $map->getId() );
+
+		foreach ($map_monsters as $map_monster)
+		{
+			$monster = Manager::getManagerOf('playing_monster')->select( $map_monster->getRef_monster() );
+			$game->getMap()->addMonster( $monster );
+		}
+
+		$_SESSION['current_game'] = serialize($game);
 
 		Session::setFlashMessage('success', 'La partie à bien été chargée');
 		Utils::redirect( Router::generateurl('map.index') );

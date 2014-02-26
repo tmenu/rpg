@@ -64,25 +64,25 @@
 	},
 
 	"map.moveUp": {
-		"regex": "/map/haut.html",
+		"regex": "/map/moveUp.html",
 		"controller": "Map",
 		"action": "moveUp"
 	},
 
 	"map.moveDown": {
-		"regex": "/map/bas.html",
+		"regex": "/map/moveDown.html",
 		"controller": "Map",
 		"action": "moveDown"
 	},
 
 	"map.moveLeft": {
-		"regex": "/map/gauche.html",
+		"regex": "/map/moveLeft.html",
 		"controller": "Map",
 		"action": "moveLeft"
 	},
 
 	"map.moveRight": {
-		"regex": "/map/droite.html",
+		"regex": "/map/moveRight.html",
 		"controller": "Map",
 		"action": "moveRight"
 	},

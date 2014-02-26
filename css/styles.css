@@ -56,14 +56,18 @@ table th, table td {
  */
 
 #map {
+	display: inline-block;
+}
+
+#map table {
 	border-collapse: collapse;
 	margin: 0 20px 0 0;
 }
 
-#map.btop { border-top: 3px solid black; }
-#map.bbottom { border-bottom: 3px solid black; }
-#map.bleft { border-left: 3px solid black; }
-#map.bright { border-right: 3px solid black; }
+#map table.btop { border-top: 3px solid black; }
+#map table.bbottom { border-bottom: 3px solid black; }
+#map table.bleft { border-left: 3px solid black; }
+#map table.bright { border-right: 3px solid black; }
 
 .box { 
 	position: relative;
@@ -216,6 +220,8 @@ table th, table td {
 #battle-log .infos {
 	margin: 20px 10px;
 }
+
+/* FACE */
 
 .face-mage01 {
 	width: 96px;

@@ -45,7 +45,7 @@ class Router
             }
 
             // Création du mask de la regex
-            $regex = '#^' . $route['regex'] . '(\?.)*$#';
+            $regex = '#^' . $route['regex'] . '*$#';
 
             // S'il y a des paramètres
             if (isset($route['params']) && !empty($route['params']))
@@ -54,6 +54,10 @@ class Router
                 foreach ($route['params'] as $key => $value) {
                     $regex = str_replace($key, $value, $regex);
                 }
+            }
+
+            if (strpos($uri, '?')) {
+                $uri = substr($uri, 0, strpos($uri, '?'));
             }
 
             // Si la route correspond : on la renvoi avec ses paramètres
