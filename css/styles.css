@@ -103,10 +103,10 @@ table th, table td {
 	width: 32px;
 	height: 50px;
 }
-.mage02.down { background: url("../img/characters/mage01.png") 0 0 no-repeat; }
-.mage02.up { background: url("../img/characters/mage01.png") 0 -144px no-repeat; }
-.mage02.right { background: url("../img/characters/mage01.png") 0 -96px no-repeat; }
-.mage02.left { background: url("../img/characters/mage01.png") 0 -48px no-repeat; }
+.mage02.down { background: url("../img/characters/mage02.png") 0 0 no-repeat; }
+.mage02.up { background: url("../img/characters/mage02.png") 0 -144px no-repeat; }
+.mage02.right { background: url("../img/characters/mage02.png") 0 -96px no-repeat; }
+.mage02.left { background: url("../img/characters/mage02.png") 0 -48px no-repeat; }
 
 /* mage03 : perso principale */
 
@@ -117,10 +117,10 @@ table th, table td {
 	width: 32px;
 	height: 50px;
 }
-.mage03.down { background: url("../img/characters/mage01.png") 0 0 no-repeat; }
-.mage03.up { background: url("../img/characters/mage01.png") 0 -144px no-repeat; }
-.mage03.right { background: url("../img/characters/mage01.png") 0 -96px no-repeat; }
-.mage03.left { background: url("../img/characters/mage01.png") 0 -48px no-repeat; }
+.mage03.down { background: url("../img/characters/mage03.png") 0 0 no-repeat; }
+.mage03.up { background: url("../img/characters/mage03.png") 0 -144px no-repeat; }
+.mage03.right { background: url("../img/characters/mage03.png") 0 -96px no-repeat; }
+.mage03.left { background: url("../img/characters/mage03.png") 0 -48px no-repeat; }
 
 /* mage04 : perso principale */
 
@@ -131,10 +131,10 @@ table th, table td {
 	width: 32px;
 	height: 50px;
 }
-.mage04.down { background: url("../img/characters/mage01.png") 0 0 no-repeat; }
-.mage04.up { background: url("../img/characters/mage01.png") 0 -144px no-repeat; }
-.mage04.right { background: url("../img/characters/mage01.png") 0 -96px no-repeat; }
-.mage04.left { background: url("../img/characters/mage01.png") 0 -48px no-repeat; }
+.mage04.down { background: url("../img/characters/mage04.png") 0 0 no-repeat; }
+.mage04.up { background: url("../img/characters/mage04.png") 0 -144px no-repeat; }
+.mage04.right { background: url("../img/characters/mage04.png") 0 -96px no-repeat; }
+.mage04.left { background: url("../img/characters/mage04.png") 0 -48px no-repeat; }
 
 /**
  * Monstres
@@ -222,24 +222,44 @@ table th, table td {
 	height: 96px;
 }
 .face-mage01.default { background: url("../img/faces/mage01.png") 0 0 no-repeat; }
+.face-mage01.winning { background: url("../img/faces/mage01.png") 0 -96px no-repeat; }
+.face-mage01.loosing { background: url("../img/faces/mage01.png") -288px -96px no-repeat; }
+.face-mage01.damage  { background: url("../img/faces/mage01.png") -192px 0 no-repeat; }
+.face-mage01.attacking  { background: url("../img/faces/mage01.png") -192px -96px no-repeat; }
+
+
+
 
 .face-mage02 {
 	width: 96px;
 	height: 96px;
 }
 .face-mage02.default { background: url("../img/faces/mage02.png") 0 0 no-repeat; }
+.face-mage02.winning { background: url("../img/faces/mage02.png") -288px 0 no-repeat; }
+.face-mage02.loosing { background: url("../img/faces/mage02.png") -192px -96px no-repeat; }
+.face-mage02.damage  { background: url("../img/faces/mage02.png") -96px -96px no-repeat; }
+.face-mage02.attacking  { background: url("../img/faces/mage02.png") -96px 0px no-repeat; }
 
 .face-mage03 {
 	width: 96px;
 	height: 96px;
 }
 .face-mage03.default { background: url("../img/faces/mage03.png") 0 0 no-repeat; }
+.face-mage03.winning { background: url("../img/faces/mage03.png") -288px 0 no-repeat; }
+.face-mage03.loosing { background: url("../img/faces/mage03.png") -192px -96px no-repeat; }
+.face-mage03.damage  { background: url("../img/faces/mage03.png") -96px -96px no-repeat; }
+.face-mage03.attacking  { background: url("../img/faces/mage03.png") -96px 0px no-repeat; }
 
 .face-mage04 {
 	width: 96px;
 	height: 96px;
 }
 .face-mage04.default { background: url("../img/faces/mage04.png") 0 0 no-repeat; }
+.face-mage04.winning { background: url("../img/faces/mage04.png") -288px -96px no-repeat; }
+.face-mage04.loosing { background: url("../img/faces/mage04.png") -288px 0 no-repeat; }
+.face-mage04.damage  { background: url("../img/faces/mage04.png") -96px -96px no-repeat; }
+.face-mage04.attacking  { background: url("../img/faces/mage04.png") -96px 0px no-repeat; }
+
 
 .face-rabivador {
 	width: 96px;
