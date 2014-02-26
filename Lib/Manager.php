@@ -4,9 +4,9 @@ namespace Lib;
 
 class Manager
 {
-	CONST DSN      = 'mysql:dbname=rpg;host=localhost';
-	CONST USER     = 'root';
-	CONST PASSWORD = 'root';
+	CONST DSN      = 'mysql:dbname=rpg;host=10.10.80.36';
+	CONST USER     = 'rpg';
+	CONST PASSWORD = 'rpg2511';
 
 	protected static $pdo      = null;
 	protected static $managers = array();
