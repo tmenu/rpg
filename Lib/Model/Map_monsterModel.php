@@ -69,8 +69,6 @@ abstract class Map_monsterModel extends Model
 		$request->bindValue(':direction',  $map_monster->getDirection());
 
 		$request->execute();
-
-		var_dump($map_monster);	
 	}
 
 	protected function update(Entity $entity)
