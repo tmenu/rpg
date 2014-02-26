@@ -20,6 +20,9 @@ class Character extends Entity
     protected $direction;
     protected $ref;
 
+    // Postures
+    CONST DEFENSE = 0;
+    CONST ATTACK  = 1;
 
     /**
      * Gets the value of health_max.

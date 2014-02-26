@@ -206,19 +206,22 @@ table th, table td {
 	width: 450px;
 }
 
-#versus{
-	font-family: "Century Gothic", Verdana, sans-serif;
-	font-size: 2em;
-	text-align: center;
-	margin: 20px 0 70px 0;
+.versus {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 40px;
 }
 
 #battle-log {
-	width: 340px;
+	width: 300px;
 }
 
 #battle-log .infos {
 	margin: 20px 10px;
+}
+
+#battle-log .infos b {
+	color: red;
 }
 
 /* FACE */
@@ -271,4 +274,17 @@ table th, table td {
 	width: 96px;
 	height: 96px;
 }
-.face-rabivador.default { background: url("../img/faces/rabivador.jpg") 0 0 no-repeat; }
+.face-rabivador.default { background: url("../img/faces/rabivador.png") 0 0 no-repeat; }
+
+
+
+.progress {
+	position: relative;
+}
+
+.progress .value {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	font-weight: bold;
+}
