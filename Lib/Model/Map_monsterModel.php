@@ -59,14 +59,18 @@ abstract class Map_monsterModel extends Model
 										SET ref_map     = :ref_map,
 											ref_monster = :ref_monster,
 											position_x  = :position_x,
-											position_y  = :position_y');
+											position_y  = :position_y,
+											direction 	= :direction');
 
 		$request->bindValue(':ref_map',     $map_monster->getRef_map(),     \PDO::PARAM_INT);
 		$request->bindValue(':ref_monster', $map_monster->getRef_monster(), \PDO::PARAM_INT);
 		$request->bindValue(':position_x',  $map_monster->getPosition_x(),  \PDO::PARAM_INT);
 		$request->bindValue(':position_y',  $map_monster->getPosition_y(),  \PDO::PARAM_INT);
+		$request->bindValue(':direction',  $map_monster->getDirection());
 
 		$request->execute();
+
+		var_dump($map_monster);	
 	}
 
 	protected function update(Entity $entity)

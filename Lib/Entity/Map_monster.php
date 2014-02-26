@@ -10,6 +10,8 @@ class Map_monster extends Entity
     protected $position_x;
     protected $position_y;
 
+    protected $direction;
+
     /**
      * Gets the value of ref_map.
      *
@@ -102,6 +104,30 @@ class Map_monster extends Entity
     public function setPosition_y($position_y)
     {
         $this->position_y = $position_y;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of direction.
+     *
+     * @return mixed
+     */
+    public function getDirection()
+    {
+        return $this->direction;
+    }
+
+    /**
+     * Sets the value of direction.
+     *
+     * @param mixed $direction the direction
+     *
+     * @return self
+     */
+    public function setDirection($direction)
+    {
+        $this->direction = $direction;
 
         return $this;
     }

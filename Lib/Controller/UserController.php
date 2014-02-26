@@ -42,6 +42,7 @@ class UserController extends Controller
 			$monster = Manager::getManagerOf('initial_monster')->select( $map_monster->getRef_monster() );
 			$monster->setPosition_x( $map_monster->getPosition_x() );
 			$monster->setPosition_y( $map_monster->getPosition_y() );
+			$monster->setDirection( $map_monster->getDirection());
 
 			$monsters[] = $monster;
 		}
@@ -71,6 +72,7 @@ class UserController extends Controller
 			$map_monster->setref_monster( $monster->getId() );
 			$map_monster->setPosition_x( $monster->getPosition_x() );
 			$map_monster->setPosition_y( $monster->getPosition_y() );
+			$map_monster->setDirection( $monster->getDirection());
 
 			Manager::getManagerOf('playing_map_monster')->save( $map_monster );
 		}
