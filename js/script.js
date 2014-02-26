@@ -2,7 +2,24 @@
 function move(event)
 {
 	event.preventDefault();
-	$('#map').load('/map/' + $(this).attr('id') + '.html?isAjax');
+
+	$.ajax({
+		url: '/map/' + $(this).attr('id') + '.html?isAjax',
+		dataType: 'json',
+		success: function(data)
+		{
+			if (data['fight']) {
+				window.location = '/fight.html';
+			}
+			else {
+				$('#map').html( data.map );
+			}
+		},
+		error: function()
+		{
+			alert('Error!');
+		}
+	});
 }
 
 jQuery(document).ready(function($)

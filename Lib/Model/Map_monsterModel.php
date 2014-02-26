@@ -84,4 +84,11 @@ abstract class Map_monsterModel extends Model
         $request->bindValue(':id', $id);
         $request->execute();
 	}
+
+	public function deleteByMonster($ref_monster)
+	{
+		$request = $this->pdo->prepare('DELETE FROM ' . $this->type . '_map_monster WHERE ref_monster = :ref_monster');
+        $request->bindValue(':ref_monster', $ref_monster);
+        $request->execute();
+	}
 }

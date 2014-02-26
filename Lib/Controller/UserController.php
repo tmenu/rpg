@@ -379,6 +379,26 @@ class UserController extends Controller
 		}
 
 		$_SESSION['current_game'] = serialize($game);
+		unset($_SESSION['monster']);
+
+		/**
+		 * Test si combat en cours
+		 */
+		$position = array(
+			'x' => $character->getPosition_x(),
+			'y' => $character->getPosition_y()
+		);
+		$monsters = $map->getMonsters();
+
+		foreach ($monsters as $monster)
+		{
+			if ($position['x'] == $monster->getPosition_x() && $position['y'] == $monster->getPosition_y())
+			{
+				$_SESSION['monster'] = serialize($monster);
+
+				Utils::redirect( Router::generateUrl('fight.index') );
+			}
+		}
 
 		Session::setFlashMessage('success', 'La partie à bien été chargée');
 		Utils::redirect( Router::generateurl('map.index') );

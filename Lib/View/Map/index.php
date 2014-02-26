@@ -56,13 +56,28 @@ $character = $game->getCharacter();
 			<dl class="dl-horizontal">
 				<dt>Vie</dt>
 				<dd>
-					
-					<div class="progress progress-striped">
-						<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $character->getHealth(); ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $character->getHealth(); ?>%;">
-							Vie : <?php echo $character->getHealth(); ?>%
+					<?php
+					$percent = ($character->getHealth() * 100) / $character->getHealth_max();
+					$bar_color = '';
+
+					if ($percent >= 50) {
+						$bar_color = 'success';
+					}
+					else if ($percent >= 20) {
+						$bar_color = 'warning';
+					}
+					else {
+						$bar_color = 'danger';
+					}
+
+					?>
+					<div class="progress">
+						<div class="progress-bar progress-bar-<?php echo $bar_color; ?>" role="progressbar" aria-valuenow="<?php echo $character->getHealth(); ?>" aria-valuemin="0" aria-valuemax="<?php echo $character->getHealth_max(); ?>" style="width: <?php echo $percent; ?>%;">
+						</div>
+						<div class="value">
+							<?php echo $character->getHealth(); ?> / <?php echo $character->getHealth_max(); ?>
 						</div>
 					</div>
-
 				</dd>
 
 				<dt>Force</dt>

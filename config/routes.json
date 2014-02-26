@@ -93,5 +93,17 @@
 		"regex": "/fight.html",
 		"controller": "Fight",
 		"action": "index"
+	},
+
+	"fight.attack": {
+		"regex": "/attack.html",
+		"controller": "Fight",
+		"action": "attack"
+	},
+
+	"fight.continue": {
+		"regex": "/continuer.html",
+		"controller": "Fight",
+		"action": "continue"
 	}
 }

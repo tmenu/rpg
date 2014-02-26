@@ -55,8 +55,6 @@ class MapController extends Controller
 
 	protected function checkMonster()
 	{
-		return;
-
 		$position = array(
 			'x' => $this->game->getCharacter()->getPosition_x(),
 			'y' => $this->game->getCharacter()->getPosition_y()
@@ -68,8 +66,16 @@ class MapController extends Controller
 			if ($position['x'] == $monster->getPosition_x() && $position['y'] == $monster->getPosition_y())
 			{
 				$_SESSION['monster'] = serialize($monster);
-				Utils::redirect( Router::generateUrl('fight.index') );
-				break;
+
+				if (isset($_GET['isAjax'])) {
+					echo json_encode(array(
+						'fight' => true
+					));
+					exit;
+				}
+				else {
+					Utils::redirect( Router::generateUrl('fight.index') );
+				}
 			}
 		}
 	}
@@ -126,7 +132,9 @@ class MapController extends Controller
 		if (isset($_GET['isAjax']))
 		{
 			$this->setVar('game', $this->game);
-			echo $this->fetchView('/Map/map.php');
+			echo json_encode(array(
+				'map' => $this->fetchView('/Map/map.php')
+			));
 		}
 		else {
 			Utils::redirect( Router::generateUrl('map.index') );
@@ -185,7 +193,9 @@ class MapController extends Controller
 		if (isset($_GET['isAjax']))
 		{
 			$this->setVar('game', $this->game);
-			echo $this->fetchView('/Map/map.php');
+			echo json_encode(array(
+				'map' => $this->fetchView('/Map/map.php')
+			));
 		}
 		else {
 			Utils::redirect( Router::generateUrl('map.index') );
@@ -244,7 +254,9 @@ class MapController extends Controller
 		if (isset($_GET['isAjax']))
 		{
 			$this->setVar('game', $this->game);
-			echo $this->fetchView('/Map/map.php');
+			echo json_encode(array(
+				'map' => $this->fetchView('/Map/map.php')
+			));
 		}
 		else {
 			Utils::redirect( Router::generateUrl('map.index') );
@@ -303,7 +315,9 @@ class MapController extends Controller
 		if (isset($_GET['isAjax']))
 		{
 			$this->setVar('game', $this->game);
-			echo $this->fetchView('/Map/map.php');
+			echo json_encode(array(
+				'map' => $this->fetchView('/Map/map.php')
+			));
 		}
 		else {
 			Utils::redirect( Router::generateUrl('map.index') );
