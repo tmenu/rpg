@@ -216,7 +216,7 @@ class UserController extends Controller
 		Session::setAuth(false);
 
 		Session::setFlashMessage('success', 'Vous êtes maintenant déconnecté');
-		Utils::redirect( Router::generateurl('home') );
+		Utils::redirect( Router::generateurl('user.login') );
 	}
 
 	public function signupAction()
@@ -331,5 +331,13 @@ class UserController extends Controller
 
 		Session::setFlashMessage('success', 'La partie à bien été supprimée');
 		Utils::redirect( Router::generateurl('user.account') );
+	}
+
+	public function loadGameAction()
+	{
+		$_SESSION['current_game'] = $_GET['id_game'];
+
+		Session::setFlashMessage('success', 'La partie à bien été chargée');
+		Utils::redirect( Router::generateurl('map.index') );
 	}
 }

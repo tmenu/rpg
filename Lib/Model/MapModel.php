@@ -46,7 +46,11 @@ abstract class MapModel extends Model
         // Si elle existe
         if (($result = $request->fetch()) != false)
         {
-            return new Map($result);
+            $map = new Map($result);
+
+            $map->setMap( unserialize($result['map']) );
+
+            return $map;
         }
         else
         {

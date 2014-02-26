@@ -2,10 +2,22 @@
 use Lib\Map\Map;
 use Lib\Router;
 
-// Rcupération des données de la map
-$size    = $map->getSize();
-$origin  = $map->getOrigin();
-$visible = $map->getVisible();
+$character = $game->getCharacter();
+$map       = $game->getMap();
+
+// Récupération des données de la map
+$size = array(
+	'height' => $game->getMap()->getSize_height(),
+	'width'  => $game->getMap()->getSize_width()
+);
+$visible = array(
+	'x' => $game->getMap()->getVisible_x(),
+	'y'  => $game->getMap()->getVisible_y()
+);
+$origin = array(
+	'x' => $game->getMap()->getOrigin_x(),
+	'y'  => $game->getMap()->getOrigin_y()
+);
 
 // Définition des bordures pour rendre les limites de la map visibles
 $table_borders = '';
@@ -46,13 +58,13 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 					
 					<td class="box <?php echo $class; ?>">
 
-						<?php if ($perso->getPosition()['x'] == $col && $perso->getPosition()['y'] == $row): ?>
-							<div class="mage01 <?php echo $perso->getDirection(); ?>"></div>
+						<?php if ($character->getPosition_x() == $col && $character->getPosition_y() == $row): ?>
+							<div class="<?php echo $character->getRef() . ' ' . strtolower($character->getDirection()); ?>"></div>
 						<?php else: ?>
 							<?php foreach ($map->getMonsters() as $monster): ?>
 								
-								<?php if ($monster->getPosition()['x'] == $col && $monster->getPosition()['y'] == $row): ?>
-									<div class="<?php echo $monster->getRef() . ' ' . $monster->getDirection(); ?>"></div>
+								<?php if ($monster->getPosition_x() == $col && $monster->getPosition_y() == $row): ?>
+									<div class="<?php echo $monster->getRef() . ' ' . strtolower($monster->getDirection()); ?>"></div>
 								<?php endif; ?>
 
 							<?php endforeach; ?>
@@ -104,7 +116,7 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 		<div id="info-perso" class="well">
 
 			<h3>
-				<?php echo $perso->getName(); ?>
+				<?php echo $character->getName(); ?>
 			</h3>
 
 			<dl class="dl-horizontal">
@@ -112,21 +124,21 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 				<dd>
 					
 					<div class="progress progress-striped">
-						<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $perso->getHealth(); ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $perso->getHealth(); ?>%;">
-							Vie : <?php echo $perso->getHealth(); ?>%
+						<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $character->getHealth(); ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $character->getHealth(); ?>%;">
+							Vie : <?php echo $character->getHealth(); ?>%
 						</div>
 					</div>
 
 				</dd>
 
 				<dt>Force</dt>
-				<dd><?php echo $perso->getStrength(); ?></dd>
+				<dd><?php echo $character->getStrength(); ?></dd>
 
 				<dt>Résistance</dt>
-				<dd><?php echo $perso->getResistance(); ?></dd>
+				<dd><?php echo $character->getResistance(); ?></dd>
 
 				<dt>Vitesse</dt>
-				<dd><?php echo $perso->getSpeed(); ?></dd>
+				<dd><?php echo $character->getSpeed(); ?></dd>
 			</dl>
 
 		</div>

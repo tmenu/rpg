@@ -46,6 +46,15 @@
 		}
 	},
 
+	"user.loadgame": {
+		"regex": "/reprendre_partie-(:id_game).html",
+		"controller": "User",
+		"action": "loadGame",
+		"params": {
+			":id_game": "[0-9]+"
+		}
+	},
+
 	"_comment": " --- Map controller --- ",
 
 	"map.index": {

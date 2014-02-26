@@ -83,8 +83,6 @@ abstract class CharacterModel extends Model
 
 	protected function update(Entity $entity)
 	{
-		die('not develop yet');
-
 		$request = $this->pdo->prepare('UPDATE ' . $this->type . '_character
 										SET health_max = :health_max,
 											health     = :health,
@@ -116,8 +114,12 @@ abstract class CharacterModel extends Model
 
 		$request->bindValue(':id', $entity->getId(),  \PDO::PARAM_INT);
 
-
-		$request->execute();
+		if ($request->execute() != false) {
+			return $entity;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public function delete($id)

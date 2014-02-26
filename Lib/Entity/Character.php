@@ -40,7 +40,7 @@ class Character extends Entity
      */
     public function setHealth_max($health_max)
     {
-        $this->health_max = $health_max;
+        $this->health_max = (int)$health_max;
 
         return $this;
     }
@@ -64,7 +64,7 @@ class Character extends Entity
      */
     public function setHealth($health)
     {
-        $this->health = $health;
+        $this->health = (int)$health;
 
         return $this;
     }
@@ -88,7 +88,7 @@ class Character extends Entity
      */
     public function setStrength($strength)
     {
-        $this->strength = $strength;
+        $this->strength = (int)$strength;
 
         return $this;
     }
@@ -112,7 +112,7 @@ class Character extends Entity
      */
     public function setResistance($resistance)
     {
-        $this->resistance = $resistance;
+        $this->resistance = (int)$resistance;
 
         return $this;
     }
@@ -136,7 +136,7 @@ class Character extends Entity
      */
     public function setSpeed($speed)
     {
-        $this->speed = $speed;
+        $this->speed = (int)$speed;
 
         return $this;
     }
@@ -160,7 +160,7 @@ class Character extends Entity
      */
     public function setPosture($posture)
     {
-        $this->posture = $posture;
+        $this->posture = (int)$posture;
 
         return $this;
     }
@@ -184,7 +184,7 @@ class Character extends Entity
      */
     public function setRound($round)
     {
-        $this->round = $round;
+        $this->round = (int)$round;
 
         return $this;
     }
@@ -232,7 +232,7 @@ class Character extends Entity
      */
     public function setPosition_x($position_x)
     {
-        $this->position_x = $position_x;
+        $this->position_x = (int)$position_x;
 
         return $this;
     }
@@ -256,7 +256,7 @@ class Character extends Entity
      */
     public function setPosition_y($position_y)
     {
-        $this->position_y = $position_y;
+        $this->position_y = (int)$position_y;
 
         return $this;
     }
