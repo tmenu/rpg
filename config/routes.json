@@ -104,6 +104,6 @@
 	"fight.continue": {
 		"regex": "/continuer.html",
 		"controller": "Fight",
-		"action": "continue"
+		"action": "attack"
 	}
 }

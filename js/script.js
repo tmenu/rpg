@@ -11,6 +11,9 @@ function move(event)
 			if (data['fight']) {
 				window.location = '/fight.html';
 			}
+			else if (data['lvlup']) {
+				window.location = '/map.html';
+			}
 			else {
 				$('#map').html( data.map );
 			}

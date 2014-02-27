@@ -69,11 +69,15 @@ class GameModel extends Model
 		$q = $this->pdo->prepare('INSERT INTO Game
 								  SET ref_user      = :ref_user,
 								      ref_map       = :ref_map,
-								      ref_character = :ref_character');
+								      ref_character = :ref_character,
+								      ref_initial_map       = :ref_initial_map,
+								      ref_initial_character = :ref_initial_character');
 
 		$q->bindValue(':ref_user',      $entity->getRef_user(),      \PDO::PARAM_INT);
 		$q->bindValue(':ref_map',       $entity->getRef_map(),       \PDO::PARAM_INT);
 		$q->bindValue(':ref_character', $entity->getRef_character(), \PDO::PARAM_INT);
+		$q->bindValue(':ref_initial_map',       $entity->getRef_initial_map(),       \PDO::PARAM_INT);
+		$q->bindValue(':ref_initial_character', $entity->getRef_initial_character(), \PDO::PARAM_INT);
 
 		if ($q->execute() != false) {
 			$entity->setId( $this->pdo->lastInsertId() );
@@ -86,7 +90,27 @@ class GameModel extends Model
 
 	protected function update(Entity $entity)
 	{
-		die('not develop yet');
+		$q = $this->pdo->prepare('UPDATE Game
+								  SET ref_user      = :ref_user,
+								      ref_map       = :ref_map,
+								      ref_character = :ref_character,
+								      ref_initial_map       = :ref_initial_map,
+								      ref_initial_character = :ref_initial_character
+								   WHERE id = :id');
+
+		$q->bindValue(':ref_user',      $entity->getRef_user(),      \PDO::PARAM_INT);
+		$q->bindValue(':ref_map',       $entity->getRef_map(),       \PDO::PARAM_INT);
+		$q->bindValue(':ref_character', $entity->getRef_character(), \PDO::PARAM_INT);
+		$q->bindValue(':ref_initial_map',       $entity->getRef_initial_map(),       \PDO::PARAM_INT);
+		$q->bindValue(':ref_initial_character', $entity->getRef_initial_character(), \PDO::PARAM_INT);
+		$q->bindValue(':id', $entity->getId(), \PDO::PARAM_INT);
+
+		if ($q->execute() != false) {
+			return $entity;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public function delete($id)

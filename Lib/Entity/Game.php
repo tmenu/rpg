@@ -9,6 +9,8 @@ class Game extends Entity
     protected $ref_user;
     protected $ref_map;
     protected $ref_character;
+    protected $ref_initial_map;
+    protected $ref_initial_character;
 
     protected $user      = null;
     protected $map       = null;
@@ -85,6 +87,68 @@ class Game extends Entity
 
         return $this;
     }
+
+
+
+
+
+    /**
+     * Gets the value of ref_initial_map.
+     *
+     * @return mixed
+     */
+    public function getRef_initial_map()
+    {
+        return $this->ref_initial_map;
+    }
+
+    /**
+     * Sets the value of ref_initial_map.
+     *
+     * @param mixed $ref_initial_map the ref_initial_map
+     *
+     * @return self
+     */
+    public function setRef_initial_map($ref_initial_map)
+    {
+        $this->ref_initial_map = $ref_initial_map;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of ref_initial_character.
+     *
+     * @return mixed
+     */
+    public function getRef_initial_character()
+    {
+        return $this->ref_initial_character;
+    }
+
+    /**
+     * Sets the value of ref_initial_character.
+     *
+     * @param mixed $ref_initial_character the ref_initial_character
+     *
+     * @return self
+     */
+    public function setRef_initial_character($ref_initial_character)
+    {
+        $this->ref_initial_character = $ref_initial_character;
+
+        return $this;
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Gets the value of user.

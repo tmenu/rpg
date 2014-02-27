@@ -71,18 +71,18 @@ use Lib\Router;
 
 	<div id="battle-log" class="vcenter">
 
-		<div class="infos well">
+		<div class="infos text-center well">
 			<strong><?php echo $fight_log; ?></strong>
 		</div>
 
 		<div class="text-center">
-			<?php if (!isset($end) || $end != true): ?>
+			<?php if (isset($_SESSION['current_fight'])): ?>
 
-				<?php if ($character->getRound() == 1): ?>
+				<?php if ($monster->getRound() == 1): ?>
+					<a href="<?php echo Router::generateUrl('fight.continue'); ?>" title="Continuer ..." class="btn btn-lg btn-primary">Continuer ...</a>
+				<?php else: ?>
 					<a href="<?php echo Router::generateUrl('fight.attack'); ?>" title="Attaquer" class="btn btn-lg btn-primary">Attaquer</a>
 					<a href="#" title="Défendre" class="btn btn-lg btn-primary">Défendre</a>
-				<?php else: ?>
-					<a href="<?php echo Router::generateUrl('fight.continue'); ?>" title="Continuer ..." class="btn btn-lg btn-primary">Continuer ...</a>
 				<?php endif; ?>
 
 			<?php else: ?>
