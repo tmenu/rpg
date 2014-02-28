@@ -80,9 +80,6 @@ class FightController extends Controller
 		$randomNumber = rand(0, 100);
 
 		if (get_class($attacker) == 'Lib\\Entity\\Character') {
-			Manager::getManagerOf('playing_character')->save( $attacker );
-			Manager::getManagerOf('playing_monster')->save( $opponent );
-
 			if($randomNumber < $dodgingPercentage)
 			{
 				// Application des dommages
@@ -93,11 +90,11 @@ class FightController extends Controller
 			{
 				$_SESSION['fight_log'] = 'L\'ennemi esquive votre attaque';
 			}
+
+			Manager::getManagerOf('playing_character')->save( $attacker );
+			Manager::getManagerOf('playing_monster')->save( $opponent );
 		}
 		else {
-			Manager::getManagerOf('playing_monster')->save( $attacker );
-			Manager::getManagerOf('playing_character')->save( $opponent );
-
 			if($randomNumber < $dodgingPercentage)
 			{
 				// Application des dommages
@@ -108,6 +105,9 @@ class FightController extends Controller
 			{
 				$_SESSION['fight_log'] = 'Vous esquivez l\'attaque';
 			}
+
+			Manager::getManagerOf('playing_monster')->save( $attacker );
+			Manager::getManagerOf('playing_character')->save( $opponent );
 		}
 
 		// Prochain tour
@@ -203,8 +203,8 @@ class FightController extends Controller
 		}
 
 		// Ajout des données pour la vue
-		$this->setVar('monster',   $this->monster);
-		$this->setVar('character', $this->character);
+		$this->setVar('monster',   clone $this->monster);
+		$this->setVar('character', clone $this->character);
 
 		// Si le monstre est mort
 		if ($this->monster->getHealth() == 0)
@@ -275,11 +275,15 @@ class FightController extends Controller
 			Manager::getManagerOf('playing_character')->save($game->getCharacter());
 			Manager::getManagerOf('playing_map')->save($game->getMap());
 
+			/** Reset santé du monstre **/
+			$this->monster->setHealth( $this->monster->getHealth_max() );
+			Manager::getManagerOf('playing_monster')->save($this->monster);
+
 			// Sérialisation de la partie
 			$_SESSION['current_game'] = serialize($game);
 
 			// Petit msg
-			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b>Vous perdez une vie";
+			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b><br />Vous perdez une vie";
 
 			// Fin du combat
 			unset($_SESSION['current_fight']);
@@ -297,7 +301,7 @@ class FightController extends Controller
 			echo json_encode(array(
 				'battle' => $this->fetchView('/Fight/index.php')
 			));
-			exit;
+			return;
 		}
 		else {
 			$this->fetch('/Fight/index.php');
