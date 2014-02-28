@@ -26,7 +26,7 @@ class Initial_mapModel extends MapModel
 		}
 		else
 		{
-			return $request;
+			return false;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-use Lib\Map\Map;
+use Lib\Entity\Map;
 use Lib\Router;
 
 $character = $game->getCharacter();
@@ -43,8 +43,13 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 				// Définition des classes en fonction du type de case
 				$class = '';
 
-				if ($box & Map::GROUND) { $class .= 'ground'; }
-				else if ($box & Map::WALL) { $class .= 'wall'; }
+				if ($box & Map::GRASS) { $class .= 'grass'; }
+				else if ($box & Map::MOUNTAIN) { $class .= 'mountain'; }
+				else if ($box & Map::MOUNTAIN2) { $class .= 'mountain2'; }
+
+				else if ($box & Map::DESERT) { $class .= 'desert'; }
+				else if ($box & Map::DESERT2) { $class .= 'desert2'; }
+				else if ($box & Map::SAND) { $class .= 'sand'; }
 
 				if ($box & Map::ENTRY) { $class .= ' entry'; }
 				else if ($box & Map::OUT) { $class .= ' out'; }

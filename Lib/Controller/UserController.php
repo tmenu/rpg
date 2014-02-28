@@ -12,8 +12,51 @@ use Lib\Entity\Game;
 use Lib\Entity\Map_monster;
 use Lib\Entity\Map_item;
 
+use Lib\Entity\Map;
+
 class UserController extends Controller
 {
+	public function testAction()
+	{
+		/*$json = array(
+			array(Map::GROUND | Map::GRASS | Map::ENTRY,  Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN), 
+			array(Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN2, Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN), 
+			array(Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN2, Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN), 
+			array(Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN2, Map::WALL | Map::MOUNTAIN2, Map::WALL | Map::MOUNTAIN2, Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS,  Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN2, Map::WALL | Map::MOUNTAIN2, Map::GROUND | Map::GRASS), 
+			array(Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS,  Map::WALL | Map::MOUNTAIN2, Map::GROUND | Map::GRASS | Map::OUT,  Map::GROUND | Map::GRASS)
+		);*/
+
+		/*$json = array(
+			array(Map::GROUND | Map::SAND | Map::ENTRY, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND | Map::OUT), 
+			array(Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, ), 
+			array(Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND), 
+			array(Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND), 
+			array(Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND), 
+			array(Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, ), 
+			array(Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, ), 
+			array(Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND), 
+			array(Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::GROUND | Map::SAND, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::WALL | Map::DESERT, Map::GROUND | Map::SAND)
+		);*/
+
+		$json = array(
+			array(Map::GROUND | Map::GRASS | Map::ENTRY, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS), 
+			array(Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN), 
+			array(Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN), 
+			array(Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN), 
+			array(Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS | Map::OUT, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS), 
+			array(Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::WALL | Map::MOUNTAIN, Map::WALL | Map::MOUNTAIN, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS, Map::GROUND | Map::GRASS)
+		);
+
+		echo(serialize($json));
+	}
+
 	protected function newGame($character_id, $map_id)
 	{
 		/**

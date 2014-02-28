@@ -43,7 +43,7 @@ abstract class Map_itemModel extends Model
         $request->execute();
 
         // Conversion en objet
-        $map_item = array();
+        $map_items = array();
 
         foreach ($request->fetchAll() as $map_item)
         {

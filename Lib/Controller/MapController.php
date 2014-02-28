@@ -132,6 +132,8 @@ class MapController extends Controller
 				Manager::getManagerOf('playing_item')->delete( $item->getId() );
 				Manager::getManagerOf('playing_map_item')->deleteByItem( $item->getId() );
 
+				Session::setFlashMessage('success', 'Vous venez de trouver l\'objet "<b>' . $item->getName() . '</b>"');
+
 				if (isset($_GET['isAjax'])) {
 					echo json_encode(array(
 						'item' => true
@@ -139,7 +141,7 @@ class MapController extends Controller
 					exit;
 				}
 				else {
-					Utils::redirect( Router::generateUrl('fight.index') );
+					Utils::redirect( Router::generateUrl('map.index') );
 				}
 			}
 		}

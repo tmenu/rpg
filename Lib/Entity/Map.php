@@ -32,6 +32,14 @@ class Map extends Entity
 	CONST ENTRY  = 0x04; // Entrée de la map
 	CONST OUT    = 0x08; // Sortie de la map
 
+    CONST MOUNTAIN  = 0x10;
+    CONST MOUNTAIN2 = 0x20;
+    CONST GRASS     = 0x40;
+
+    CONST DESERT  = 0x100;
+    CONST DESERT2 = 0x200;
+    CONST SAND    = 0x400;
+
     /**
      * Gets the value of name.
      *

@@ -74,8 +74,14 @@ table th, table td {
 	height: 62px;
 }
 
-.ground { background: url("../img/textures.png") 0 -224px no-repeat; }
-.wall {	background: url("../img/textures.png") -192px -32px no-repeat; }
+.grass { background: url("../img/textures.png") 0 -224px no-repeat; }
+.mountain { background: url("../img/textures.png") -192px -32px no-repeat; }
+.mountain2 { background: url("../img/textures.png") -64px -32px no-repeat; }
+
+.sand { background: url("../img/textures.png") -192px -224px no-repeat; }
+.desert { background: url("../img/textures.png") -256px -224px no-repeat; }
+.desert2 { background: url("../img/textures.png") -64px -32px no-repeat; }
+
 .entry {}
 .out { background: url("../img/textures.png") -128px -32px no-repeat; }
 

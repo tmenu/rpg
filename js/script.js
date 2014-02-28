@@ -1,4 +1,4 @@
-
+/*
 function move(event)
 {
 	event.preventDefault();
@@ -56,4 +56,4 @@ jQuery(document).ready(function($)
 	$('body').on('click', '#attack', attack);
 	$('body').on('click', '#continue', attack);
 	//$('#defense').click(continuee);
-});
+});*/
