@@ -80,6 +80,8 @@ use Lib\Router;
 				<a href="<?php echo Router::generateUrl('fight.defense'); ?>" title="Défendre" id="defense" class="btn btn-lg btn-primary">Défendre</a>
 			<?php endif; ?>
 
+		<?php elseif (isset($_SESSION['game_over'])): unset($_SESSION['game_over']); ?>
+			<a href="<?php echo Router::generateUrl('user.account'); ?>" title="Retour à la map" class="btn btn-lg btn-primary">Mon compte</a>
 		<?php else: ?>
 			<a href="<?php echo Router::generateUrl('map.index'); ?>" title="Retour à la map" class="btn btn-lg btn-primary">Retour à la map</a>
 		<?php endif; ?>

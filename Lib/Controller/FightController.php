@@ -257,40 +257,81 @@ class FightController extends Controller
 		}
 		else if ($this->character->getHealth() == 0)
 		{
-			/**
-			 * Reset de la position d'origine sur la map et de la vie du personnage
-			 */
 			$game = unserialize($_SESSION['current_game']);
 
-			$game->getCharacter()->setHealth( $game->getCharacter()->getHealth_max() );
-			$game->getCharacter()->setPosition_x( 0 );
-			$game->getCharacter()->setPosition_y( 0 );
-			$game->getCharacter()->setDirection( 'DOWN' );
-			$game->getCharacter()->setLife( $game->getCharacter()->getLife() - 1 );
+			// Si le perso à encore une vie
+			if ($this->character->getLife() > 1)
+			{
+				/**
+				 * Reset de la position d'origine sur la map et de la vie du personnage
+				 */
+				$game->getCharacter()->setHealth( $game->getCharacter()->getHealth_max() );
+				$game->getCharacter()->setPosition_x( 0 );
+				$game->getCharacter()->setPosition_y( 0 );
+				$game->getCharacter()->setDirection( 'DOWN' );
+				$game->getCharacter()->setLife( $game->getCharacter()->getLife() - 1 );
 
-			$game->getMap()->setOrigin_x( 0 );
-			$game->getMap()->setOrigin_y( 0 );
+				$game->getMap()->setOrigin_x( 0 );
+				$game->getMap()->setOrigin_y( 0 );
 
-			// Sauvegarde
-			Manager::getManagerOf('playing_character')->save($game->getCharacter());
-			Manager::getManagerOf('playing_map')->save($game->getMap());
+				// Sauvegarde
+				Manager::getManagerOf('playing_character')->save($game->getCharacter());
+				Manager::getManagerOf('playing_map')->save($game->getMap());
 
-			/** Reset santé du monstre **/
-			$this->monster->setHealth( $this->monster->getHealth_max() );
-			Manager::getManagerOf('playing_monster')->save($this->monster);
+				/** Reset santé du monstre **/
+				$this->monster->setHealth( $this->monster->getHealth_max() );
+				Manager::getManagerOf('playing_monster')->save($this->monster);
 
-			// Sérialisation de la partie
-			$_SESSION['current_game'] = serialize($game);
+				// Sérialisation de la partie
+				$_SESSION['current_game'] = serialize($game);
 
-			// Petit msg
-			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b><br />Vous perdez une vie";
+				// Petit msg
+				$_SESSION['fight_log'] = "<b>GAME OVER !!!</b><br />Vous perdez une vie";
 
-			// Fin du combat
-			unset($_SESSION['current_fight']);
+				// Fin du combat
+				unset($_SESSION['current_fight']);
 
-			// Pour ne pas re-sérializer en session
-			$this->monster = null;
-			$this->character = null;    
+				// Pour ne pas re-sérializer en session
+				$this->monster = null;
+				$this->character = null; 
+			}
+			else
+			{
+				// Récupération de la partie à supprimer
+				$game = Manager::getManagerOf('game')->select( $game->getId() );
+
+				// Les monstres liés à la map
+				$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $game->getRef_map() );
+
+				/**
+				 * Supression de la partie et de toute ces données
+				 */
+				Manager::getManagerOf('game')->delete( $game->getId() );
+				Manager::getManagerOf('playing_character')->delete( $game->getRef_character() );
+				Manager::getManagerOf('playing_map')->delete( $game->getRef_map() );
+
+				foreach ($map_monsters as $monster)
+				{
+					Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
+					Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
+				}
+
+				// Supprime la mprtie en cours
+				unset($_SESSION['current_game']);
+				unset($_SESSION['fight']);
+				
+				// Petit msg
+				$_SESSION['fight_log'] = "<b>GAME OVER !!!</b><br />La partie est finie !";
+
+				// Fin du combat
+				unset($_SESSION['current_fight']);
+
+				// Pour ne pas re-sérializer en session
+				$this->monster = null;
+				$this->character = null; 
+
+				$_SESSION['game_over'] = true;
+			}
 		}
 
 		$this->setVar('fight_log', $_SESSION['fight_log']);
