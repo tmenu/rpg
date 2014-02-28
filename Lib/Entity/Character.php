@@ -28,9 +28,9 @@ class Character extends Entity
 
     public function __construct(array $data = array())
     {
-        parent::__construct($data);
-
         $this->setLife(3);
+
+        parent::__construct($data);
     }
 
     /**
