@@ -1,4 +1,4 @@
-/*
+
 function move(event)
 {
 	event.preventDefault();
@@ -11,11 +11,11 @@ function move(event)
 			if (data.fight) {
 				window.location = '/fight.html';
 			}
-			else if (data.lvlup) {
+			else if (data.lvlup || data.item) {
 				window.location = '/map.html';
 			}
-			else if (data.item) {
-				window.location = '/map.html';
+			else if (data.end) {
+				window.location = '/moncompte.html';
 			}
 			else {
 				$('#map').html( data.map );
@@ -56,4 +56,4 @@ jQuery(document).ready(function($)
 	$('body').on('click', '#attack', attack);
 	$('body').on('click', '#continue', attack);
 	//$('#defense').click(continuee);
-});*/
+});

@@ -155,100 +155,174 @@ class MapController extends Controller
 		// Si la case actuelle est la sortie
 		if (Map::OUT & $map[ $character->getPosition_y() ][ $character->getPosition_x() ])
 		{
-			/**
-			 * Supression de l'ancienne map
-			 */
-
-			// Les monstres liés à la map
-			$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $this->game->getRef_map() );
-
-			foreach ($map_monsters as $monster)
-			{
-				Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
-				Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
-			}
-
-
-			// Les monstres liés à la map
-			$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $this->game->getRef_map() );
-
-			foreach ($map_items as $item)
-			{
-				Manager::getManagerOf('playing_item')->delete( $item->getRef_item() );
-				Manager::getManagerOf('playing_map_item')->delete( $item->getId() );
-			}
-
-			Manager::getManagerOf('playing_map')->delete( $this->game->getRef_map() );
-
-			/**
-			 * Ajout de la nouvelle map
-			 */
-
-			// Récupération des données initiales
-
 			// La map
 			$map = Manager::getManagerOf('initial_map')->selectLevelUp( $this->game->getRef_initial_map() );
-			
-			// Les monstres liés à la map
-			$map_monsters = Manager::getManagerOf('initial_map_monster')->selectByMap( $map->getId() );
 
-			foreach ($map_monsters as $map_monster)
+			if ($map != false)
 			{
-				$monster = Manager::getManagerOf('initial_monster')->select( $map_monster->getRef_monster() );
-				$monster->setPosition_x( $map_monster->getPosition_x() );
-				$monster->setPosition_y( $map_monster->getPosition_y() );
-				$monster->setDirection( $map_monster->getDirection());
+				/**
+				 * Supression de l'ancienne map
+				 */
 
-				$map->addMonster( $monster );
+				// Les monstres liés à la map
+				$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $this->game->getRef_map() );
+
+				foreach ($map_monsters as $monster)
+				{
+					Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
+					Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
+				}
+
+
+				// Les monstres liés à la map
+				$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $this->game->getRef_map() );
+
+				foreach ($map_items as $item)
+				{
+					Manager::getManagerOf('playing_item')->delete( $item->getRef_item() );
+					Manager::getManagerOf('playing_map_item')->delete( $item->getId() );
+				}
+
+				Manager::getManagerOf('playing_map')->delete( $this->game->getRef_map() );
+
+				/**
+				 * Ajout de la nouvelle map
+				 */
+
+				// Récupération des données initiales
+				
+				// Les monstres liés à la map
+				$map_monsters = Manager::getManagerOf('initial_map_monster')->selectByMap( $map->getId() );
+
+				foreach ($map_monsters as $map_monster)
+				{
+					$monster = Manager::getManagerOf('initial_monster')->select( $map_monster->getRef_monster() );
+					$monster->setPosition_x( $map_monster->getPosition_x() );
+					$monster->setPosition_y( $map_monster->getPosition_y() );
+					$monster->setDirection( $map_monster->getDirection());
+
+					$map->addMonster( $monster );
+				}
+
+				// Enregistrement de la nouvelle map
+
+				$this->game->setRef_initial_map( $map->getId() );
+
+				// La map
+				$map->setId(null);
+				$map = Manager::getManagerOf('playing_map')->save( $map );
+
+				// Les monstres liés à la map
+				foreach ($map->getMonsters() as $monster)
+				{
+					$monster->setId(null);
+					$monster = Manager::getManagerOf('playing_monster')->save( $monster );
+
+					// Création de la liaison monstre/map
+					$map_monster = new Map_monster();
+
+					$map_monster->setRef_map( $map->getId() );
+					$map_monster->setref_monster( $monster->getId() );
+					$map_monster->setPosition_x( $monster->getPosition_x() );
+					$map_monster->setPosition_y( $monster->getPosition_y() );
+					$map_monster->setDirection( $monster->getDirection());
+
+					Manager::getManagerOf('playing_map_monster')->save( $map_monster );
+				}
+
+				// Affectation de la map
+				$this->game->setRef_map( $map->getId() );
+				$this->game->setMap( $map );
+
+				// Repositionnement du perso
+				$this->game->getCharacter()->setPosition_x( 0 );
+				$this->game->getCharacter()->setPosition_y( 0 );
+				$this->game->getCharacter()->setDirection('DOWN');
+
+				// Evolution
+
+				// SAnté max
+				$health_max = $this->game->getCharacter()->getHealth_max() * 1.1;
+				$this->game->getCharacter()->setHealth_max( ceil($health_max) );
+
+				// SAnté
+				$health = $this->game->getCharacter()->getHealth() * 1.1;
+				$this->game->getCharacter()->setHealth( min($this->game->getCharacter()->getHealth(), $health) );
+
+				// Force
+				$strength = $this->game->getCharacter()->getStrength() * 1.1;
+				$this->game->getCharacter()->setStrength( ceil($strength) );
+
+				// Résistance
+				$resistance = $this->game->getCharacter()->getResistance() * 1.1;
+				$this->game->getCharacter()->setResistance( ceil($resistance) );
+
+				// Vitesse
+				$speed = $this->game->getCharacter()->getSpeed() * 1.1;
+				$this->game->getCharacter()->setSpeed( ceil($speed) );
+
+				// +1 vie
+				$this->game->getCharacter()->setLife( $this->game->getCharacter()->getLife() + 1 );
+
+				Manager::getManagerOf('playing_character')->save( $this->game->getCharacter() );
+
+				Manager::getManagerOf('game')->save( $this->game );
+
+				Session::setFlashMessage('success', 'Bravo ! Vous venez de passer au niveau suivant.');
+
+				if (isset($_GET['isAjax'])) {
+					echo json_encode(array(
+						'lvlup' => true
+					));
+					exit;
+				}
+				else {
+					Utils::redirect( Router::generateUrl('map.index') );
+				}
 			}
-
-			// Enregistrement de la nouvelle map
-
-			$this->game->setRef_initial_map( $map->getId() );
-
-			// La map
-			$map->setId(null);
-			$map = Manager::getManagerOf('playing_map')->save( $map );
-
-			// Les monstres liés à la map
-			foreach ($map->getMonsters() as $monster)
+			else
 			{
-				$monster->setId(null);
-				$monster = Manager::getManagerOf('playing_monster')->save( $monster );
+				// Les monstres liés à la map
+				$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $this->game->getRef_map() );
 
-				// Création de la liaison monstre/map
-				$map_monster = new Map_monster();
+				// Les objets liés à la map
+				$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $this->game->getRef_map() );
 
-				$map_monster->setRef_map( $map->getId() );
-				$map_monster->setref_monster( $monster->getId() );
-				$map_monster->setPosition_x( $monster->getPosition_x() );
-				$map_monster->setPosition_y( $monster->getPosition_y() );
-				$map_monster->setDirection( $monster->getDirection());
+				/**
+				 * Supression de la partie et de toute ces données
+				 */
+				Manager::getManagerOf('game')->delete( $this->game->getId() );
+				Manager::getManagerOf('playing_character')->delete( $this->game->getRef_character() );
+				Manager::getManagerOf('playing_map')->delete( $this->game->getRef_map() );
 
-				Manager::getManagerOf('playing_map_monster')->save( $map_monster );
-			}
+				foreach ($map_monsters as $monster)
+				{
+					Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
+					Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
+				}
 
-			// Affectation de la map
-			$this->game->setRef_map( $map->getId() );
-			$this->game->setMap( $map );
+				foreach ($map_items as $item)
+				{
+					Manager::getManagerOf('playing_map_item')->delete( $item->getId() );
+					Manager::getManagerOf('playing_item')->delete( $item->getRef_item() );
+				}
 
-			// Repositionnement du perso
-			$this->game->getCharacter()->setPosition_x( 0 );
-			$this->game->getCharacter()->setPosition_y( 0 );
-			$this->game->getCharacter()->setDirection('DOWN');
-			
-			Manager::getManagerOf('game')->save( $this->game );
+				
+				// Supprime la martie en cours
+				unset($_SESSION['current_game']);
+				unset($_SESSION['current_fight']);
 
-			Session::setFlashMessage('success', 'Bravo ! Vous venez de passer au niveau suivant.');
-
-			if (isset($_GET['isAjax'])) {
-				echo json_encode(array(
-					'lvlup' => true
-				));
-				exit;
-			}
-			else {
-				Utils::redirect( Router::generateUrl('map.index') );
+				Session::setFlashMessage('success', 'Vous avez gagnez !!! <b>BRAVO !!!!!!</b>');
+				
+				if (isset($_GET['isAjax'])) {
+					echo json_encode(array(
+						'end' => true
+					));
+					exit;
+				}
+				else {
+					Utils::redirect( Router::generateurl('user.account') );
+				}
 			}
 		}
 	}

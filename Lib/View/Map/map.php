@@ -52,7 +52,8 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 				else if ($box & Map::SAND) { $class .= 'sand'; }
 
 				if ($box & Map::ENTRY) { $class .= ' entry'; }
-				else if ($box & Map::OUT) { $class .= ' out'; }
+				else if ($box & Map::OUT && $box & Map::GRASS) { $class .= ' out-grass'; }
+				else if ($box & Map::OUT && $box & Map::SAND) { $class .= ' out-sand'; }
 
 				?>
 				

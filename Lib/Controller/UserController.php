@@ -429,8 +429,8 @@ class UserController extends Controller
 				unset($_SESSION['current_game']);
 
 				// S'il y a un combat en cours
-				if (isset($_SESSION['fight'])) {
-					unset($_SESSION['fight']); // Supprime le combat en cours (qui correspond à la partie supprimée)
+				if (isset($_SESSION['current_fight'])) {
+					unset($_SESSION['current_fight']); // Supprime le combat en cours (qui correspond à la partie supprimée)
 				}
 			}
 		}

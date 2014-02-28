@@ -83,7 +83,8 @@ table th, table td {
 .desert2 { background: url("../img/textures.png") -64px -32px no-repeat; }
 
 .entry {}
-.out { background: url("../img/textures.png") -128px -32px no-repeat; }
+.out-grass { background: url("../img/textures.png") -128px -32px no-repeat; }
+.out-sand { background: url("../img/textures.png") -320px -320px no-repeat; }
 
 /**
  * OBJETS 
