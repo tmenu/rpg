@@ -37,7 +37,7 @@ use Lib\Router;
 								<?php echo count($game->getMap()->getMonsters()); ?>
 							</td>
 							<td>
-								<a href="<?php echo Router::generateUrl('user.loadgame', array($game->getId())); ?>">Reprendre</a><br />
+								<a href="<?php echo Router::generateUrl('user.loadgame', array($game->getId())); ?>">Charger</a><br />
 								<a href="<?php echo Router::generateUrl('user.cancelgame', array($game->getId())); ?>" onclick="return (confirm('Etes-vous sûr de vouloir supprimer cette partie ?') ? true : false);">Annuler</a>
 							</td>
 						</tr>
