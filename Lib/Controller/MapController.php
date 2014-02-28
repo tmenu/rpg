@@ -50,6 +50,7 @@ class MapController extends Controller
 	public function indexAction()
 	{
 		$this->checkMonster();
+		$this->checkItem();
 		$this->checkEndLevel();
 
 		$this->setVar('game', $this->game);
@@ -84,6 +85,66 @@ class MapController extends Controller
 		}
 	}
 
+	protected function checkItem()
+	{
+		$character = $this->game->getCharacter();
+		$items = $this->game->getMap()->getItems();
+
+		foreach ($items as $item)
+		{
+			if ($character->getPosition_x() == $item->getPosition_x() && $character->getPosition_y() == $item->getPosition_y())
+			{
+				// Augmentation santé
+				$character->setHealth_max($character->getHealth_max() + $item->getHealth_max());
+
+				// Augmentation santé max
+				$health = min($character->getHealth_max(), $character->getHealth() + $item->getHealth());
+				$character->setHealth($health);
+
+				// Augmentation force
+				$character->setStrength($character->getStrength() + $item->getStrength());
+
+				// Augmentation resistance
+				$character->setResistance($character->getResistance() + $item->getResistance());
+
+				// Augmentation vitesse
+				$character->setSpeed($character->getSpeed() + $item->getSpeed());
+
+				Manager::getManagerOf('playing_character')->save($character);
+
+				/**
+				 * Suppression de l'objet de la partie chargée en session
+				 */
+
+				$_items = $this->game->getMap()->getItems(); // Récupération des monstres
+				$this->game->getMap()->setItems( array() );    // Suppression de la liste des monstre actuelle
+
+				// Réaffectation des objets en ignorant celui qui est mort
+				foreach ($_items as $_item) {
+					if ($_item->getId() != $item->getId()) {
+						$this->game->getMap()->addItem( $_item );
+					}
+				}
+
+				/**
+				 * Supression de l'objet de la map de la bdd
+				 */
+				Manager::getManagerOf('playing_item')->delete( $item->getId() );
+				Manager::getManagerOf('playing_map_item')->deleteByItem( $item->getId() );
+
+				if (isset($_GET['isAjax'])) {
+					echo json_encode(array(
+						'item' => true
+					));
+					exit;
+				}
+				else {
+					Utils::redirect( Router::generateUrl('fight.index') );
+				}
+			}
+		}
+	}
+
 	protected function checkEndLevel()
 	{
 		$character = $this->game->getCharacter();
@@ -103,6 +164,16 @@ class MapController extends Controller
 			{
 				Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
 				Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
+			}
+
+
+			// Les monstres liés à la map
+			$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $this->game->getRef_map() );
+
+			foreach ($map_items as $item)
+			{
+				Manager::getManagerOf('playing_item')->delete( $item->getRef_item() );
+				Manager::getManagerOf('playing_map_item')->delete( $item->getId() );
 			}
 
 			Manager::getManagerOf('playing_map')->delete( $this->game->getRef_map() );
@@ -228,6 +299,7 @@ class MapController extends Controller
 		$character = Manager::getManagerOf('playing_character')->save( $this->game->getCharacter() );
 
 		$this->checkMonster();
+		$this->checkItem();
 		$this->checkEndLevel();
 
 		if (isset($_GET['isAjax']))
@@ -290,6 +362,7 @@ class MapController extends Controller
 		$character = Manager::getManagerOf('playing_character')->save( $this->game->getCharacter() );
 
 		$this->checkMonster();
+		$this->checkItem();
 		$this->checkEndLevel();
 
 		if (isset($_GET['isAjax']))
@@ -352,6 +425,7 @@ class MapController extends Controller
 		$character = Manager::getManagerOf('playing_character')->save( $this->game->getCharacter() );
 
 		$this->checkMonster();
+		$this->checkItem();
 		$this->checkEndLevel();
 
 		if (isset($_GET['isAjax']))
@@ -414,6 +488,7 @@ class MapController extends Controller
 		$character = Manager::getManagerOf('playing_character')->save( $this->game->getCharacter() );
 
 		$this->checkMonster();
+		$this->checkItem();
 		$this->checkEndLevel();
 
 		if (isset($_GET['isAjax']))

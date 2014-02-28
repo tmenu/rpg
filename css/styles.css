@@ -80,6 +80,19 @@ table th, table td {
 .out { background: url("../img/textures.png") -128px -32px no-repeat; }
 
 /**
+ * OBJETS 
+ */
+
+.potion {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+}
+.potion { background: url("../img/characters/item.png") 0 -68px no-repeat; }
+
+/**
  * Personnages
  */
 

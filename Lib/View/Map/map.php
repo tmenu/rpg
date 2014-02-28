@@ -59,7 +59,14 @@ if ($origin['y'] + $visible['y'] == $size['height']) { $table_borders .= 'bbotto
 						<?php foreach ($map->getMonsters() as $monster): ?>
 							
 							<?php if ($monster->getPosition_x() == $col && $monster->getPosition_y() == $row): ?>
-								<div class="<?php echo $monster->getRef() . ' ' . strtolower($monster->getDirection()); ?>" data-toggle="tooltip" data-placement="left" title="Tooltip on left"></div>
+								<div class="<?php echo $monster->getRef() . ' ' . strtolower($monster->getDirection()); ?>"></div>
+							<?php endif; ?>
+
+						<?php endforeach; ?>
+						<?php foreach ($map->getItems() as $item): ?>
+							
+							<?php if ($item->getPosition_x() == $col && $item->getPosition_y() == $row): ?>
+								<div class="<?php echo $item->getRef(); ?>"></div>
 							<?php endif; ?>
 
 						<?php endforeach; ?>

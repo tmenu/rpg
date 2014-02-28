@@ -14,6 +14,9 @@ function move(event)
 			else if (data.lvlup) {
 				window.location = '/map.html';
 			}
+			else if (data.item) {
+				window.location = '/map.html';
+			}
 			else {
 				$('#map').html( data.map );
 			}

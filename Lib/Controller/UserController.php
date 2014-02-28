@@ -10,6 +10,7 @@ use Lib\Session;
 use Lib\Entity\User;
 use Lib\Entity\Game;
 use Lib\Entity\Map_monster;
+use Lib\Entity\Map_item;
 
 class UserController extends Controller
 {
@@ -38,6 +39,18 @@ class UserController extends Controller
 			$map->addMonster( $monster );
 		}
 
+		// Les objets liés à la map
+		$map_items = Manager::getManagerOf('initial_map_item')->selectByMap( $map->getId() );
+
+		foreach ($map_items as $map_item)
+		{
+			$item = Manager::getManagerOf('initial_item')->select( $map_item->getRef_item() );
+			$item->setPosition_x( $map_item->getPosition_x() );
+			$item->setPosition_y( $map_item->getPosition_y() );
+
+			$map->addItem( $item );
+		}
+
 		/**
 		 * Création d'une nouvelle partie
 		 */
@@ -60,12 +73,29 @@ class UserController extends Controller
 			$map_monster = new Map_monster();
 
 			$map_monster->setRef_map( $map->getId() );
-			$map_monster->setref_monster( $monster->getId() );
+			$map_monster->setRef_monster( $monster->getId() );
 			$map_monster->setPosition_x( $monster->getPosition_x() );
 			$map_monster->setPosition_y( $monster->getPosition_y() );
 			$map_monster->setDirection( $monster->getDirection());
 
 			Manager::getManagerOf('playing_map_monster')->save( $map_monster );
+		}
+
+		// Les objets liés à la map
+		foreach ($map->getItems() as $item)
+		{
+			$item->setId(null);
+			$item = Manager::getManagerOf('playing_item')->save( $item );
+
+			// Création de la liaison monstre/map
+			$map_item = new Map_item();
+
+			$map_item->setRef_map( $map->getId() );
+			$map_item->setRef_item( $item->getId() );
+			$map_item->setPosition_x( $item->getPosition_x() );
+			$map_item->setPosition_y( $item->getPosition_y() );
+
+			Manager::getManagerOf('playing_map_item')->save( $map_item );
 		}
 
 		// Enregistrement de la partie
@@ -322,6 +352,9 @@ class UserController extends Controller
 		// Les monstres liés à la map
 		$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $game->getRef_map() );
 
+		// Les objets liés à la map
+		$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $game->getRef_map() );
+
 		/**
 		 * Supression de la partie et de toute ces données
 		 */
@@ -333,6 +366,12 @@ class UserController extends Controller
 		{
 			Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
 			Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
+		}
+
+		foreach ($map_items as $item)
+		{
+			Manager::getManagerOf('playing_map_item')->delete( $item->getId() );
+			Manager::getManagerOf('playing_item')->delete( $item->getRef_item() );
 		}
 
 		// Si il y a une partie en cours
@@ -381,6 +420,15 @@ class UserController extends Controller
 		{
 			$monster = Manager::getManagerOf('playing_monster')->select( $map_monster->getRef_monster() );
 			$game->getMap()->addMonster( $monster );
+		}
+
+		// Les monstres liés à la map
+		$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $map->getId() );
+
+		foreach ($map_items as $map_item)
+		{
+			$item = Manager::getManagerOf('playing_item')->select( $map_item->getRef_item() );
+			$game->getMap()->addItem( $item );
 		}
 
 		$_SESSION['current_game'] = serialize($game);

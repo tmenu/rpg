@@ -3,6 +3,7 @@
 namespace Lib\Entity;
 
 use Lib\Entity\Monster;
+use Lib\Entity\Item;
 
 class Map extends Entity
 {
@@ -23,6 +24,7 @@ class Map extends Entity
 	protected $map = array();  // Données de la map
 
     protected $monsters = array();
+    protected $items = array();
 
 	// Type de cases
 	CONST WALL   = 0x01; // Mur : accés impossible
@@ -249,6 +251,37 @@ class Map extends Entity
     public function addMonster(Monster $monster)
     {
         $this->monsters[] = $monster;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of items.
+     *
+     * @return mixed
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Sets the value of items.
+     *
+     * @param mixed $items the items
+     *
+     * @return self
+     */
+    public function setItems($items)
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function addItem(Item $item)
+    {
+        $this->items[] = $item;
 
         return $this;
     }

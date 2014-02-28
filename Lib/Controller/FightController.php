@@ -303,6 +303,9 @@ class FightController extends Controller
 				// Les monstres liés à la map
 				$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $game->getRef_map() );
 
+				// Les monstres liés à la map
+				$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $game->getRef_map() );
+
 				/**
 				 * Supression de la partie et de toute ces données
 				 */
@@ -314,6 +317,12 @@ class FightController extends Controller
 				{
 					Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
 					Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
+				}
+
+				foreach ($map_items as $item)
+				{
+					Manager::getManagerOf('playing_map_item')->delete( $item->getId() );
+					Manager::getManagerOf('playing_item')->delete( $item->getRef_item() );
 				}
 
 				// Supprime la mprtie en cours
