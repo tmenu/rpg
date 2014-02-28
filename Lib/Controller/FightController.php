@@ -84,7 +84,7 @@ class FightController extends Controller
 			{
 				// Application des dommages
 				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
-				$_SESSION['fight_log'] = 'Vous infligez <b>' . $damageDealed . '</b> de dégât à l\'ennemi';
+				$_SESSION['fight_log'] = 'Vous infligez <b>' . $damageDealed . '</b> de dégâts à l\'ennemi';
 			}
 			else
 			{
@@ -99,7 +99,7 @@ class FightController extends Controller
 			{
 				// Application des dommages
 				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
-				$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégât';
+				$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégâts';
 			}
 			else
 			{
@@ -154,7 +154,7 @@ class FightController extends Controller
 			Manager::getManagerOf('playing_monster')->save( $attacker );
 			Manager::getManagerOf('playing_character')->save( $opponent );
 
-			$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégât';
+			$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégâts';
 		}
 	}
 
@@ -166,6 +166,82 @@ class FightController extends Controller
 		$this->defense($this->character, $this->monster);
 
 		Utils::redirect( Router::generateUrl('fight.index') );
+	}
+
+	protected function counter($attacker, $opponent)
+	{
+		$counterChance = rand(0, 1);
+
+		if($counterChance == 0)
+		{
+			$damageReceive = round(max (0, ( ( $opponent->getStrength() / 2 ) -  ( $attacker->getResistance() / 4 ) ) * 1.5 ) );
+		}
+		else
+		{
+			$damageDealed = round(max (0, ( ( $attacker->getStrength() / 2 ) -  ( $opponent->getResistance() / 4 ) ) * 1.5 ) );
+		}
+
+		if (get_class($attacker) == 'Lib\\Entity\\Character') 
+		{
+			if($counterChance == 0)
+			{
+				// Application des dommages
+				$attacker->setHealth(max(0, $attacker->getHealth() - $damageReceive));
+				$_SESSION['fight_log'] = 'Le contre échoue. Vous recevez <b>' . $damageReceive . '</b> de dégâts';
+			}
+			else
+			{
+				// Application des dommages
+				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+				$_SESSION['fight_log'] = 'Le contre réussi. Vous infligez <b>' . $damageDealed . '</b> de dégâts';
+			}
+
+			Manager::getManagerOf('playing_character')->save( $attacker );
+			Manager::getManagerOf('playing_monster')->save( $opponent );
+		}
+		else
+		{
+			if($counterChance == 0)
+			{
+				// Application des dommages
+				$attacker->setHealth(max(0, $attacker->getHealth() - $damageReceive));
+				$_SESSION['fight_log'] = 'Le contre de l\'ennemi échoue. Vous infligez <b>' . $damageReceive . '</b> de dégâts';
+			}
+			else
+			{
+				// Application des dommages
+				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+				$_SESSION['fight_log'] = 'Le contre de l\'ennemi réussi. Vous recevez <b>' . $damageDealed . '</b> de dégâts';
+			}
+
+			Manager::getManagerOf('playing_monster')->save( $attacker );
+			Manager::getManagerOf('playing_character')->save( $opponent );
+		}
+
+		// Prochain tour
+		$attacker->setRound('0');
+		$opponent->setRound('1');
+	}
+
+	/**
+	 * Action : counter
+	 */
+	public function counterAction()
+	{
+		// Si c'est au tour du perso
+		if ($this->character->getRound() == 1) {
+			$this->counter($this->character, $this->monster);
+		}
+		else if ($this->monster->getRound() == 1) {
+			$this->counter($this->monster, $this->character);
+		}
+
+		if (isset($_GET['isAjax'])) {
+			$this->indexAction();
+		}
+		else {
+			Utils::redirect( Router::generateUrl('fight.index') );
+		}
 	}
 
 	/**

@@ -77,7 +77,7 @@ use Lib\Router;
 				<a href="<?php echo Router::generateUrl('fight.continue'); ?>" title="Continuer ..." id="continue" class="btn btn-lg btn-primary">Continuer ...</a>
 			<?php else: ?>
 				<a href="<?php echo Router::generateUrl('fight.attack'); ?>" title="Attaquer" id="attack" class="btn btn-lg btn-primary">Attaquer</a>
-				<a href="<?php echo Router::generateUrl('fight.defense'); ?>" title="Défendre" id="defense" class="btn btn-lg btn-primary">Défendre</a>
+				<a href="<?php echo Router::generateUrl('fight.counter'); ?>" title="Défendre" id="counter" class="btn btn-lg btn-primary">Contrer</a>
 			<?php endif; ?>
 
 		<?php elseif (isset($_SESSION['game_over'])): unset($_SESSION['game_over']); ?>
