@@ -96,8 +96,62 @@ table th, table td {
 	left: 16px;
 	width: 34px;
 	height: 34px;
+	background: url("../img/characters/item.png") 0 -68px no-repeat;
 }
-.potion { background: url("../img/characters/item.png") 0 -68px no-repeat; }
+
+.force {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+	background: url("../img/characters/item.png") 0 -170px no-repeat;
+}
+
+.defense {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+	background: url("../img/characters/item.png") -340px -408px no-repeat;
+}
+
+.sante {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+	background: url("../img/characters/item.png") -238px -748px no-repeat;
+}
+
+.vitesse {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+	background: url("../img/characters/item.png") -136px -476px no-repeat;
+}
+
+.chucknorris {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+	background: url("../img/characters/item.png") -170px -782px no-repeat;
+}
+
+.chucknorris {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 34px;
+	height: 34px;
+	background: url("../img/characters/item.png") -170px -782px no-repeat;
+}
 
 /**
  * Personnages
