@@ -172,6 +172,48 @@ table th, table td {
 .crazyfrog.right { background: url("../img/characters/crazyfrog.png") -24px -48px no-repeat; }
 .crazyfrog.left { background: url("../img/characters/crazyfrog.png") -24px -24px no-repeat; }
 
+/* Kevindiesel */
+
+.kevindiesel {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 32px;
+	height: 50px;
+}
+.kevindiesel.down { background: url("../img/characters/kevindiesel.png") 0 0 no-repeat; }
+.kevindiesel.up { background: url("../img/characters/kevindiesel.png") 0 -144px no-repeat; }
+.kevindiesel.right { background: url("../img/characters/kevindiesel.png") 0 -96px no-repeat; }
+.kevindiesel.left { background: url("../img/characters/kevindiesel.png") 0 -48px no-repeat; }
+
+/* Thomagneto */
+
+.thomagneto {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 32px;
+	height: 50px;
+}
+.thomagneto.down { background: url("../img/characters/thomagneto.png") 0 0 no-repeat; }
+.thomagneto.up { background: url("../img/characters/thomagneto.png") 0 -144px no-repeat; }
+.thomagneto.right { background: url("../img/characters/thomagneto.png") 0 -96px no-repeat; }
+.thomagneto.left { background: url("../img/characters/thomagneto.png") 0 -48px no-repeat; }
+
+/* Floracle */
+
+.floracle {
+	position: relative;
+	top: 2px;
+	left: 16px;
+	width: 32px;
+	height: 50px;
+}
+.floracle.down { background: url("../img/characters/floracle.png") 0 0 no-repeat; }
+.floracle.up { background: url("../img/characters/floracle.png") 0 -144px no-repeat; }
+.floracle.right { background: url("../img/characters/floracle.png") 0 -96px no-repeat; }
+.floracle.left { background: url("../img/characters/floracle.png") 0 -48px no-repeat; }
+
 /**
  * Commandes
  */
@@ -270,13 +312,36 @@ table th, table td {
 .face-mage04.attacking  { background: url("../img/faces/mage04.png") -96px 0px no-repeat; }
 
 
+
 .face-rabivador {
 	width: 96px;
 	height: 96px;
 }
-.face-rabivador.default { background: url("../img/faces/rabivador.png") 0 0 no-repeat; }
+.face-rabivador.default { background: url("../img/faces/animal1.png") -288px -96px no-repeat; }
 
+.face-crazyfrog {
+	width: 96px;
+	height: 96px;
+}
+.face-crazyfrog.default { background: url("../img/faces/animal2.png") -288px -96px no-repeat; }
 
+.face-kevindiesel {
+	width: 96px;
+	height: 96px;
+}
+.face-kevindiesel.default { background: url("../img/faces/Evil.png") -288px 0 no-repeat; }
+
+.face-thomagneto {
+	width: 96px;
+	height: 96px;
+}
+.face-thomagneto.default { background: url("../img/faces/Evil.png") 0 -96px no-repeat; }
+
+.face-floracle {
+	width: 96px;
+	height: 96px;
+}
+.face-floracle.default { background: url("../img/faces/Evil.png") 0 0 no-repeat; }
 
 .progress {
 	position: relative;

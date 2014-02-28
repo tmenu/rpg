@@ -63,32 +63,56 @@ class FightController extends Controller
 		// Si le monstre est en défense
 		if ($opponent->getPosture() == Character::DEFENSE) {
 			// Calcule des dommages minorés
-			$damageDealed  = max(0, $attacker->getStrength() - ($opponent->getResistance() * 2)); // force - (resistance * 1.5)
+			$damageDealed  = round(max(0, ($attacker->getStrength() / 2) - (($opponent->getResistance() / 4) * 1.5))); // force / 2 - ( (resistance / 4) * 1.5)
+
 		}
 		else {
 			// Calcule des dommages standard
-			$damageDealed  = max(0, $attacker->getStrength() - $opponent->getResistance());
+			$damageDealed  = round(max(0,($attacker->getStrength() / 2) - (($opponent->getResistance() / 4)))); 		// force / 2 - resistance / 4
 		}
-		
-		// Application des dommages
-		$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
 
-		// Prochain tour pour l'adversaire
-		$attacker->setRound('0');
-		$opponent->setRound('1');
+		// Test d'esquive
+		$dodgingPercentage = 100 - ( (1 + $opponent->getSpeed()) / ($attacker->getSpeed() + 1) * 10 );
+
+		if($dodgingPercentage < 50)
+			$dodgingPercentage = 50;
+		
+		$randomNumber = rand(0, 100);
 
 		if (get_class($attacker) == 'Lib\\Entity\\Character') {
 			Manager::getManagerOf('playing_character')->save( $attacker );
 			Manager::getManagerOf('playing_monster')->save( $opponent );
 
-			$_SESSION['fight_log'] = 'Vous infligez <b>' . $damageDealed . '</b> de dégât à l\'ennemi';
+			if($randomNumber < $dodgingPercentage)
+			{
+				// Application des dommages
+				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+				$_SESSION['fight_log'] = 'Vous infligez <b>' . $damageDealed . '</b> de dégât à l\'ennemi';
+			}
+			else
+			{
+				$_SESSION['fight_log'] = 'L\'ennemi esquive votre attaque';
+			}
 		}
 		else {
 			Manager::getManagerOf('playing_monster')->save( $attacker );
 			Manager::getManagerOf('playing_character')->save( $opponent );
 
-			$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégât';
+			if($randomNumber < $dodgingPercentage)
+			{
+				// Application des dommages
+				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+				$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégât';
+			}
+			else
+			{
+				$_SESSION['fight_log'] = 'Vous esquivez l\'attaque';
+			}
 		}
+
+		// Prochain tour
+		$attacker->setRound('0');
+		$opponent->setRound('1');
 	}
 
 	/**
@@ -241,10 +265,15 @@ class FightController extends Controller
 			$game->getCharacter()->setHealth( $game->getCharacter()->getHealth_max() );
 			$game->getCharacter()->setPosition_x( 0 );
 			$game->getCharacter()->setPosition_y( 0 );
+			$game->getCharacter()->setDirection( 'DOWN' );
 			$game->getCharacter()->setLife( $game->getCharacter()->getLife() - 1 );
+
+			$game->getMap()->setOrigin_x( 0 );
+			$game->getMap()->setOrigin_y( 0 );
 
 			// Sauvegarde
 			Manager::getManagerOf('playing_character')->save($game->getCharacter());
+			Manager::getManagerOf('playing_map')->save($game->getMap());
 
 			// Sérialisation de la partie
 			$_SESSION['current_game'] = serialize($game);
