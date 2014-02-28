@@ -364,7 +364,7 @@ class UserController extends Controller
 				Session::setAuth(true);
 				$_SESSION['user_id'] = $user->getId();
 
-				$this->newGame( (int)$_POST['perso'] );
+				$this->newGame( (int)$_POST['perso'], 1 );
 
 				Session::setFlashMessage('success', 'Inscription réussi avec succès');
 				Utils::redirect( Router::generateUrl('user.account') );

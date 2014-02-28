@@ -12,8 +12,8 @@ use Lib\Router;
 			<thead>
 				<tr>
 					<th>Personnage</th>
-					<th>Map</th>
-					<th>Monstres restants</th>
+					<th>Niveau actuel</th>
+					<th>Monstres restants sur le niveau</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -27,6 +27,7 @@ use Lib\Router;
 					<?php foreach ($games_list as $game): ?>
 						<tr>
 							<td>
+								<div class="<?php echo $game->getCharacter()->getRef(); ?> down" style="position: inherit; display: inline-block;"></div>
 								<?php echo $game->getCharacter()->getName(); ?>
 							</td>
 							<td>

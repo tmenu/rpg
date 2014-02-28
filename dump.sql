@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 26 Février 2014 à 15:39
+-- Généré le: Ven 28 Février 2014 à 15:58
 -- Version du serveur: 5.5.35-0ubuntu0.13.10.2
 -- Version de PHP: 5.5.3-1ubuntu2.1
 
@@ -31,21 +31,13 @@ CREATE TABLE IF NOT EXISTS `Game` (
   `ref_user` int(11) NOT NULL,
   `ref_map` int(11) NOT NULL,
   `ref_character` int(11) NOT NULL,
+  `ref_initial_map` int(11) NOT NULL,
+  `ref_initial_character` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ref_user` (`ref_user`),
   KEY `ref_map` (`ref_map`),
   KEY `ref_character` (`ref_character`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
-
---
--- Contenu de la table `Game`
---
-
-INSERT INTO `Game` (`id`, `ref_user`, `ref_map`, `ref_character`) VALUES
-(12, 27, 38, 38),
-(29, 25, 55, 55),
-(33, 25, 59, 59),
-(34, 25, 60, 60);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -67,18 +59,53 @@ CREATE TABLE IF NOT EXISTS `Initial_character` (
   `speed` int(10) unsigned NOT NULL,
   `posture` tinyint(1) NOT NULL,
   `round` tinyint(1) NOT NULL,
+  `life` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
 -- Contenu de la table `Initial_character`
 --
 
-INSERT INTO `Initial_character` (`id`, `name`, `position_x`, `position_y`, `direction`, `ref`, `health_max`, `health`, `strength`, `resistance`, `speed`, `posture`, `round`) VALUES
-(1, 'Guillaume', 0, 0, 'DOWN', 'mage01', 22, 22, 14, 12, 6, 1, 0),
-(14, 'Rozy', 0, 0, 'DOWN', 'mage02', 18, 18, 15, 10, 4, 1, 0),
-(15, 'Kévina', 0, 0, 'DOWN', 'mage03', 10, 10, 12, 20, 8, 1, 0),
-(16, 'Johan', 0, 0, 'DOWN', 'mage04', 20, 20, 11, 8, 7, 1, 0);
+INSERT INTO `Initial_character` (`id`, `name`, `position_x`, `position_y`, `direction`, `ref`, `health_max`, `health`, `strength`, `resistance`, `speed`, `posture`, `round`, `life`) VALUES
+(1, 'Guillaume', 0, 0, 'DOWN', 'mage01', 23, 23, 19, 19, 19, 1, 0, 3),
+(14, 'Rozy', 0, 0, 'DOWN', 'mage02', 20, 20, 16, 27, 17, 1, 0, 3),
+(15, 'Kévina', 0, 0, 'DOWN', 'mage03', 21, 21, 17, 17, 23, 1, 0, 3),
+(16, 'Johan', 0, 0, 'DOWN', 'mage04', 25, 25, 16, 22, 13, 1, 0, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Initial_item`
+--
+
+CREATE TABLE IF NOT EXISTS `Initial_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `position_x` int(11) NOT NULL,
+  `position_y` int(11) NOT NULL,
+  `ref` varchar(255) NOT NULL,
+  `health` int(10) unsigned NOT NULL DEFAULT '0',
+  `health_max` int(10) unsigned NOT NULL DEFAULT '0',
+  `strength` int(10) unsigned NOT NULL DEFAULT '0',
+  `resistance` int(10) unsigned NOT NULL DEFAULT '0',
+  `speed` int(10) unsigned NOT NULL DEFAULT '0',
+  `life` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Contenu de la table `Initial_item`
+--
+
+INSERT INTO `Initial_item` (`id`, `name`, `position_x`, `position_y`, `ref`, `health`, `health_max`, `strength`, `resistance`, `speed`, `life`) VALUES
+(1, 'Potion', 0, 0, 'potion', 7, 0, 0, 0, 0, 0),
+(2, 'Force+', 0, 0, 'force', 0, 0, 4, 0, 0, 0),
+(3, 'Défense+', 0, 0, 'defense', 0, 0, 0, 4, 0, 0),
+(4, 'Santé+', 0, 0, 'sante', 3, 3, 0, 0, 0, 0),
+(5, 'Vitesse+', 0, 0, 'vitesse', 0, 0, 0, 0, 4, 0),
+(6, 'Orbe Chuck Norris', 0, 0, 'chucknorris', 0, 3, 3, 3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -97,15 +124,51 @@ CREATE TABLE IF NOT EXISTS `Initial_map` (
   `origin_y` int(11) NOT NULL,
   `map` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `Initial_map`
 --
 
 INSERT INTO `Initial_map` (`id`, `name`, `size_height`, `size_width`, `visible_x`, `visible_y`, `origin_x`, `origin_y`, `map`) VALUES
-(1, 'Default', 6, 6, 6, 6, 0, 0, 'a:6:{i:0;a:6:{i:0;i:6;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:1;}i:1;a:6:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;}i:2;a:6:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;}i:3;a:6:{i:0;i:2;i:1;i:1;i:2;i:1;i:3;i:1;i:4;i:2;i:5;i:2;}i:4;a:6:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:1;i:5;i:2;}i:5;a:6:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:10;i:5;i:2;}}'),
-(2, 'Level 2', 12, 12, 6, 6, 0, 0, 'a:12:{i:0;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:2;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:1;a:12:{i:0;i:2;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:1;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:1;i:11;i:2;}i:2;a:12:{i:0;i:2;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:1;i:7;i:1;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:3;a:12:{i:0;i:1;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:2;i:5;i:1;i:6;i:2;i:7;i:2;i:8;i:2;i:9;i:1;i:10;i:1;i:11;i:1;}i:4;a:12:{i:0;i:1;i:1;i:2;i:2;i:2;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:2;i:7;i:1;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:5;a:12:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:2;i:7;i:1;i:8;i:1;i:9;i:2;i:10;i:1;i:11;i:1;}i:6;a:12:{i:0;i:2;i:1;i:1;i:2;i:1;i:3;i:1;i:4;i:2;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:1;}i:7;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:8;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:2;}i:9;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:1;i:8;i:1;i:9;i:1;i:10;i:1;i:11;i:2;}i:10;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:2;}i:11;a:12:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}}');
+(1, 'Level 1', 6, 6, 6, 6, 0, 0, 'a:6:{i:0;a:6:{i:0;i:70;i:1;i:17;i:2;i:66;i:3;i:66;i:4;i:66;i:5;i:17;}i:1;a:6:{i:0;i:66;i:1;i:17;i:2;i:66;i:3;i:33;i:4;i:66;i:5;i:17;}i:2;a:6:{i:0;i:66;i:1;i:66;i:2;i:66;i:3;i:33;i:4;i:66;i:5;i:17;}i:3;a:6:{i:0;i:66;i:1;i:33;i:2;i:33;i:3;i:33;i:4;i:66;i:5;i:66;}i:4;a:6:{i:0;i:66;i:1;i:66;i:2;i:66;i:3;i:33;i:4;i:33;i:5;i:66;}i:5;a:6:{i:0;i:17;i:1;i:17;i:2;i:66;i:3;i:33;i:4;i:74;i:5;i:66;}}'),
+(2, 'Level 2', 9, 9, 6, 6, 0, 0, 'a:9:{i:0;a:9:{i:0;i:1030;i:1;i:1026;i:2;i:257;i:3;i:257;i:4;i:257;i:5;i:257;i:6;i:1026;i:7;i:1026;i:8;i:1034;}i:1;a:9:{i:0;i:257;i:1;i:1026;i:2;i:257;i:3;i:1026;i:4;i:1026;i:5;i:1026;i:6;i:257;i:7;i:1026;i:8;i:257;}i:2;a:9:{i:0;i:1026;i:1;i:1026;i:2;i:257;i:3;i:1026;i:4;i:257;i:5;i:1026;i:6;i:257;i:7;i:1026;i:8;i:1026;}i:3;a:9:{i:0;i:1026;i:1;i:257;i:2;i:1026;i:3;i:1026;i:4;i:1026;i:5;i:1026;i:6;i:257;i:7;i:257;i:8;i:1026;}i:4;a:9:{i:0;i:1026;i:1;i:1026;i:2;i:1026;i:3;i:257;i:4;i:1026;i:5;i:257;i:6;i:1026;i:7;i:1026;i:8;i:1026;}i:5;a:9:{i:0;i:257;i:1;i:257;i:2;i:257;i:3;i:1026;i:4;i:1026;i:5;i:257;i:6;i:1026;i:7;i:1026;i:8;i:257;}i:6;a:9:{i:0;i:1026;i:1;i:1026;i:2;i:1026;i:3;i:1026;i:4;i:257;i:5;i:257;i:6;i:257;i:7;i:1026;i:8;i:257;}i:7;a:9:{i:0;i:257;i:1;i:257;i:2;i:1026;i:3;i:257;i:4;i:1026;i:5;i:1026;i:6;i:1026;i:7;i:1026;i:8;i:1026;}i:8;a:9:{i:0;i:1026;i:1;i:1026;i:2;i:1026;i:3;i:1026;i:4;i:1026;i:5;i:257;i:6;i:257;i:7;i:257;i:8;i:1026;}}'),
+(3, 'Level 3', 12, 12, 6, 6, 0, 0, 'a:12:{i:0;a:12:{i:0;i:70;i:1;i:17;i:2;i:66;i:3;i:66;i:4;i:66;i:5;i:66;i:6;i:17;i:7;i:66;i:8;i:66;i:9;i:66;i:10;i:66;i:11;i:66;}i:1;a:12:{i:0;i:66;i:1;i:66;i:2;i:17;i:3;i:66;i:4;i:17;i:5;i:66;i:6;i:66;i:7;i:66;i:8;i:17;i:9;i:17;i:10;i:17;i:11;i:66;}i:2;a:12:{i:0;i:66;i:1;i:66;i:2;i:17;i:3;i:66;i:4;i:17;i:5;i:17;i:6;i:17;i:7;i:17;i:8;i:66;i:9;i:66;i:10;i:66;i:11;i:66;}i:3;a:12:{i:0;i:17;i:1;i:66;i:2;i:17;i:3;i:66;i:4;i:66;i:5;i:17;i:6;i:66;i:7;i:66;i:8;i:66;i:9;i:17;i:10;i:17;i:11;i:17;}i:4;a:12:{i:0;i:17;i:1;i:66;i:2;i:66;i:3;i:66;i:4;i:17;i:5;i:17;i:6;i:66;i:7;i:17;i:8;i:66;i:9;i:66;i:10;i:66;i:11;i:66;}i:5;a:12:{i:0;i:66;i:1;i:66;i:2;i:66;i:3;i:66;i:4;i:17;i:5;i:17;i:6;i:66;i:7;i:17;i:8;i:17;i:9;i:66;i:10;i:17;i:11;i:17;}i:6;a:12:{i:0;i:66;i:1;i:17;i:2;i:17;i:3;i:17;i:4;i:66;i:5;i:66;i:6;i:66;i:7;i:66;i:8;i:17;i:9;i:17;i:10;i:66;i:11;i:17;}i:7;a:12:{i:0;i:66;i:1;i:17;i:2;i:66;i:3;i:66;i:4;i:66;i:5;i:17;i:6;i:17;i:7;i:66;i:8;i:66;i:9;i:66;i:10;i:66;i:11;i:66;}i:8;a:12:{i:0;i:66;i:1;i:17;i:2;i:66;i:3;i:17;i:4;i:66;i:5;i:66;i:6;i:66;i:7;i:66;i:8;i:17;i:9;i:17;i:10;i:66;i:11;i:66;}i:9;a:12:{i:0;i:66;i:1;i:17;i:2;i:66;i:3;i:17;i:4;i:66;i:5;i:17;i:6;i:17;i:7;i:17;i:8;i:17;i:9;i:17;i:10;i:17;i:11;i:66;}i:10;a:12:{i:0;i:66;i:1;i:17;i:2;i:66;i:3;i:17;i:4;i:66;i:5;i:17;i:6;i:74;i:7;i:66;i:8;i:17;i:9;i:17;i:10;i:66;i:11;i:66;}i:11;a:12:{i:0;i:66;i:1;i:66;i:2;i:66;i:3;i:17;i:4;i:66;i:5;i:17;i:6;i:17;i:7;i:66;i:8;i:66;i:9;i:66;i:10;i:66;i:11;i:66;}}');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Initial_map_item`
+--
+
+CREATE TABLE IF NOT EXISTS `Initial_map_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ref_map` int(11) NOT NULL,
+  `ref_item` int(11) NOT NULL,
+  `position_x` int(11) NOT NULL,
+  `position_y` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ref_map` (`ref_map`),
+  KEY `ref_item` (`ref_item`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Contenu de la table `Initial_map_item`
+--
+
+INSERT INTO `Initial_map_item` (`id`, `ref_map`, `ref_item`, `position_x`, `position_y`) VALUES
+(1, 1, 1, 2, 5),
+(2, 2, 2, 0, 8),
+(3, 2, 1, 8, 8),
+(4, 2, 5, 6, 0),
+(5, 3, 3, 6, 1),
+(6, 3, 1, 3, 5),
+(7, 3, 1, 10, 6),
+(8, 3, 2, 9, 5),
+(9, 3, 1, 7, 8),
+(10, 3, 5, 2, 0),
+(11, 2, 3, 5, 3),
+(12, 2, 1, 6, 4);
 
 -- --------------------------------------------------------
 
@@ -123,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `Initial_map_monster` (
   PRIMARY KEY (`id`),
   KEY `ref_init_map` (`ref_map`),
   KEY `ref_init_monster` (`ref_monster`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Contenu de la table `Initial_map_monster`
@@ -132,8 +195,18 @@ CREATE TABLE IF NOT EXISTS `Initial_map_monster` (
 INSERT INTO `Initial_map_monster` (`id`, `ref_map`, `ref_monster`, `position_x`, `position_y`, `direction`) VALUES
 (1, 1, 1, 1, 2, 'LEFT'),
 (2, 1, 2, 4, 3, 'UP'),
-(3, 2, 1, 1, 2, 'UP'),
-(4, 2, 2, 3, 3, 'LEFT');
+(4, 2, 2, 3, 2, 'DOWN'),
+(5, 1, 2, 0, 4, 'UP'),
+(6, 2, 3, 2, 7, 'UP'),
+(7, 2, 5, 7, 6, 'DOWN'),
+(8, 2, 4, 7, 1, 'DOWN'),
+(9, 3, 1, 1, 3, 'UP'),
+(10, 3, 3, 5, 1, 'UP'),
+(11, 3, 3, 7, 1, 'UP'),
+(12, 3, 2, 2, 7, 'DOWN'),
+(13, 3, 2, 4, 7, 'LEFT'),
+(14, 3, 4, 9, 7, 'LEFT'),
+(15, 3, 5, 7, 11, 'RIGHT');
 
 -- --------------------------------------------------------
 
@@ -156,15 +229,18 @@ CREATE TABLE IF NOT EXISTS `Initial_monster` (
   `posture` tinyint(1) NOT NULL,
   `round` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `Initial_monster`
 --
 
 INSERT INTO `Initial_monster` (`id`, `name`, `position_x`, `position_y`, `direction`, `ref`, `health_max`, `health`, `strength`, `resistance`, `speed`, `posture`, `round`) VALUES
-(1, 'Rabivador', 0, 0, 'LEFT', 'rabivador', 15, 15, 12, 6, 7, 1, 0),
-(2, 'Crazyfrog', 0, 0, 'UP', 'crazyfrog', 17, 17, 15, 4, 5, 1, 0);
+(1, 'Rabivador', 0, 0, 'LEFT', 'rabivador', 18, 18, 18, 17, 17, 1, 0),
+(2, 'Crazyfrog', 0, 0, 'UP', 'crazyfrog', 16, 16, 17, 18, 19, 1, 0),
+(3, 'Kevindiesel', 0, 0, 'LEFT', 'kevindiesel', 20, 20, 16, 22, 22, 1, 0),
+(4, 'Thomagneto', 0, 0, 'RIGHT', 'thomagneto', 22, 22, 21, 17, 20, 1, 0),
+(5, 'Floracle', 0, 0, 'DOWN', 'floracle', 24, 24, 20, 20, 16, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -186,18 +262,30 @@ CREATE TABLE IF NOT EXISTS `Playing_character` (
   `speed` int(10) unsigned NOT NULL,
   `posture` tinyint(1) NOT NULL,
   `round` tinyint(1) NOT NULL,
+  `life` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
 
 --
--- Contenu de la table `Playing_character`
+-- Structure de la table `Playing_item`
 --
 
-INSERT INTO `Playing_character` (`id`, `name`, `position_x`, `position_y`, `direction`, `ref`, `health_max`, `health`, `strength`, `resistance`, `speed`, `posture`, `round`) VALUES
-(38, 'Rozy', 1, 1, 'RIGHT', 'mage02', 18, 18, 15, 10, 4, 1, 0),
-(55, 'Guillaume', 1, 2, 'RIGHT', 'mage01', 22, 22, 14, 12, 6, 1, 0),
-(59, 'Johan', 5, 5, 'DOWN', 'mage04', 20, 8, 11, 8, 7, 1, 0),
-(60, 'Rozy', 3, 3, 'UP', 'mage02', 18, 13, 15, 10, 4, 1, 0);
+CREATE TABLE IF NOT EXISTS `Playing_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `position_x` int(11) NOT NULL,
+  `position_y` int(11) NOT NULL,
+  `ref` varchar(255) NOT NULL,
+  `health` int(11) NOT NULL DEFAULT '0',
+  `health_max` int(11) NOT NULL DEFAULT '0',
+  `strength` int(11) NOT NULL DEFAULT '0',
+  `resistance` int(11) NOT NULL DEFAULT '0',
+  `speed` int(11) NOT NULL DEFAULT '0',
+  `life` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -216,17 +304,22 @@ CREATE TABLE IF NOT EXISTS `Playing_map` (
   `origin_y` int(11) NOT NULL,
   `map` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
 
 --
--- Contenu de la table `Playing_map`
+-- Structure de la table `Playing_map_item`
 --
 
-INSERT INTO `Playing_map` (`id`, `name`, `size_height`, `size_width`, `visible_x`, `visible_y`, `origin_x`, `origin_y`, `map`) VALUES
-(38, 'Level 2', 12, 12, 6, 6, 0, 0, 'a:12:{i:0;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:2;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:1;a:12:{i:0;i:2;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:1;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:1;i:11;i:2;}i:2;a:12:{i:0;i:2;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:1;i:7;i:1;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:3;a:12:{i:0;i:1;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:2;i:5;i:1;i:6;i:2;i:7;i:2;i:8;i:2;i:9;i:1;i:10;i:1;i:11;i:1;}i:4;a:12:{i:0;i:1;i:1;i:2;i:2;i:2;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:2;i:7;i:1;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:5;a:12:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:2;i:7;i:1;i:8;i:1;i:9;i:2;i:10;i:1;i:11;i:1;}i:6;a:12:{i:0;i:2;i:1;i:1;i:2;i:1;i:3;i:1;i:4;i:2;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:1;}i:7;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:8;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:2;}i:9;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:1;i:8;i:1;i:9;i:1;i:10;i:1;i:11;i:2;}i:10;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:2;}i:11;a:12:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}}'),
-(55, 'Default', 6, 6, 6, 6, 0, 0, 'a:6:{i:0;a:6:{i:0;i:6;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:1;}i:1;a:6:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;}i:2;a:6:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;}i:3;a:6:{i:0;i:2;i:1;i:1;i:2;i:1;i:3;i:1;i:4;i:2;i:5;i:2;}i:4;a:6:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:1;i:5;i:2;}i:5;a:6:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:10;i:5;i:2;}}'),
-(59, 'Default', 6, 6, 6, 6, 0, 0, 'a:6:{i:0;a:6:{i:0;i:6;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:1;}i:1;a:6:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;}i:2;a:6:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;}i:3;a:6:{i:0;i:2;i:1;i:1;i:2;i:1;i:3;i:1;i:4;i:2;i:5;i:2;}i:4;a:6:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:1;i:5;i:2;}i:5;a:6:{i:0;i:1;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:10;i:5;i:2;}}'),
-(60, 'Level 2', 12, 12, 6, 6, 0, 0, 'a:12:{i:0;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:2;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:1;a:12:{i:0;i:2;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:1;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:1;i:11;i:2;}i:2;a:12:{i:0;i:2;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:1;i:7;i:1;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:3;a:12:{i:0;i:1;i:1;i:2;i:2;i:1;i:3;i:2;i:4;i:2;i:5;i:1;i:6;i:2;i:7;i:2;i:8;i:2;i:9;i:1;i:10;i:1;i:11;i:1;}i:4;a:12:{i:0;i:1;i:1;i:2;i:2;i:2;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:2;i:7;i:1;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:5;a:12:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:2;i:4;i:1;i:5;i:1;i:6;i:2;i:7;i:1;i:8;i:1;i:9;i:2;i:10;i:1;i:11;i:1;}i:6;a:12:{i:0;i:2;i:1;i:1;i:2;i:1;i:3;i:1;i:4;i:2;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:1;}i:7;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:2;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}i:8;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:2;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:2;}i:9;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:1;i:8;i:1;i:9;i:1;i:10;i:1;i:11;i:2;}i:10;a:12:{i:0;i:2;i:1;i:1;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:2;i:7;i:2;i:8;i:1;i:9;i:1;i:10;i:2;i:11;i:2;}i:11;a:12:{i:0;i:2;i:1;i:2;i:2;i:2;i:3;i:1;i:4;i:2;i:5;i:1;i:6;i:1;i:7;i:2;i:8;i:2;i:9;i:2;i:10;i:2;i:11;i:2;}}');
+CREATE TABLE IF NOT EXISTS `Playing_map_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ref_map` int(11) NOT NULL,
+  `ref_item` int(11) NOT NULL,
+  `position_x` int(11) NOT NULL,
+  `position_y` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -244,16 +337,7 @@ CREATE TABLE IF NOT EXISTS `Playing_map_monster` (
   PRIMARY KEY (`id`),
   KEY `ref_game` (`ref_map`),
   KEY `ref_playing_monster` (`ref_monster`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
-
---
--- Contenu de la table `Playing_map_monster`
---
-
-INSERT INTO `Playing_map_monster` (`id`, `ref_map`, `ref_monster`, `position_x`, `position_y`, `direction`) VALUES
-(56, 38, 74, 3, 3, 'UP'),
-(73, 55, 107, 1, 2, 'UP'),
-(74, 55, 108, 4, 3, 'UP');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -276,32 +360,7 @@ CREATE TABLE IF NOT EXISTS `Playing_monster` (
   `posture` tinyint(1) NOT NULL,
   `round` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=119 ;
-
---
--- Contenu de la table `Playing_monster`
---
-
-INSERT INTO `Playing_monster` (`id`, `name`, `position_x`, `position_y`, `direction`, `ref`, `health_max`, `health`, `strength`, `resistance`, `speed`, `posture`, `round`) VALUES
-(74, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(77, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(78, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(79, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(80, 'Crazyfrog', 4, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(81, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(82, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(83, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(84, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(87, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(88, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(89, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(90, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(91, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(92, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(93, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 15, 9, 6, 7, 1, 0),
-(94, 'Crazyfrog', 3, 3, 'UP', 'crazyfrog', 17, 17, 12, 4, 5, 1, 0),
-(107, 'Rabivador', 1, 2, 'LEFT', 'rabivador', 15, 7, 12, 6, 7, 1, 1),
-(108, 'Crazyfrog', 4, 3, 'UP', 'crazyfrog', 17, 17, 15, 4, 5, 1, 0);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -316,45 +375,15 @@ CREATE TABLE IF NOT EXISTS `User` (
   `password` varchar(255) NOT NULL,
   `salt` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `User`
 --
 
 INSERT INTO `User` (`id`, `username`, `email`, `password`, `salt`) VALUES
-(1, 'tmenu', 'menu.tho@gmail.com', 'tmenu', ''),
-(2, 'fmartinelli', 'floflorian89@hotmail.fr', 'fmartinelli', ''),
-(25, 'test01', 'test@test.fr', 'ace54ca1b1152fe21d1fafe48228a5cd827f393c32a1f698c1e14fb00f771a44379a37e9b7c884b6bf501773a581f5b46411ba5a625a39769fbd667749e3f1a5', 'ZCOxfvesFXa4QnXrrXD2HZWVHVemUvMoA8aWNYIxadwb9Q1dyc'),
-(26, 'test02', 'test@test.fr', 'c74b8ba5949659f8bf258d48791ec608949c13ebe45c32883b25ac33148375676532e97638684e6d86d8f8b88e1771173908cd0276e2956a09df9b417dbc088b', 'luP6PYUDswy7IY3XvnFr2KZ1WkiHx2VIgAfTXkQWtfyqX8zy7d'),
-(27, 'Florian', 'adresse@email.com', '41c71541abdf4e6769b3a3f563a024ddf5f6bebbcb3597c4f2a0f0da004ade80d2c16d5008755710578004cfa1ff97289110015ce6d1b0b1a54982f8a1b83c83', '6UVWfh1VbFAfbmmqiCX4nUqpbDeqPdnDhQooB1mvBxd1upEsXT'),
-(28, 'user', 'user@user.fr', '3ac30cb6223fef43a6dcad912432178f61423039be313d99fe374b8c1fd28c18b386314070728e877bad2af874a234dbe6ff9f69f990d8d9f2585232fba843ce', 'yjJjTsbaYclFjWQMYKQjY4dR620IRn2JMVHDPqq4ceqiXTpStX');
-
---
--- Contraintes pour les tables exportées
---
-
---
--- Contraintes pour la table `Game`
---
-ALTER TABLE `Game`
-  ADD CONSTRAINT `Game_ibfk_3` FOREIGN KEY (`ref_character`) REFERENCES `Playing_character` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Game_ibfk_1` FOREIGN KEY (`ref_user`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Game_ibfk_2` FOREIGN KEY (`ref_map`) REFERENCES `Playing_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `Initial_map_monster`
---
-ALTER TABLE `Initial_map_monster`
-  ADD CONSTRAINT `Initial_map_monster_ibfk_1` FOREIGN KEY (`ref_map`) REFERENCES `Initial_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Initial_map_monster_ibfk_2` FOREIGN KEY (`ref_monster`) REFERENCES `Initial_monster` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `Playing_map_monster`
---
-ALTER TABLE `Playing_map_monster`
-  ADD CONSTRAINT `Playing_map_monster_ibfk_1` FOREIGN KEY (`ref_map`) REFERENCES `Playing_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Playing_map_monster_ibfk_2` FOREIGN KEY (`ref_monster`) REFERENCES `Playing_monster` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+(1, 'test01', 'test@test.fr', 'd1720a98f4e55492c669a2318bd99eaa7c1becff5b54b344c17e5778893be811434bbe831938303c93cab482414dd7403113f7bdcd3222e425177da6d5dbc2b7', 'caNlvVrIBFH3XmU2wWih12O4hr4M7hfrgVXYLxOSO9hieZMKR2'),
+(2, 'test', 'test@test.fr', '424a6423d066d696fceb5a29a66987402ceb27208348ec2bdaae52e33cf26a9efbc25c4b3c9e38501fcc7773e752b324defb5e2a0e04978be95620dc4a09b0a1', 'Cg8ewgHDbWVhynCUxiDHQEtV2MVdSmgld5pFBOnafRInBIggMc');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

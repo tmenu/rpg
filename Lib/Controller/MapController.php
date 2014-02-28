@@ -10,6 +10,7 @@ use Lib\Session;
 
 use Lib\Entity\Map;
 use Lib\Entity\Map_monster;
+use Lib\Entity\Map_item;
 
 class MapController extends Controller
 {
@@ -174,7 +175,7 @@ class MapController extends Controller
 				}
 
 
-				// Les monstres liés à la map
+				// Les items liés à la map
 				$map_items = Manager::getManagerOf('playing_map_item')->selectByMap( $this->game->getRef_map() );
 
 				foreach ($map_items as $item)
@@ -204,6 +205,18 @@ class MapController extends Controller
 					$map->addMonster( $monster );
 				}
 
+				// Les items liés à la map
+				$map_items = Manager::getManagerOf('initial_map_item')->selectByMap( $map->getId() );
+
+				foreach ($map_items as $map_item)
+				{
+					$item = Manager::getManagerOf('initial_item')->select( $map_item->getRef_item() );
+					$item->setPosition_x( $map_item->getPosition_x() );
+					$item->setPosition_y( $map_item->getPosition_y() );
+
+					$map->addItem( $item );
+				}
+
 				// Enregistrement de la nouvelle map
 
 				$this->game->setRef_initial_map( $map->getId() );
@@ -222,12 +235,29 @@ class MapController extends Controller
 					$map_monster = new Map_monster();
 
 					$map_monster->setRef_map( $map->getId() );
-					$map_monster->setref_monster( $monster->getId() );
+					$map_monster->setRef_monster( $monster->getId() );
 					$map_monster->setPosition_x( $monster->getPosition_x() );
 					$map_monster->setPosition_y( $monster->getPosition_y() );
 					$map_monster->setDirection( $monster->getDirection());
 
 					Manager::getManagerOf('playing_map_monster')->save( $map_monster );
+				}
+
+				// Les items liés à la map
+				foreach ($map->getItems() as $item)
+				{
+					$item->setId(null);
+					$item = Manager::getManagerOf('playing_item')->save( $item );
+
+					// Création de la liaison monstre/map
+					$map_item = new Map_item();
+
+					$map_item->setRef_map( $map->getId() );
+					$map_item->setRef_item( $monster->getId() );
+					$map_item->setPosition_x( $monster->getPosition_x() );
+					$map_item->setPosition_y( $monster->getPosition_y() );
+
+					Manager::getManagerOf('playing_map_item')->save( $map_item );
 				}
 
 				// Affectation de la map
