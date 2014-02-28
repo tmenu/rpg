@@ -19,29 +19,36 @@ class FightController extends Controller
 	{
 		parent::__construct($app);
 	
-		if (!isset($_SESSION['monster']) || empty($_SESSION['monster'])) {
+		if (!isset($_SESSION['current_fight']) || empty($_SESSION['current_fight'])) {
 			Session::setFlashMessage('danger', 'Aucun combat en cours');
 			Utils::redirect( Router::generateUrl('map.index') );
 		}
 
-		$this->monster = unserialize($_SESSION['monster']);
+		// Récupération du combat
+		$fight = unserialize($_SESSION['current_fight']);
 
-		$game = unserialize($_SESSION['current_game']);
-		$this->character = $game->getCharacter();
+		$this->monster   = $fight['monster'];
+		$this->character = $fight['character'];
 	}
 
 	public function __destruct()
 	{
 		if ($this->character != null) {
 			// Sauvegarde personnage
-			$game = unserialize($_SESSION['current_game']);
-			$game->setCharacter( $this->character );
-			$_SESSION['current_game'] = serialize($game);
+			$fight = unserialize($_SESSION['current_fight']);
+
+			$fight['character'] = $this->character;
+
+			$_SESSION['current_fight'] = serialize($fight);
 		}
 
 		if ($this->monster != null) {
 			// Sauvegarde monstres
-			$_SESSION['monster'] = serialize($this->monster);
+			$fight = unserialize($_SESSION['current_fight']);
+
+			$fight['monster'] = $this->monster;
+
+			$_SESSION['current_fight'] = serialize($fight);
 		}
 	}
 
@@ -56,19 +63,86 @@ class FightController extends Controller
 		// Si le monstre est en défense
 		if ($opponent->getPosture() == Character::DEFENSE) {
 			// Calcule des dommages minorés
-			$damageDealed  = max(0, $attacker->getStrength() - ($opponent->getResistance() * 1.5)); // force - (resistance * 1.5)
+			$damageDealed  = round(max(0, ($attacker->getStrength() / 2) - (($opponent->getResistance() / 4) * 1.5))); // force / 2 - ( (resistance / 4) * 1.5)
+
 		}
 		else {
 			// Calcule des dommages standard
-			$damageDealed  = max(0, $attacker->getStrength() - $opponent->getResistance());
+			$damageDealed  = round(max(0,($attacker->getStrength() / 2) - (($opponent->getResistance() / 4)))); 		// force / 2 - resistance / 4
 		}
+
+		// Test d'esquive
+		$dodgingPercentage = 100 - ( (1 + $opponent->getSpeed()) / ($attacker->getSpeed() + 1) * 10 );
+
+		if($dodgingPercentage < 50)
+			$dodgingPercentage = 50;
 		
-		// Application des dommages
-		$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+		$randomNumber = rand(0, 100);
+
+		if (get_class($attacker) == 'Lib\\Entity\\Character') {
+			Manager::getManagerOf('playing_character')->save( $attacker );
+			Manager::getManagerOf('playing_monster')->save( $opponent );
+
+			if($randomNumber < $dodgingPercentage)
+			{
+				// Application des dommages
+				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+				$_SESSION['fight_log'] = 'Vous infligez <b>' . $damageDealed . '</b> de dégât à l\'ennemi';
+			}
+			else
+			{
+				$_SESSION['fight_log'] = 'L\'ennemi esquive votre attaque';
+			}
+		}
+		else {
+			Manager::getManagerOf('playing_monster')->save( $attacker );
+			Manager::getManagerOf('playing_character')->save( $opponent );
+
+			if($randomNumber < $dodgingPercentage)
+			{
+				// Application des dommages
+				$opponent->setHealth(max(0, $opponent->getHealth() - $damageDealed));
+				$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégât';
+			}
+			else
+			{
+				$_SESSION['fight_log'] = 'Vous esquivez l\'attaque';
+			}
+		}
 
 		// Prochain tour
 		$attacker->setRound('0');
 		$opponent->setRound('1');
+	}
+
+	/**
+     * Action : attack
+     */
+	public function attackAction()
+	{
+		// Si c'est au tour du perso
+		if ($this->character->getRound() == 1) {
+			$this->attack($this->character, $this->monster);
+		}
+		else if ($this->monster->getRound() == 1) {
+			$this->attack($this->monster, $this->character);
+		}
+
+		if (isset($_GET['isAjax'])) {
+			$this->indexAction();
+		}
+		else {
+			Utils::redirect( Router::generateUrl('fight.index') );
+		}
+	}
+
+	protected function defense($attacker, $opponent)
+	{
+		// Prochain tour pour l'adversaire
+		$attacker->setRound('0');
+		$opponent->setRound('1');
+
+		$attacker->setPosture(Character::DEFENSE);
 
 		if (get_class($attacker) == 'Lib\\Entity\\Character') {
 			Manager::getManagerOf('playing_character')->save( $attacker );
@@ -85,18 +159,11 @@ class FightController extends Controller
 	}
 
 	/**
-     * Action : attack
+     * Action : defense
      */
-	public function attackAction()
+	public function defenseAction()
 	{
-		$this->attack($this->character, $this->monster);
-
-		Utils::redirect( Router::generateUrl('fight.index') );
-	}
-
-	public function continueAction()
-	{
-		$this->attack($this->monster, $this->character);
+		$this->defense($this->character, $this->monster);
 
 		Utils::redirect( Router::generateUrl('fight.index') );
 	}
@@ -106,36 +173,40 @@ class FightController extends Controller
      */
 	public function indexAction()
 	{
-		// Début du combat, calcul du premier attaquant en fonction de la plus haute vitesse
+		// Début du combat (round 0 0)
 		if ($this->character->getRound() == 0 && $this->monster->getRound() == 0)
 		{
-			$speedCompare = $this->character->getSpeed() - $this->monster->getSpeed();
-
-			// Si monstre plus rapide
-			if ($speedCompare < 0) {
+			// Détermination du premier attaquant en fonction de la plus haute vitesse
+			if ($this->monster->getSpeed() > $this->character->getSpeed())
+			{
 				$this->monster->setRound('1');
+				Manager::getManagerOf('playing_monster')->save($this->monster);
+
 				$_SESSION['fight_log'] = $this->monster->getName() . " est le premier à attaquer !";
 			}
-			else {
+			else
+			{
 				$this->character->setRound('1');
+				Manager::getManagerOf('playing_character')->save($this->character);
+
 				$_SESSION['fight_log'] = "Vous êtes le premier à attaquer !";
 			}
 		}
-		else if (!isset($_SESSION['fight_log']))
+		else if (!isset($_SESSION['fight_log'])) // Si aucun message (partie venant d'être chargé)
 		{
 			if ($this->character->getRound() == 1) {
 				$_SESSION['fight_log'] = 'A vous d\'attaquer !';
 			}
-			else {
+			else if ($this->monster->getRound() == 1){
 				$_SESSION['fight_log'] = 'A l\'ennemi d\'attaquer !';
 			}
 		}
 
 		// Ajout des données pour la vue
-		$this->setVar('monster', $this->monster);
+		$this->setVar('monster',   $this->monster);
 		$this->setVar('character', $this->character);
-		
-		// Vérification des points de vie des deux combattants
+
+		// Si le monstre est mort
 		if ($this->monster->getHealth() == 0)
 		{
 			$game = unserialize($_SESSION['current_game']);
@@ -147,8 +218,8 @@ class FightController extends Controller
 			$monsters = $game->getMap()->getMonsters(); // Récupération des monstres
 			$game->getMap()->setMonsters( array() );    // Suppression de la liste des monstre actuelle
 
+			// Réaffectation des monstre en ignorant celui qui est mort
 			foreach ($monsters as $monster) {
-				// Si ce n'est pas le monstre mort : ajout à la map
 				if ($monster->getId() != $this->monster->getId()) {
 					$game->getMap()->addMonster( $monster );
 				}
@@ -163,9 +234,9 @@ class FightController extends Controller
 			/**
 			 * Evolution du perso
 			 */
-			$game->getCharacter()->setRound(0);
+			$game->getCharacter()->setRound(0); // Remise a 0
 
-			// +5 de vie
+			// +5 de vie (cadeau)
 			$game->getCharacter()->setHealth( min($this->character->getHealth() + 5, $this->character->getHealth_max()) );
 
 			// Sauvegarde
@@ -175,56 +246,61 @@ class FightController extends Controller
 			$_SESSION['current_game'] = serialize($game);
 
 			// Petit msg
-			$_SESSION['fight_log'] = "<b>YOU WIN !!!</b>";
+			$_SESSION['fight_log'] = "<b>YOU WIN !!!</b><br />Vous récupérez 5 de santé";
 
 			// Fin du combat
-			unset($_SESSION['monster']);
-			$this->monster = null; // Pour ne pas re-sérializer en session
-			unset($_SESSION['character']);
-			$this->character = null; // Pour ne pas re-sérializer en session
-
-			// Fin
-			$this->setVar('end', true);
+			unset($_SESSION['current_fight']);
+			
+			// Pour ne pas re-sérializer en session
+			$this->monster = null;
+			$this->character = null;       
 		}
 		else if ($this->character->getHealth() == 0)
 		{
-			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b>";
+			/**
+			 * Reset de la position d'origine sur la map et de la vie du personnage
+			 */
+			$game = unserialize($_SESSION['current_game']);
 
-			// Fin
-			$this->setVar('end', true);
+			$game->getCharacter()->setHealth( $game->getCharacter()->getHealth_max() );
+			$game->getCharacter()->setPosition_x( 0 );
+			$game->getCharacter()->setPosition_y( 0 );
+			$game->getCharacter()->setDirection( 'DOWN' );
+			$game->getCharacter()->setLife( $game->getCharacter()->getLife() - 1 );
+
+			$game->getMap()->setOrigin_x( 0 );
+			$game->getMap()->setOrigin_y( 0 );
+
+			// Sauvegarde
+			Manager::getManagerOf('playing_character')->save($game->getCharacter());
+			Manager::getManagerOf('playing_map')->save($game->getMap());
+
+			// Sérialisation de la partie
+			$_SESSION['current_game'] = serialize($game);
+
+			// Petit msg
+			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b>Vous perdez une vie";
+
+			// Fin du combat
+			unset($_SESSION['current_fight']);
+
+			// Pour ne pas re-sérializer en session
+			$this->monster = null;
+			$this->character = null;    
 		}
 
-		// Ajout des infos de comat pour la vue
 		$this->setVar('fight_log', $_SESSION['fight_log']);
 		unset($_SESSION['fight_log']);
 
 		// Chargement de la vue
-		$this->fetch('/Fight/index.php');
+		if (isset($_GET['isAjax'])) {
+			echo json_encode(array(
+				'battle' => $this->fetchView('/Fight/index.php')
+			));
+			exit;
+		}
+		else {
+			$this->fetch('/Fight/index.php');
+		}
 	}
-
-	/**
-     * Action : defense
-     */
-	/*public function defense($attacker, $opponent)
-	{
-		$attacker->setPosture('0');
-
-		$attacker->setRound('0');
-		$opponent->setRound('1');
-
-		$heroName  = unserialize($_SESSION['data']['perso']);
-
-		if($attacker->getName() == $heroName->getName())
-		{
-			$_SESSION['data']['perso'] = serialize($attacker);
-			$_SESSION['data']['frog'] = serialize($opponent);
-		}
-		else
-		{
-			$_SESSION['data']['frog'] = serialize($attacker);
-			$_SESSION['data']['perso'] = serialize($opponent);
-		}
-
-		return $attacker->getName() . " défend !";
-	}*/
 }

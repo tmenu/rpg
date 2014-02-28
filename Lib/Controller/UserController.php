@@ -9,17 +9,10 @@ use Lib\Session;
 
 use Lib\Entity\User;
 use Lib\Entity\Game;
-//use Lib\Entity\Character;
-//use Lib\Entity\Map;
 use Lib\Entity\Map_monster;
 
 class UserController extends Controller
 {
-	public function testAction()
-	{
-		
-	}
-
 	protected function newGame($character_id, $map_id)
 	{
 		/**
@@ -35,8 +28,6 @@ class UserController extends Controller
 		// Les monstres liés à la map
 		$map_monsters = Manager::getManagerOf('initial_map_monster')->selectByMap( $map->getId() );
 
-		$monster = array();
-
 		foreach ($map_monsters as $map_monster)
 		{
 			$monster = Manager::getManagerOf('initial_monster')->select( $map_monster->getRef_monster() );
@@ -44,7 +35,7 @@ class UserController extends Controller
 			$monster->setPosition_y( $map_monster->getPosition_y() );
 			$monster->setDirection( $map_monster->getDirection());
 
-			$monsters[] = $monster;
+			$map->addMonster( $monster );
 		}
 
 		/**
@@ -60,7 +51,7 @@ class UserController extends Controller
 		$map = Manager::getManagerOf('playing_map')->save( $map );
 
 		// Les monstres liés à la map
-		foreach ($monsters as $monster)
+		foreach ($map->getMonsters() as $monster)
 		{
 			$monster->setId(null);
 			$monster = Manager::getManagerOf('playing_monster')->save( $monster );
@@ -83,6 +74,8 @@ class UserController extends Controller
 		$game->setRef_user( $_SESSION['user_id'] );
 		$game->setRef_map( $map->getId() );
 		$game->setRef_character( $character->getId() );
+		$game->setRef_initial_map( $map_id );
+		$game->setRef_initial_character( $character_id );
 
 		Manager::getManagerOf('game')->save( $game );
 	}
@@ -326,26 +319,38 @@ class UserController extends Controller
 		// Récupération de la partie à supprimer
 		$game = Manager::getManagerOf('game')->select( $_GET['id_game'] );
 
-		// Le personnage
-		$character = Manager::getManagerOf('playing_character')->select( $game->getRef_character() );
-
-		// La map
-		$map = Manager::getManagerOf('playing_map')->select( $game->getRef_map() );
-
 		// Les monstres liés à la map
-		$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $map->getId() );
+		$map_monsters = Manager::getManagerOf('playing_map_monster')->selectByMap( $game->getRef_map() );
 
 		/**
 		 * Supression de la partie et de toute ces données
 		 */
 		Manager::getManagerOf('game')->delete( $game->getId() );
-		Manager::getManagerOf('playing_character')->delete( $character->getId() );
+		Manager::getManagerOf('playing_character')->delete( $game->getRef_character() );
 		Manager::getManagerOf('playing_map')->delete( $game->getRef_map() );
 
 		foreach ($map_monsters as $monster)
 		{
 			Manager::getManagerOf('playing_map_monster')->delete( $monster->getId() );
 			Manager::getManagerOf('playing_monster')->delete( $monster->getRef_monster() );
+		}
+
+		// Si il y a une partie en cours
+		if (isset($_SESSION['current_game']))
+		{
+			$game = unserialize($_SESSION['current_game']);
+
+			// Si la partie en cours est celle que l'on supprime
+			if ($game->getId() == $_GET['id_game'])
+			{
+				// Supprime la martie en cours
+				unset($_SESSION['current_game']);
+
+				// S'il y a un combat en cours
+				if (isset($_SESSION['fight'])) {
+					unset($_SESSION['fight']); // Supprime le combat en cours (qui correspond à la partie supprimée)
+				}
+			}
 		}
 
 		Session::setFlashMessage('success', 'La partie à bien été supprimée');
@@ -379,24 +384,23 @@ class UserController extends Controller
 		}
 
 		$_SESSION['current_game'] = serialize($game);
-		unset($_SESSION['monster']);
 
 		/**
 		 * Test si combat en cours
 		 */
-		$position = array(
-			'x' => $character->getPosition_x(),
-			'y' => $character->getPosition_y()
-		);
-		$monsters = $map->getMonsters();
+		$character = $game->getCharacter();
+		$monsters = $game->getMap()->getMonsters();
+
+		unset($_SESSION['current_fight']); // Reset éventuelle combat en cours
 
 		foreach ($monsters as $monster)
 		{
-			if ($position['x'] == $monster->getPosition_x() && $position['y'] == $monster->getPosition_y())
+			if ($character->getPosition_x() == $monster->getPosition_x() && $character->getPosition_y() == $monster->getPosition_y())
 			{
-				$_SESSION['monster'] = serialize($monster);
-
-				Utils::redirect( Router::generateUrl('fight.index') );
+				$_SESSION['current_fight'] = serialize(array(
+					'monster'   => $monster,
+					'character' => $character
+				));
 			}
 		}
 

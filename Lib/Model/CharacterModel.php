@@ -57,7 +57,8 @@ abstract class CharacterModel extends Model
 											position_x = :position_x,
 											position_y = :position_y,
 											direction  = :direction,
-											ref		   = :ref');
+											ref		   = :ref,
+											life       = :life');
 
 		$request->bindValue(':health_max', $entity->getHealth_max(), \PDO::PARAM_INT);
 		$request->bindValue(':health', 	   $entity->getHealth(), \PDO::PARAM_INT);
@@ -71,6 +72,7 @@ abstract class CharacterModel extends Model
 		$request->bindValue(':position_y', $entity->getPosition_y(), \PDO::PARAM_INT);
 		$request->bindValue(':direction',  $entity->getDirection());
 		$request->bindValue(':ref', 	   $entity->getRef());
+		$request->bindValue(':life',       $entity->getLife(), \PDO::PARAM_INT);
 
 		if ($request->execute() != false) {
 			$entity->setId( $this->pdo->lastInsertId() );
@@ -96,7 +98,8 @@ abstract class CharacterModel extends Model
 											position_x = :position_x,
 											position_y = :position_y,
 											direction  = :direction,
-											ref		   = :ref
+											ref		   = :ref,
+											life       = :life
 										WHERE id = :id');
 
 		$request->bindValue(':health_max', $entity->getHealth_max(), \PDO::PARAM_INT);
@@ -111,6 +114,7 @@ abstract class CharacterModel extends Model
 		$request->bindValue(':position_y', $entity->getPosition_y(), \PDO::PARAM_INT);
 		$request->bindValue(':direction',  $entity->getDirection());
 		$request->bindValue(':ref', 	   $entity->getRef());
+		$request->bindValue(':life',       $entity->getLife(), \PDO::PARAM_INT);
 
 		$request->bindValue(':id', $entity->getId(),  \PDO::PARAM_INT);
 

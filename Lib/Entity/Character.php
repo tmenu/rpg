@@ -20,9 +20,18 @@ class Character extends Entity
     protected $direction;
     protected $ref;
 
+    protected $life;
+
     // Postures
     CONST DEFENSE = 0;
     CONST ATTACK  = 1;
+
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+
+        $this->setLife(3);
+    }
 
     /**
      * Gets the value of health_max.
@@ -308,6 +317,30 @@ class Character extends Entity
     public function setRef($ref)
     {
         $this->ref = $ref;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of life.
+     *
+     * @return mixed
+     */
+    public function getLife()
+    {
+        return $this->life;
+    }
+
+    /**
+     * Sets the value of life.
+     *
+     * @param mixed $life the life
+     *
+     * @return self
+     */
+    public function setLife($life)
+    {
+        $this->life = $life;
 
         return $this;
     }

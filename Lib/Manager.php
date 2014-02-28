@@ -8,6 +8,10 @@ class Manager
 	CONST USER     = 'rpg';
 	CONST PASSWORD = 'rpg2511';
 
+	/*CONST DSN      = 'mysql:dbname=rpg;host=127.0.0.1';
+	CONST USER     = 'root';
+	CONST PASSWORD = 'root';*/
+
 	protected static $pdo      = null;
 	protected static $managers = array();
 

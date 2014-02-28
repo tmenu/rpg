@@ -13,5 +13,11 @@ if (isset($_GET['resses'])) {
 	\Lib\Utils::redirect( \Lib\Router::generateUrl('map.index') );
 }
 
+if (!isset($_SESSION['auth'])) {
+	$_SESSION = array(
+		'auth' => false
+	);
+}
+
 $application = new Lib\Application();
 $application->run();

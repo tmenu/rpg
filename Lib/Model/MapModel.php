@@ -119,8 +119,8 @@ abstract class MapModel extends Model
 
 	public function delete($id)
 	{
-		$request = $this->pdo->prepare('DELETE FROM ' . $this->type . '_map WHERE id = :id');
-        $request->bindValue(':id', $id);
-        $request->execute();
+    $request = $this->pdo->prepare('DELETE FROM ' . $this->type . '_map WHERE id = :id');
+    $request->bindValue(':id', $id);
+    $request->execute();
 	}
 }

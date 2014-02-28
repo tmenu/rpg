@@ -104,6 +104,12 @@
 	"fight.continue": {
 		"regex": "/continuer.html",
 		"controller": "Fight",
-		"action": "continue"
+		"action": "attack"
+	},
+
+	"fight.defense": {
+		"regex": "/defense.html",
+		"controller": "Fight",
+		"action": "defense"
 	}
 }
