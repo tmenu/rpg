@@ -8,7 +8,6 @@ use Lib\Utils;
 use Lib\Manager;
 use Lib\Session;
 
-use Lib\Entity\Game;
 use Lib\Entity\Map;
 use Lib\Entity\Map_monster;
 
@@ -50,7 +49,9 @@ class MapController extends Controller
 
 	public function indexAction()
 	{
+		$this->checkMonster();
 		$this->checkEndLevel();
+
 		$this->setVar('game', $this->game);
 
 		$this->fetch('/Map/index.php');
@@ -171,6 +172,7 @@ class MapController extends Controller
 				echo json_encode(array(
 					'lvlup' => true
 				));
+				exit;
 			}
 			else {
 				Utils::redirect( Router::generateUrl('map.index') );

@@ -63,7 +63,7 @@ class FightController extends Controller
 		// Si le monstre est en défense
 		if ($opponent->getPosture() == Character::DEFENSE) {
 			// Calcule des dommages minorés
-			$damageDealed  = max(0, $attacker->getStrength() - ($opponent->getResistance() * 1.5)); // force - (resistance * 1.5)
+			$damageDealed  = max(0, $attacker->getStrength() - ($opponent->getResistance() * 2)); // force - (resistance * 1.5)
 		}
 		else {
 			// Calcule des dommages standard
@@ -103,6 +103,43 @@ class FightController extends Controller
 		else if ($this->monster->getRound() == 1) {
 			$this->attack($this->monster, $this->character);
 		}
+
+		if (isset($_GET['isAjax'])) {
+			$this->indexAction();
+		}
+		else {
+			Utils::redirect( Router::generateUrl('fight.index') );
+		}
+	}
+
+	protected function defense($attacker, $opponent)
+	{
+		// Prochain tour pour l'adversaire
+		$attacker->setRound('0');
+		$opponent->setRound('1');
+
+		$attacker->setPosture(Character::DEFENSE);
+
+		if (get_class($attacker) == 'Lib\\Entity\\Character') {
+			Manager::getManagerOf('playing_character')->save( $attacker );
+			Manager::getManagerOf('playing_monster')->save( $opponent );
+
+			$_SESSION['fight_log'] = 'Vous infligez <b>' . $damageDealed . '</b> de dégât à l\'ennemi';
+		}
+		else {
+			Manager::getManagerOf('playing_monster')->save( $attacker );
+			Manager::getManagerOf('playing_character')->save( $opponent );
+
+			$_SESSION['fight_log'] = 'L\'ennemi vous inflige <b>' . $damageDealed . '</b> de dégât';
+		}
+	}
+
+	/**
+     * Action : defense
+     */
+	public function defenseAction()
+	{
+		$this->defense($this->character, $this->monster);
 
 		Utils::redirect( Router::generateUrl('fight.index') );
 	}
@@ -185,7 +222,7 @@ class FightController extends Controller
 			$_SESSION['current_game'] = serialize($game);
 
 			// Petit msg
-			$_SESSION['fight_log'] = "<b>YOU WIN !!!</b><br />Vous gagnez 5 de vie";
+			$_SESSION['fight_log'] = "<b>YOU WIN !!!</b><br />Vous récupérez 5 de santé";
 
 			// Fin du combat
 			unset($_SESSION['current_fight']);
@@ -204,6 +241,7 @@ class FightController extends Controller
 			$game->getCharacter()->setHealth( $game->getCharacter()->getHealth_max() );
 			$game->getCharacter()->setPosition_x( 0 );
 			$game->getCharacter()->setPosition_y( 0 );
+			$game->getCharacter()->setLife( $game->getCharacter()->getLife() - 1 );
 
 			// Sauvegarde
 			Manager::getManagerOf('playing_character')->save($game->getCharacter());
@@ -212,7 +250,7 @@ class FightController extends Controller
 			$_SESSION['current_game'] = serialize($game);
 
 			// Petit msg
-			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b>";
+			$_SESSION['fight_log'] = "<b>GAME OVER !!!</b>Vous perdez une vie";
 
 			// Fin du combat
 			unset($_SESSION['current_fight']);
@@ -226,32 +264,14 @@ class FightController extends Controller
 		unset($_SESSION['fight_log']);
 
 		// Chargement de la vue
-		$this->fetch('/Fight/index.php');
+		if (isset($_GET['isAjax'])) {
+			echo json_encode(array(
+				'battle' => $this->fetchView('/Fight/index.php')
+			));
+			exit;
+		}
+		else {
+			$this->fetch('/Fight/index.php');
+		}
 	}
-
-	/**
-     * Action : defense
-     */
-	/*public function defense($attacker, $opponent)
-	{
-		$attacker->setPosture('0');
-
-		$attacker->setRound('0');
-		$opponent->setRound('1');
-
-		$heroName  = unserialize($_SESSION['data']['perso']);
-
-		if($attacker->getName() == $heroName->getName())
-		{
-			$_SESSION['data']['perso'] = serialize($attacker);
-			$_SESSION['data']['frog'] = serialize($opponent);
-		}
-		else
-		{
-			$_SESSION['data']['frog'] = serialize($attacker);
-			$_SESSION['data']['perso'] = serialize($opponent);
-		}
-
-		return $attacker->getName() . " défend !";
-	}*/
 }

@@ -54,7 +54,7 @@ $character = $game->getCharacter();
 			</h3>
 
 			<dl class="dl-horizontal">
-				<dt>Vie</dt>
+				<dt>Santé</dt>
 				<dd>
 					<?php
 					$percent = ($character->getHealth() * 100) / $character->getHealth_max();
@@ -79,6 +79,9 @@ $character = $game->getCharacter();
 						</div>
 					</div>
 				</dd>
+
+				<dt>Vie</dt>
+				<dd><?php echo $character->getLife(); ?></dd>
 
 				<dt>Force</dt>
 				<dd><?php echo $character->getStrength(); ?></dd>
