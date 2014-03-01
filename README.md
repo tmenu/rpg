@@ -1,6 +1,8 @@
 rpg
 ===
 
+http://rpg.dubsteppers.fr/
+
 Besoin de "mod_rewrite"
 
 Point d'entré du programme : / (racine, virtual host apache obligatoire)
