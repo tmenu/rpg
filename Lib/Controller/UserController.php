@@ -482,7 +482,9 @@ class UserController extends Controller
 		$character = $game->getCharacter();
 		$monsters = $game->getMap()->getMonsters();
 
-		unset($_SESSION['current_fight']); // Reset éventuelle combat en cours
+		if (isset($_SESSION['current_fight'])) {
+			unset($_SESSION['current_fight']); // Reset éventuelle combat en cours
+		}
 
 		foreach ($monsters as $monster)
 		{
