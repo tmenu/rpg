@@ -425,7 +425,7 @@ class FightController extends Controller
 		// Chargement de la vue
 		if (isset($_GET['isAjax'])) {
 			echo json_encode(array(
-				'battle' => $this->fetchView('/Fight/index.php')
+				'battle' => $this->fetchView('/Fight/fight.php')
 			));
 			return;
 		}

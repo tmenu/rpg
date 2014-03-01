@@ -1,6 +1,7 @@
 <?php
 use Lib\Router;
 ?>
+<div class="struct"></div>
 <div id="battle-zone" class="vcenter well">
 
 	<div class="media">
