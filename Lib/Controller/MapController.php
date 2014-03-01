@@ -35,7 +35,7 @@ class MapController extends Controller
 		$this->game = unserialize($_SESSION['current_game']);
 
 		// S'il y a un combat
-		if (isset($_SESSION['monster'])) {
+		if (isset($_SESSION['current_fight'])) {
 			Utils::redirect( Router::generateurl('fight.index') );
 		}
 		
