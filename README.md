@@ -5,7 +5,7 @@ Besoin de "mod_rewrite"
 
 Point d'entré du programme : / (racine, virtual host apache obligatoire)
 
-Configuration base de données : /Lib/Manager.php (contantes de classes)
+Configuration base de données : Copié /Lib/Manager.sample.php => /Lib/Manager.php
 
 Dump base de données : dump.sql
 
