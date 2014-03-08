@@ -130,6 +130,7 @@ class MapController extends Controller
 				/**
 				 * Supression de l'objet de la map de la bdd
 				 */
+				
 				Manager::getManagerOf('playing_item')->delete( $item->getId() );
 				Manager::getManagerOf('playing_map_item')->deleteByItem( $item->getId() );
 
@@ -253,9 +254,9 @@ class MapController extends Controller
 					$map_item = new Map_item();
 
 					$map_item->setRef_map( $map->getId() );
-					$map_item->setRef_item( $monster->getId() );
-					$map_item->setPosition_x( $monster->getPosition_x() );
-					$map_item->setPosition_y( $monster->getPosition_y() );
+					$map_item->setRef_item( $item->getId() );
+					$map_item->setPosition_x( $item->getPosition_x() );
+					$map_item->setPosition_y( $item->getPosition_y() );
 
 					Manager::getManagerOf('playing_map_item')->save( $map_item );
 				}
